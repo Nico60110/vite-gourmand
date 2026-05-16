@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    padding-left: 90px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('../images/big-head-contact.jpg');
+
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    height: 400px;
+
+}
+
+.hero-content {
+    color: #F8F5F2;
+    max-width: 500px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.hero .subtitle {
+    font-size: 16px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.hero p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero p strong {
+    color: #F8F5F2;
+    font-weight: 600;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ef9124;
+    color: #F8F5F2;
+    text-decoration: none;
+    padding: 16px 38px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #db7f14;
+    transform: translateY(-2px);
+
+}
+
+.features {
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+    color: #4E342E;
+
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon-circle {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    background: #F3F0EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #ef9124;
+    font-size: 32px;
+}
+
+.feature p {
+    margin-top: 8px;
+    line-height: 1.4;
+    font-size: 16px;
+}
+
+.testimonials {
+    background: #F3F0EC;
+    padding: 80px 40px 100px;
+
+}
+
+.testimonials h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 70px;
+    color: #4E342E;
+}
+
+.testimonial-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.card {
+    background: white;
+    min-height: 230px;
+    padding: 40px;
+    /*display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;*/
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+@media(max-width:900px) {
+
+    .hero {
+        padding: 40px;
+        height: auto;
+        min-height: 500px;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media(max-width:600px) {
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 2.4rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
