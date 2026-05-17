@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #F8F5F2;
+    color: #4E342E;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* HERO */
+
+.hero {
+    height: 300px;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1400') center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+/* FILTRES */
+
+.filters {
+    background: white;
+    margin: 50px auto;
+    width: 90%;
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.filters input,
+.filters select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 180px;
+    font-size: 15px;
+}
+
+/* MENUS */
+
+.menu-section {
+    width: 90%;
+    margin: auto;
+    padding-bottom: 80px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.menu-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+}
+
+.menu-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+}
+
+.menu-content {
+    padding: 25px;
+}
+
+.menu-content h2 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 15px;
+    font-size: 26px;
+}
+
+.menu-content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.info {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.badge {
+    display: inline-block;
+    background: #D9A86C;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-block;
+    background: #E67E22;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 12px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.btn:hover {
+    background: #cf6d17;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px) {
+
+
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .filters {
+        padding: 20px;
+    }
+
+
+
+}
