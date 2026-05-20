@@ -1,0 +1,349 @@
+/* =========================
+           RESET
+        ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #F8F5F2;
+    color: #4E342E;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================
+           CONTAINER
+        ========================= */
+
+.login-container {
+
+    width: 90%;
+    max-width: 1200px;
+
+    margin: 80px auto;
+}
+
+/* =========================
+           LOGIN CARD
+        ========================= */
+
+.login-card {
+
+    display: grid;
+
+    grid-template-columns: 420px 1fr;
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+           IMAGE SECTION
+        ========================= */
+
+.login-image {
+
+    position: relative;
+
+    height: 650px;
+}
+
+.login-image img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* Overlay */
+
+.overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    padding: 40px;
+
+    color: white;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-start;
+}
+
+.overlay h1 {
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 40px;
+
+    margin-bottom: 25px;
+
+    font-weight: 500;
+}
+
+.overlay p {
+
+    line-height: 1.6;
+
+    font-size: 16px;
+
+    max-width: 280px;
+}
+
+/* =========================
+           FORM SECTION
+        ========================= */
+
+.login-form {
+
+    padding: 70px;
+}
+
+.login-form h2 {
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 32px;
+
+    margin-bottom: 15px;
+}
+
+.subtitle {
+
+    margin-bottom: 50px;
+
+    color: #6D6D6D;
+
+    line-height: 1.5;
+}
+
+/* =========================
+           INPUTS
+        ========================= */
+
+.input-group {
+
+    margin-bottom: 25px;
+}
+
+.input-group label {
+
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-weight: 500;
+}
+
+.input-group input {
+
+    width: 100%;
+
+    padding: 18px;
+
+    border: 1px solid #B0B0B0;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+
+    border-color: #E67E22;
+}
+
+/* =========================
+           OPTIONS
+        ========================= */
+
+.options {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 35px;
+
+    font-size: 16px;
+}
+
+.forgot-password {
+
+    color: #E67E22;
+
+    font-weight: 500;
+}
+
+/* =========================
+           BUTTON
+        ========================= */
+
+.btn {
+
+    width: 100%;
+
+    background: #E67E22;
+
+    color: white;
+
+    border: none;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    margin-bottom: 25px;
+}
+
+.btn:hover {
+
+    background: #cf6d17;
+}
+
+/* =========================
+           REGISTER LINK
+        ========================= */
+
+.register-link {
+
+    text-align: center;
+
+    font-size: 16px;
+}
+
+.register-link a {
+
+    color: #E67E22;
+
+    font-weight: 500;
+}
+
+/* =========================
+           FEATURES
+        ========================= */
+
+.features {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 30px;
+
+    margin-top: 70px;
+}
+
+.feature {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.feature-icon {
+
+    font-size: 40px;
+
+    margin-bottom: 20px;
+
+    color: #E67E22;
+}
+
+.feature h3 {
+
+    font-family: 'Playfair Display', serif;
+
+    margin-bottom: 15px;
+
+    font-size: 24px;
+}
+
+.feature p {
+
+    line-height: 1.6;
+}
+
+/* =========================
+           RESPONSIVE
+        ========================= */
+
+@media(max-width:1000px) {
+
+    .login-card {
+
+        grid-template-columns: 1fr;
+    }
+
+    .login-image {
+
+        height: 300px;
+    }
+
+    .features {
+
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width:700px) {
+
+    .login-form {
+
+        padding: 40px 25px;
+    }
+
+    .overlay h1 {
+
+        font-size: 40px;
+    }
+
+    .options {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - Vite & Gourmand</title>
+
+    <!-- GOOGLE FONT -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="../css/login.css">
+
+
+
+
+
+</head>
+
+<body>
+
+    <!-- =========================
+         CONTAINER
+    ========================= -->
+
+    <main class="login-container">
+
+        <!-- LOGIN CARD -->
+
+        <section class="login-card">
+
+            <!-- IMAGE -->
+
+            <div class="login-image">
+
+                <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1400"
+                    alt="Plat gastronomique">
+
+                <div class="overlay">
+
+                    <h1>Connexion</h1>
+
+                    <p>
+                        Connectez-vous pour suivre vos commandes,
+                        accéder à votre historique et commander
+                        rapidement vos menus.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+
+            <div class="login-form">
+
+                <h2>Bienvenue</h2>
+
+                <p class="subtitle">
+                    Accédez à votre espace personnel Vite & Gourmand.
+                </p>
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input type="email" placeholder="Entrez votre email">
+
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <label>Mot de passe</label>
+
+                    <input type="password" placeholder="Entrez votre mot de passe">
+
+                </div>
+
+                <!-- OPTIONS -->
+
+                <div class="options">
+
+                    <label>
+                        <input type="checkbox">
+                        Se souvenir de moi
+                    </label>
+
+                    <a href="#" class="forgot-password">
+                        Mot de passe oublié ?
+                    </a>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button class="btn">
+                    Se connecter
+                </button>
+
+                <!-- REGISTER -->
+
+                <div class="register-link">
+
+                    Pas encore de compte ?
+                    <a href="#">
+                        Créer un compte
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- FEATURES -->
+
+        <section class="features">
+
+            <!-- FEATURE -->
+
+            <div class="feature">
+
+                <div class="feature-icon">📦</div>
+
+                <h3>Suivi rapide</h3>
+
+                <p>
+                    Consultez l’état de vos commandes
+                    en temps réel.
+                </p>
+
+            </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature">
+
+                <div class="feature-icon">⭐</div>
+
+                <h3>Vos avis</h3>
+
+                <p>
+                    Donnez votre avis après chaque
+                    prestation réalisée.
+                </p>
+
+            </div>
+
+            <!-- FEATURE -->
+
+            <div class="feature">
+
+                <div class="feature-icon">🍽</div>
+
+                <h3>Menus premium</h3>
+
+                <p>
+                    Retrouvez l’ensemble de nos menus
+                    gastronomiques.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
