@@ -1,3 +1,71 @@
+<?php
+
+session_start();
+
+require '../config/database.php';
+
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+
+    // =========================
+    // RECUPERATION DONNEES
+    // =========================
+
+    $email = $_POST['email'];
+
+    $password = $_POST['password'];
+
+    // =========================
+    // RECHERCHE UTILISATEUR
+    // =========================
+
+    $sql = "SELECT * FROM utilisateur WHERE email = ?";
+
+    $query = $pdo->prepare($sql);
+
+    $query->execute([$email]);
+
+    $user = $query->fetch();
+
+    // =========================
+    // VERIFICATION UTILISATEUR
+    // =========================
+
+    if($user){
+
+        // =========================
+        // VERIFICATION PASSWORD
+        // =========================
+
+        if(password_verify($password, $user['motDePasse'])){
+
+            // =========================
+            // CREATION SESSION
+            // =========================
+
+            $_SESSION['user'] = $user;
+
+            // =========================
+            // REDIRECTION
+            // =========================
+
+            header("Location: ../index.php");
+
+            exit;
+
+        } else {
+
+            echo "Mot de passe incorrect";
+        }
+
+    } else {
+
+        echo "Email introuvable";
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -55,7 +123,7 @@
 
             <!-- FORM -->
 
-            <div class="login-form">
+            <form method="POST" class="login-form">
 
                 <h2>Bienvenue</h2>
 
@@ -69,7 +137,7 @@
 
                     <label>Email</label>
 
-                    <input type="email" placeholder="Entrez votre email">
+                    <input type="email" name="email" placeholder="Entrez votre email">
 
                 </div>
 
@@ -79,7 +147,7 @@
 
                     <label>Mot de passe</label>
 
-                    <input type="password" placeholder="Entrez votre mot de passe">
+                    <input type="password" name="password" placeholder="Entrez votre mot de passe">
 
                 </div>
 
@@ -100,7 +168,7 @@
 
                 <!-- BUTTON -->
 
-                <button class="btn">
+                <button type="submit" class="btn">
                     Se connecter
                 </button>
 
@@ -115,7 +183,7 @@
 
                 </div>
 
-            </div>
+            
 
         </section>
 
