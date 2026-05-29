@@ -1,11 +1,50 @@
+<?php 
+require '../config/database.php';
+
+// =========================
+// VERIFICATION ID
+// =========================
+if(!isset($_GET['id'])){
+
+    header("Location: menus.php");
+
+    exit;
+}
+
+// =========================
+// RECUPERATION ID
+// =========================
+$idMenu = $_GET['id'];
+
+// =========================
+// REQUETE SQL
+// =========================
+$sql = 'SELECT * FROM menu WHERE idMenu = ?';
+$query = $pdo->prepare($sql);
+$query->execute([$idMenu]);
+$menu = $query->fetch();
+
+// =========================
+// SI MENU INTROUVABLE
+// =========================
+if(!$menu){
+
+    header("Location: menus.php");
+
+    exit;
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Détail du menu - Vite & Gourmand</title>
-
+  <title><?= $menu['titre']; ?></title>
   <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/menu-detail.css">
@@ -19,8 +58,8 @@
   <section class="hero">
 
     <div class="hero-content">
-      <h1>Menu Gourmet</h1>
-      <p>Une prestation raffinée pour vos événements</p>
+      <h1>"<?= $menu['titre']; ?></h1>
+      <p>"<?= $menu['description']; ?></p>
     </div>
 
   </section>
@@ -45,25 +84,23 @@
 
       <div class="menu-info">
 
-        <span class="badge">Classique</span>
+        <span class="badge">"<?= $menu['theme']; ?></span>
 
-        <h2>Menu Gourmet</h2>
+        <h2>"<?= $menu['titre']; ?></h2>
 
         <p>
-          Découvrez une expérience culinaire haut de gamme composée
-          de produits frais et raffinés, préparés avec passion
-          par notre équipe.
+          "<?= $menu['description']; ?>
         </p>
 
         <div class="details">
 
-          <div>👥 Minimum : 5 personnes</div>
+          <div>"<?= $menu['nbPersonnesMin']; ?></div>
 
-          <div>💰 Prix : 120€</div>
+          <div>💰 Prix : "<?= $menu['prixBase']; ?></div>
 
-          <div>🥗 Régime : Classique</div>
+          <div>🥗 Régime : "<?= $menu['regime']; ?></div>
 
-          <div>📦 Stock disponible : 5 commandes</div>
+          <div>📦 Stock disponible : "<?= $menu['stock']; ?></div>
 
         </div>
 
@@ -74,8 +111,7 @@
           <h3>Conditions importantes</h3>
 
           <p>
-            Ce menu doit être commandé minimum 7 jours avant
-            la prestation. Conservation au frais obligatoire.
+            "<?= $menu['conditions']; ?>
           </p>
 
         </div>

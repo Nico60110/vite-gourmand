@@ -48,6 +48,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $checkEmail->execute([$email]);
 
         $user = $checkEmail->fetch();
+        
 
         // SI EMAIL EXISTE
 
@@ -72,6 +73,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 $hashedPassword,
                 $idRole
             ]);
+            
 
             header("Location: login.php");
             exit;

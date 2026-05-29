@@ -1,3 +1,16 @@
+<?php 
+require '../config/database.php';
+
+$sql = "SELECT * FROM menu";
+$query = $pdo->prepare($sql);
+$query->execute();
+$menus = $query->fetchAll();
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,92 +64,37 @@
 
       <!-- CARD -->
 
-      <div class="menu-card">
+      <div class="menu-grid">
 
-        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1200" alt="Menu Gourmet">
+<?php foreach($menus as $menu): ?>
 
-        <div class="menu-content">
+    <div class="menu-card">
 
-          <span class="badge">Classique</span>
-
-          <h2>Menu Gourmet</h2>
-
-          <p>
-            Un menu raffiné composé d’une entrée, d’un plat gastronomique
-            et d’un dessert fait maison.
-          </p>
-
-          <div class="info">
-            Minimum 5 personnes • 120€
-          </div>
-
-          <a href="#" class="btn">
-            Voir le détail
-          </a>
-
-        </div>
-
-      </div>
-
-      <!-- CARD -->
-
-      <div class="menu-card">
-
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200" alt="Menu Noël">
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1200" alt="Menu">
 
         <div class="menu-content">
 
-          <span class="badge">Noël</span>
+            <span class="badge">
+                <?= $menu['theme']; ?>
+            </span>
 
-          <h2>Menu Festif</h2>
+            <h2><?= $menu['titre']; ?></h2>
 
-          <p>
-            Une prestation spéciale fêtes avec produits de saison
-            et desserts gourmands.
-          </p>
+            <p><?= $menu['description']; ?></p>
 
-          <div class="info">
-            Minimum 8 personnes • 180€
-          </div>
+            <div class="info">
+                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $menu['prixBase']; ?> €
+            </div>
 
-          <a href="#" class="btn">
-            Voir le détail
-          </a>
-
-        </div>
-
-      </div>
-
-      <!-- CARD -->
-
-      <div class="menu-card">
-
-        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=1200" alt="Menu Vegan">
-
-        <div class="menu-content">
-
-          <span class="badge">Vegan</span>
-
-          <h2>Menu Nature</h2>
-
-          <p>
-            Une sélection de plats végétaux élaborés
-            avec des produits frais et locaux.
-          </p>
-
-          <div class="info">
-            Minimum 4 personnes • 95€
-          </div>
-
-          <a href="#" class="btn">
-            Voir le détail
-          </a>
+            <a href="menu-detail.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                Voir le détail
+            </a>
 
         </div>
-
-      </div>
 
     </div>
+
+<?php endforeach; ?>
 
   </section>
     
