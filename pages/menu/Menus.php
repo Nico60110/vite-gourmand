@@ -1,5 +1,5 @@
 <?php 
-require '../config/database.php';
+require '../../config/database.php';
 
 $sql = "SELECT * FROM menu";
 $query = $pdo->prepare($sql);
@@ -17,7 +17,7 @@ $menus = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/menus.css">
+    <link rel="stylesheet" href="../../css/menus.css">
 </head>
 <body>
 
@@ -89,6 +89,13 @@ $menus = $query->fetchAll();
             <a href="menu-detail.php?id=<?= $menu['idMenu']; ?>" class="btn">
                 Voir le détail
             </a>
+            <a href="edit-menu.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                Modifier
+            </a>
+
+          <a href="delete.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                Supprimer
+          </a>
 
         </div>
 

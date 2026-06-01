@@ -1,5 +1,5 @@
 <?php 
-require '../config/database.php';
+require '../../config/database.php';
 
 // =========================
 // VERIFICATION ID
@@ -47,7 +47,7 @@ if(!$menu){
   <title><?= $menu['titre']; ?></title>
   <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/menu-detail.css">
+    <link rel="stylesheet" href="../../css/menu-detail.css">
   
 </head>
 

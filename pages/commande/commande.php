@@ -4,7 +4,7 @@ session_start();
 
 if(!isset($_SESSION['user'])){
 
-    header("Location: login.php");
+    header("Location: ../auth/login.php");
 
     exit;
 }
@@ -25,7 +25,7 @@ if(!isset($_SESSION['user'])){
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../css/commande.css">
+    <link rel="stylesheet" href="../../css/commande.css">
 
 </head>
 

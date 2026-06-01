@@ -1,0 +1,201 @@
+<?php
+
+require '../../config/database.php';
+
+// =========================
+// VERIFICATION ID
+// =========================
+
+if(!isset($_GET['id'])){
+
+    header("Location: menus.php");
+
+    exit;
+}
+
+$idMenu = $_GET['id'];
+
+// =========================
+// RECUPERATION MENU
+// =========================
+
+$sql = "SELECT * FROM menu WHERE idMenu = ?";
+
+$query = $pdo->prepare($sql);
+
+$query->execute([$idMenu]);
+
+$menu = $query->fetch();
+
+if(!$menu){
+
+    header("Location: menus.php");
+
+    exit;
+}
+
+// =========================
+// UPDATE MENU
+// =========================
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $titre = $_POST['titre'];
+
+    $description = $_POST['description'];
+
+    $theme = $_POST['theme'];
+
+    $regime = $_POST['regime'];
+
+    $nbPersonnesMin = $_POST['nbPersonnesMin'];
+
+    $prixBase = $_POST['prixBase'];
+
+    $stock = $_POST['stock'];
+
+    $conditions = $_POST['conditions'];
+
+    $sql = "UPDATE menu
+            SET
+                titre = ?,
+                description = ?,
+                theme = ?,
+                regime = ?,
+                nbPersonnesMin = ?,
+                prixBase = ?,
+                stock = ?,
+                conditions = ?
+            WHERE idMenu = ?";
+
+    $query = $pdo->prepare($sql);
+
+    $query->execute([
+        $titre,
+        $description,
+        $theme,
+        $regime,
+        $nbPersonnesMin,
+        $prixBase,
+        $stock,
+        $conditions,
+        $idMenu
+    ]);
+
+    header("Location: menus.php");
+
+    exit;
+}
+?>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Modifier un menu</title>
+
+    <link rel="stylesheet" href="../../css/admin-menu.css">
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>Modifier un menu</h1>
+
+        <div class="form-card">
+
+            <form method="POST" class="form-grid">
+
+                <input
+                    type="text"
+                    name="titre"
+                    value="<?= $menu['titre']; ?>"
+                    required
+                >
+
+                <textarea
+                    name="description"
+                ><?= $menu['description']; ?></textarea>
+
+                <select name="theme">
+
+                    <option value="Classique"
+                        <?= $menu['theme'] === 'Classique' ? 'selected' : ''; ?>>
+                        Classique
+                    </option>
+
+                    <option value="Noël"
+                        <?= $menu['theme'] === 'Noël' ? 'selected' : ''; ?>>
+                        Noël
+                    </option>
+
+                    <option value="Vegan"
+                        <?= $menu['theme'] === 'Vegan' ? 'selected' : ''; ?>>
+                        Vegan
+                    </option>
+
+                </select>
+
+                <select name="regime">
+
+                    <option value="Classique"
+                        <?= $menu['regime'] === 'Classique' ? 'selected' : ''; ?>>
+                        Classique
+                    </option>
+
+                    <option value="Vegan"
+                        <?= $menu['regime'] === 'Vegan' ? 'selected' : ''; ?>>
+                        Vegan
+                    </option>
+
+                </select>
+
+                <input
+                    type="number"
+                    name="nbPersonnesMin"
+                    value="<?= $menu['nbPersonnesMin']; ?>"
+                    required
+                >
+
+                <input
+                    type="number"
+                    step="0.01"
+                    name="prixBase"
+                    value="<?= $menu['prixBase']; ?>"
+                    required
+                >
+
+                <input
+                    type="number"
+                    name="stock"
+                    value="<?= $menu['stock']; ?>"
+                >
+
+                <textarea
+                    name="conditions"
+                ><?= $menu['conditions']; ?></textarea>
+
+                <button type="submit" class="btn">
+                    Modifier le menu
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

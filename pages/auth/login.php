@@ -2,7 +2,7 @@
 
 session_start();
 
-require '../config/database.php';
+require '../../config/database.php';
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             // REDIRECTION
             // =========================
 
-            header("Location: ../index.php");
+            header("Location: ../../index.php");
 
             exit;
 
@@ -80,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
         rel="stylesheet">
-<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../../css/login.css">
 
 
 

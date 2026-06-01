@@ -1,0 +1,159 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #F8F5F2;
+    color: #4E342E;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+
+    width: 90%;
+    max-width: 900px;
+
+    margin: 60px auto;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+h1 {
+
+    text-align: center;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 42px;
+
+    margin-bottom: 40px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-card {
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-grid {
+
+    display: grid;
+
+    gap: 20px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: 1px solid #D7D7D7;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: #E67E22;
+}
+
+textarea {
+
+    min-height: 140px;
+
+    resize: vertical;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 500;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn {
+
+    width: 100%;
+
+    background: #E67E22;
+
+    color: white;
+
+    border: none;
+
+    padding: 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+.btn:hover {
+
+    background: #cf6d17;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px) {
+
+    h1 {
+
+        font-size: 32px;
+    }
+
+    .form-card {
+
+        padding: 25px;
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 
-require '../config/database.php';
+require '../../config/database.php';
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
@@ -90,7 +90,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Inscription - Vite & Gourmand</title>
-    <link rel="stylesheet" href="../css/inscription.css">
+    <link rel="stylesheet" href="../../css/inscription.css">
 
     <!-- GOOGLE FONT -->
 
