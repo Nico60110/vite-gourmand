@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <title>Supprimer un menu</title>
 
-    <link rel="stylesheet" href="../../css/admin-menu.css">
+    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
 
 </head>
 

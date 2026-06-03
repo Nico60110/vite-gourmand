@@ -103,7 +103,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <title>Modifier un menu</title>
 
-    <link rel="stylesheet" href="../../css/admin-menu.css">
+    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
 
 </head>
 

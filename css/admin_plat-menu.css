@@ -63,6 +63,19 @@ h1 {
     gap: 20px;
 }
 
+.preview-image {
+
+    display: block;
+
+    max-width: 300px;
+
+    width: 80%;
+
+    margin: 20px auto;
+
+    border-radius: 10px;
+}
+
 /* =========================
    INPUTS
 ========================= */
