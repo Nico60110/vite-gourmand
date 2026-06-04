@@ -126,7 +126,7 @@ if(!$menu){
 
         </div>
 
-        <a href="#" class="btn">
+        <a href="../commande/commande.php?id=<?= $menu['idMenu']; ?>" class="btn">
           Commander ce menu
         </a>
 
