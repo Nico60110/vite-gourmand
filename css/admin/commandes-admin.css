@@ -94,6 +94,10 @@ label {
     font-weight: 600;
 }
 
+input {
+    padding: 10px;
+}
+
 .btn {
 
     display: inline-block;
