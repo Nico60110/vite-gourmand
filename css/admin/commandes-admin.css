@@ -1,0 +1,119 @@
+.container {
+
+    width: 92%;
+    max-width: 1300px;
+
+    margin: 70px auto;
+}
+
+.page-title {
+
+    font-family: 'Playfair Display', serif;
+
+    text-align: center;
+
+    font-size: 42px;
+
+    margin-bottom: 40px;
+}
+
+
+.detail-layout {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+.card {
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 35px;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+
+    font-family: 'Playfair Display', serif;
+
+    margin-bottom: 20px;
+
+    font-size: 30px;
+}
+
+.card p {
+
+    margin-bottom: 12px;
+
+    line-height: 1.6;
+}
+
+.statut {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    background: #FFF4E8;
+
+    color: #E67E22;
+
+    border-left: 5px solid #E67E22;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+}
+
+.historique-item {
+
+    padding: 15px;
+
+    background: #F8F5F2;
+
+    border-radius: 10px;
+
+    margin-bottom: 15px;
+}
+
+select,
+textarea {
+    width: 100%;
+    margin-top: 10px;
+}
+
+label {
+    font-weight: 600;
+}
+
+.btn {
+
+    display: inline-block;
+
+    align-self: flex-start;
+
+    background: #E67E22;
+
+    color: white;
+
+    margin-top: 20px;
+
+    padding: 15px 25px;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.btn:hover {
+
+    background: #cf6d17;
+}

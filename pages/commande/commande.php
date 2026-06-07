@@ -222,8 +222,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                     <div class="form-grid">
 
-                        <input type="number" name="nbPersonnes">
-
+                       <input
+                            type="number"
+                            name="nbPersonnes"
+                            min="<?= $menu['nbPersonnesMin']; ?>"
+                            required>
                         <select>
 
                             <option>
@@ -272,7 +275,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                     <span><?=$menu['titre'];?></span>
 
-                    <span><?=$menu['prixBase'];?></span>
+                    <span><?= $menu['prixBase']; ?> €</span>
 
                 </div>
 
@@ -296,12 +299,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                     <span>Total</span>
 
-                    <span>240 €</span>
+                    <span><?= $menu['prixBase']; ?> €</span>
 
                 </div>
 
-                <button class="btn">
-                    Valider la commande
+                <button type="submit" class="btn">
+                     Valider la commande
                 </button>
 
             </aside>
