@@ -1,5 +1,6 @@
 <?php 
 require '../../config/database.php';
+require '../../config/auth-admin.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $titre = $_POST['titre'];
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $conditions
     ]);
 
-    header("Location: menus.php");
+    header("Location: admin-menu.php");
 
     exit;
 }

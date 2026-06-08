@@ -1,6 +1,7 @@
 <?php
 
 require '../../config/database.php';
+require '../../config/auth-admin.php';
 
 // =========================
 // VERIFICATION ID
@@ -8,7 +9,7 @@ require '../../config/database.php';
 
 if(!isset($_GET['id'])){
 
-    header("Location: menus.php");
+    header("Location: admin-menu.php");
 
     exit;
 }
@@ -29,7 +30,7 @@ $menu = $query->fetch();
 
 if(!$menu){
 
-    header("Location: menus.php");
+    header("Location: admin-menu.php");
 
     exit;
 }
@@ -38,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $sql = "DELETE FROM menu WHERE idMenu = ?";
     $query = $pdo->prepare($sql);
     $query->execute([$idMenu]);
-    header("Location: menus.php");
+    header("Location: admin-menu.php");
 
     exit;
 }

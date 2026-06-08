@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         // ROLE PAR DEFAUT
 
-        $idRole = 3;
+        $idRole = 2;
 
         // VERIFICATION EMAIL
 

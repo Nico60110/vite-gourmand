@@ -1,5 +1,6 @@
 <?php 
 require '../../config/database.php';
+require '../../config/auth-admin.php';
 
 $sql = "SELECT * FROM menu";
 $query = $pdo->prepare($sql);
@@ -86,10 +87,14 @@ $menus = $query->fetchAll();
                 Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $menu['prixBase']; ?> €
             </div>
 
-            <a href="menu-detail.php?id=<?= $menu['idMenu']; ?>" class="btn">
-                Voir le détail
+            
+            <a href="edit-menu.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                Modifier
             </a>
-           
+
+          <a href="delete.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                Supprimer
+          </a>
 
         </div>
 

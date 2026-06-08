@@ -1,5 +1,6 @@
 <?php 
 require '../../config/database.php';
+require '../../config/auth-admin.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $nom = $_POST['nom'];

@@ -30,6 +30,8 @@
         Découvrir nos menus →
       </a>
 
+      <a href="pages/admin/admin-menu.php" class="btn">admin</a>
+
     </div>
   </section>
 

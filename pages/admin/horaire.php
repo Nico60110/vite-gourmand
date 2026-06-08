@@ -1,5 +1,6 @@
 <?php
 require '../../config/database.php';
+require '../../config/auth-admin.php';
 
 $sql = 'SELECT * FROM horaire';
 $query = $pdo->prepare($sql);
