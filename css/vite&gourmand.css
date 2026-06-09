@@ -1,158 +1,147 @@
 /* =========================
-   RESET GLOBAL
-========================= */
-* {
-    margin: 0;
-    /* Supprime les marges par défaut */
-    padding: 0;
-    /* Supprime les espacements internes */
-    box-sizing: border-box;
-    /* Inclut padding + border dans la taille */
-}
-
-/* =========================
-   STYLE GENERAL PAGE
-========================= */
-body {
-    font-family: Roboto, sans-serif;
-    /* Police principale */
-}
-
-/* =========================
    NAVBAR
 ========================= */
-nav {
-    display: flex;
-    /* Alignement horizontal */
-    justify-content: space-between;
-    /* Espace entre les blocs */
-    align-items: center;
-    /* Alignement vertical */
 
-    padding: 20px 60px;
-    /* Espacement interne */
-    background-color: #8E1E2D;
-    /* Couleur fond navbar */
+nav {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 8%;
+
+    background: #8E1E2D;
+
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+
 }
 
 /* =========================
    LOGO
 ========================= */
+
 .logo {
+
     display: flex;
-    /* Logo + texte côte à côte */
+
     align-items: center;
-    /* Alignement vertical */
-    gap: 12px;
-    /* Espace entre image et texte */
+
+    gap: 15px;
 }
 
-/* IMAGE DU LOGO */
-.image img {
-    width: 55px;
-    /* Largeur image */
-    height: 55px;
-    /* Hauteur image */
+.logo img {
+
+    width: 60px;
 }
 
-/* =========================
-   TEXTE DU LOGO
-========================= */
-h2 {
-    font-size: 26px;
-    /* Taille titre */
-    color: #F8F5F2;
-    /* Couleur texte */
+.titre h2 {
+
     font-family: 'Playfair Display', serif;
-    /* Police élégante */
+
+    color: #F8F5F2;
+
+    font-size: 32px;
+
+    line-height: 1.1;
 }
 
-p {
+.titre p {
+
     font-size: 16px;
-    /* Taille paragraphe */
+
     color: #F8F5F2;
-    /* Couleur texte */
 }
 
 /* =========================
-   LISTES MENU
+   LIENS
 ========================= */
-ul {
+
+.link {
+
     display: flex;
-    /* Liens sur une ligne */
+
+    align-items: center;
+
     gap: 30px;
-    /* Espacement entre liens */
+}
+
+.link a {
+
+    text-decoration: none;
+
     color: #F8F5F2;
-    /* Couleur texte */
-    list-style: none;
-    /* Supprime les puces */
-}
 
-/* =========================
-   LIENS MENU
-========================= */
-li {
-    cursor: pointer;
-    /* Curseur main au survol */
-    font-size: 16px;
-    /* Taille texte */
+    font-weight: 500;
+
     transition: 0.3s;
-    /* Animation douce */
 }
 
-/* EFFET HOVER */
-li:hover {
-    color: #b22222;
-    /* Change couleur au survol */
-}
+.link a:hover {
 
-/* =========================
-   ICÔNES MOBILE
-   Cachées en desktop
-========================= */
-.bi.bi-list,
-.bi.bi-person,
-.bi.bi-handbag {
-    display: none;
+    color: #E67E22;
 }
 
 /* =========================
-   VERSION MOBILE
+   TABLETTE
 ========================= */
-@media screen and (max-width:845px) {
 
-    /* Cache certains éléments */
-    .image,
-    .titre p,
-    .liens1 li,
-    .liens2 li {
-        display: none;
-    }
+@media(max-width:900px) {
 
-    /* Réduit padding navbar */
     nav {
-        padding: 20px;
+
+        flex-direction: column;
+
+        gap: 20px;
     }
 
-    /* Décale le titre */
-    .titre {
-        margin-left: 60px;
-    }
+    .link {
 
-    /* Affiche les icônes */
-    .bi.bi-list,
-    .bi.bi-person,
-    .bi.bi-handbag {
-        display: block;
-        /* Affichage visible */
-        font-size: 30px;
-        /* Taille icônes */
-        color: #F8F5F2;
-        /* Couleur blanche */
-    }
+        flex-wrap: wrap;
 
+        justify-content: center;
+
+        gap: 20px;
+    }
 }
 
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px) {
+
+    .logo {
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .titre h2 {
+
+        font-size: 28px;
+    }
+
+    .link {
+
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .link a {
+
+        width: 100%;
+
+        text-align: center;
+
+        padding: 12px;
+
+        border-bottom: 1px solid #eee;
+    }
+}
 
 
 /* =========================

@@ -17,8 +17,11 @@ $plats = $query->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../css/plat.css">
+    <link rel="stylesheet" href="../../css/vite&gourmand.css">
 </head>
 <body>
+    <?php require '../../includes/navbar.php';?>
+    
    <section class="plat-section">
 
    <h1>Gestion des plats</h1>

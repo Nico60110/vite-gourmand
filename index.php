@@ -6,9 +6,12 @@
   <title>Vite & Gourmand</title>
 
   <link rel="stylesheet" href="css/accueil.css">
+  <link rel="stylesheet" href="css/vite&gourmand.css">
    </head>
 
 <body>
+
+  <?php require 'includes/navbar.php'; ?>
 
   <!-- HERO -->
   <section class="hero">
@@ -30,8 +33,7 @@
         Découvrir nos menus →
       </a>
 
-      <a href="pages/admin/admin-menu.php" class="btn">admin</a>
-
+      
     </div>
   </section>
 

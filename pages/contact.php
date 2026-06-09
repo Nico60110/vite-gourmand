@@ -13,10 +13,13 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/contact.css">
+    <link rel="stylesheet" href="../css/vite&gourmand.css">
 
 </head>
 
 <body>
+
+    <?php require '../includes/navbar.php';?>
 
     <!-- HERO -->
 
