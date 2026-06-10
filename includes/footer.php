@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>footer</title>
-    <link rel="stylesheet" href="../css/vite&gourmand.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
- <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-<body>
-    <nav></nav>
-    
-    
-</head>
-<body>
-    <footer class="footer">
+<footer class="footer">
     <div class="footer-top">
 
         <!-- Colonne gauche -->
         <div class="footer-brand">
-            <img src="../images/chapeau-de-chef.png " alt="Logo Vite & Gourmand" class="footer-logo">
+            <img src="/vite_gourmand/images/chapeau-de-chef.png" alt="Logo Vite & Gourmand" class="footer-logo">
 
             <h1>Vite &<br>Gourmand</h1>
 
@@ -58,10 +42,10 @@
             
 
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Nos menus</a></li>
-                <li><a href="#">Inscription</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/vite_gourmand/index.php">Accueil</a></li>
+                <li><a href="/vite_gourmand/pages/menu/menus.php">Nos menus</a></li>
+                <li><a href="/vite_gourmand/pages/auth/inscription.php">Inscription</a></li>
+                <li><a href="/vite_gourmand/contact.php">Contact</a></li>
             </ul>
         </div>
 
@@ -75,7 +59,7 @@
         <div class="footer-center-logo">
             <div class="line"></div>
 
-            <img src="../images/chapeau-de-chef.png">
+            <img src="/vite_gourmand/images/chapeau-de-chef.png">
 
             <div class="line"></div>
         </div>
@@ -85,5 +69,3 @@
     </div>
 </footer>
     
-</body>
-</html>

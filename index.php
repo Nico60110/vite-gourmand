@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vite & Gourmand</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/accueil.css">
   <link rel="stylesheet" href="css/vite&gourmand.css">
-   </head>
+</head>
 
 <body>
 
@@ -88,6 +91,8 @@
     </div>
 
   </section>
+
+  <?php require 'includes/footer.php'; ?>
 
 </body>
 </html>

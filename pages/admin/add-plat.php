@@ -64,6 +64,8 @@ header("Location: plat.php");
         </div>
 
     </main>
+
+    <?php require '../../includes/footer.php'; ?>
     
 </body>
 </html>

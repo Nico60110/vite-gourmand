@@ -219,6 +219,8 @@ if(!$menu){
 
   </main>
 
+  <?php require '../../includes/footer.php'; ?>
+
  
 
  

@@ -17,6 +17,7 @@ $menus = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/menus.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
 </head>
@@ -100,6 +101,8 @@ $menus = $query->fetchAll();
 <?php endforeach; ?>
 
   </section>
+
+  <?php require '../../includes/footer.php'; ?>
     
 </body>
 </html>

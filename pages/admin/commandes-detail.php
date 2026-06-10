@@ -219,6 +219,9 @@ $historique = $query->fetchAll();
         </a>
 
     </div>
+</main>
+
+<?php require '../../includes/footer.php'; ?>
 
     
 </body>

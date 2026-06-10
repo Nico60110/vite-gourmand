@@ -106,6 +106,8 @@ $menus = $query->fetchAll();
 <?php endforeach; ?>
 
   </section>
+
+  <?php require '../../includes/footer.php'; ?>
     
 </body>
 </html>

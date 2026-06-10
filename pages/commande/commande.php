@@ -1,13 +1,13 @@
 <?php
 require '../../config/database.php';
-/*session_start();
+session_start();
 
 if(!isset($_SESSION['user'])){
 
     header("Location: ../auth/login.php");
 
     exit;
-}*/
+}
 
 if(!isset($_GET['id'])){
     header('location:../menu/menus.php');
@@ -316,6 +316,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         </form>
 
     </main>
+
+    <?php require '../../includes/footer.php'; ?>
 
 </body>
 
