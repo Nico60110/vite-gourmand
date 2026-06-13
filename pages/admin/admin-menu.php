@@ -36,29 +36,7 @@ $menus = $query->fetchAll();
 
   </section>
 
-  <!-- FILTRES -->
-
-  <section class="filters">
-
-    <input type="number" placeholder="Prix maximum">
-
-    <select>
-      <option>Thème</option>
-      <option>Noël</option>
-      <option>Pâques</option>
-      <option>Classique</option>
-    </select>
-
-    <select>
-      <option>Régime</option>
-      <option>Vegan</option>
-      <option>Végétarien</option>
-      <option>Classique</option>
-    </select>
-
-    <input type="number" placeholder="Nombre minimum">
-
-  </section>
+  
 
   <!-- MENUS -->
 

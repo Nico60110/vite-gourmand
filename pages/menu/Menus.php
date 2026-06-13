@@ -1,10 +1,54 @@
 <?php 
 require '../../config/database.php';
 
-$sql = "SELECT * FROM menu";
+$prixMax = $_GET['prixMax'] ?? '';
+$theme = $_GET['theme'] ?? '';
+$regime = $_GET['regime'] ?? '';
+$personnesMin = $_GET['personnesMin'] ?? '';
+
+$sql = "SELECT * FROM menu WHERE 1=1";
+
+$params = [];
+
+if(!empty($prixMax)){
+
+    $sql .= " AND prixBase <= ?";
+
+    $params[] = $prixMax;
+}
+
+if(!empty($theme)){
+
+    $sql .= " AND theme = ?";
+
+    $params[] = $theme;
+}
+
+if(!empty($regime)){
+
+    $sql .= " AND regime = ?";
+
+    $params[] = $regime;
+}
+
+if(!empty($personnesMin)){
+
+    $sql .= " AND nbPersonnesMin >= ?";
+
+    $params[] = $personnesMin;
+}
+
+
+
 $query = $pdo->prepare($sql);
-$query->execute();
+$query->execute($params);
+
 $menus = $query->fetchAll();
+
+
+
+
+
 ?>
 
 
@@ -37,33 +81,59 @@ $menus = $query->fetchAll();
 
   <!-- FILTRES -->
 
-  <section class="filters">
 
-    <input type="number" placeholder="Prix maximum">
 
-    <select>
-      <option>Thème</option>
-      <option>Noël</option>
-      <option>Pâques</option>
-      <option>Classique</option>
+  <form method="GET" class="filters">
+
+    <input type="number" name="prixMax" value="<?= $_GET['prixMax'] ?? ''; ?>">
+
+    <select name="theme">
+
+        <option value="">
+            Thème
+        </option>
+
+        <option value="Noël">
+            Noël
+        </option>
+
+        <option value="Pizza">
+            Pizza
+        </option>
+
+        <option value="Classique">
+            Classique
+        </option>
+
     </select>
 
-    <select>
-      <option>Régime</option>
-      <option>Vegan</option>
-      <option>Végétarien</option>
-      <option>Classique</option>
+    <select name="regime">
+
+      <option value="">
+          Régime
+      </option>
+
+      <option value="Vegan">
+          Vegan
+      </option>
+
+      <option value="Classique">
+          Classique
+      </option>
+
     </select>
 
-    <input type="number" placeholder="Nombre minimum">
+    <input type="number" name="personnesMin" placeholder="Nombre minimum">
 
-  </section>
+    <input class="btn" type="submit" value="Valider">
+
+</form>
 
   <!-- MENUS -->
 
   <section class="menu-section">
 
-    <div class="menu-grid">
+    
 
       <!-- CARD -->
 

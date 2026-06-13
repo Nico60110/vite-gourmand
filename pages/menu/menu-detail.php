@@ -34,6 +34,35 @@ if(!$menu){
     exit;
 }
 
+$sql = 'SELECT p.*, mp.typeMenu
+        FROM menu_plat mp
+        INNER JOIN plat p
+        ON mp.idPlat = p.idPlat
+        WHERE mp.idMenu = ?';
+
+$query = $pdo->prepare($sql);
+$query->execute([$idMenu]);
+$plats = $query->fetchAll();
+
+
+$entrees = [];
+$platsPrincipaux = [];
+$desserts = [];
+
+foreach($plats as $plat){
+
+    if($plat['typeMenu'] === 'entree'){
+        $entrees[] = $plat;
+    }
+
+    if($plat['typeMenu'] === 'plat'){
+        $platsPrincipaux[] = $plat;
+    }
+
+    if($plat['typeMenu'] === 'dessert'){
+        $desserts[] = $plat;
+    }
+}
 ?>
 
 
@@ -149,21 +178,13 @@ if(!$menu){
 
         <h3>Entrées</h3>
 
-        <div class="dish">
+          <?php foreach($entrees as $plat): ?>
 
-          <h4>Foie gras maison</h4>
+          <div class="dish">
+              <h4><?= $plat['nom']; ?></h4>
+          </div>
 
-          <p>Accompagné de chutney de figues.</p>
-
-        </div>
-
-        <div class="dish">
-
-          <h4>Velouté de saison</h4>
-
-          <p>Préparé avec légumes frais locaux.</p>
-
-        </div>
+          <?php endforeach; ?>
 
       </div>
 
@@ -173,22 +194,13 @@ if(!$menu){
 
         <h3>Plats</h3>
 
-        <div class="dish">
+        <?php foreach($platsPrincipaux as $plat): ?>
 
-          <h4>Magret de canard</h4>
+          <div class="dish">
+              <h4><?= $plat['nom']; ?></h4>
+          </div>
 
-          <p>Sauce miel et pommes grenailles.</p>
-
-        </div>
-
-        <div class="dish">
-
-          <h4>Saumon rôti</h4>
-
-          <p>Légumes fondants et sauce citronnée.</p>
-
-        </div>
-
+        <?php endforeach; ?>
       </div>
 
       <!-- DESSERTS -->
@@ -197,21 +209,13 @@ if(!$menu){
 
         <h3>Desserts</h3>
 
-        <div class="dish">
+        <?php foreach($desserts as $plat): ?>
 
-          <h4>Fondant chocolat</h4>
+          <div class="dish">
+              <h4><?= $plat['nom']; ?></h4>
+          </div>
 
-          <p>Servi avec crème anglaise.</p>
-
-        </div>
-
-        <div class="dish">
-
-          <h4>Tarte aux fruits</h4>
-
-          <p>Fruits frais de saison.</p>
-
-        </div>
+        <?php endforeach; ?>
 
       </div>
 
