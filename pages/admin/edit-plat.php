@@ -17,6 +17,22 @@ $query = $pdo->prepare($sql);
 $query->execute([$idPlat]);
 $plat = $query->fetch();
 
+$sql = "SELECT * FROM allergene";
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$allergenes = $query->fetchAll();
+
+$sql = "SELECT idAllergene
+        FROM plat_allergene
+        WHERE idPlat = ?
+        ";
+
+$query = $pdo->prepare($sql);
+$query->execute([$idPlat]);
+
+$allergenesPlat = $query->fetchAll(PDO::FETCH_COLUMN);
+
 if(!$plat){
 
     header("Location: plat.php");
@@ -28,6 +44,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $nom = $_POST['nom'];
     $type = $_POST['type'];
     $photo = $_POST['photo'];
+    $allergenesSelectionnes = $_POST['allergenes'] ?? [];
 
 
     $sql = 'UPDATE plat 
@@ -46,6 +63,35 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $photo,
         $idPlat
     ]);
+
+    $sql = "DELETE FROM plat_allergene
+            WHERE idPlat = ?
+            ";
+
+$query = $pdo->prepare($sql);
+$query->execute([$idPlat]);
+
+foreach($allergenesSelectionnes as $idAllergene){
+
+    $sql = "
+    INSERT INTO plat_allergene
+    (
+        idPlat,
+        idAllergene
+    )
+    VALUES
+    (
+        ?, ?
+    )
+    ";
+
+    $query = $pdo->prepare($sql);
+
+    $query->execute([
+        $idPlat,
+        $idAllergene
+    ]);
+}
 
     header("Location: plat.php");
 
@@ -118,6 +164,31 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 >
 
                 <?php endif; ?>
+
+                <h3>Allergènes</h3>
+
+                <?php foreach($allergenes as $allergene): ?>
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            name="allergenes[]"
+                            value="<?= $allergene['idAllergene']; ?>"
+
+                            <?= in_array(
+                                $allergene['idAllergene'],
+                                $allergenesPlat
+                            ) ? 'checked' : ''; ?>
+                        >
+
+                        <?= $allergene['nom']; ?>
+
+                    </label>
+
+                    <br>
+
+                <?php endforeach; ?>
 
                 <button type="submit" class="btn">
                     Modifier le plat

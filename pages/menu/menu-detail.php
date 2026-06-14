@@ -63,6 +63,24 @@ foreach($plats as $plat){
         $desserts[] = $plat;
     }
 }
+
+$sql = "SELECT pa.idPlat, a.nom
+        FROM plat_allergene pa
+        INNER JOIN allergene a
+        ON pa.idAllergene = a.idAllergene";
+
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$resultatsAllergenes = $query->fetchAll();
+
+$allergenesParPlat = [];
+
+foreach($resultatsAllergenes as $allergene){
+
+    $allergenesParPlat[$allergene['idPlat']][] = $allergene['nom'];
+}
+
 ?>
 
 
@@ -148,16 +166,6 @@ foreach($plats as $plat){
 
         </div>
 
-        <!-- ALLERGENES -->
-
-        <div class="allergenes">
-
-          <span>Gluten</span>
-          <span>Fruits à coque</span>
-          <span>Lactose</span>
-
-        </div>
-
         <a href="../commande/commande.php?id=<?= $menu['idMenu']; ?>" class="btn">
           Commander ce menu
         </a>
@@ -182,6 +190,17 @@ foreach($plats as $plat){
 
           <div class="dish">
               <h4><?= $plat['nom']; ?></h4>
+              <div class="allergenes">
+                <?php
+                $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
+                ?>
+
+                <?php foreach($allergenes as $allergene): ?>
+
+                    <span><?= $allergene; ?></span>
+
+                <?php endforeach; ?>
+              </div>
           </div>
 
           <?php endforeach; ?>
@@ -198,6 +217,17 @@ foreach($plats as $plat){
 
           <div class="dish">
               <h4><?= $plat['nom']; ?></h4>
+              <div class="allergenes">
+               <?php
+                $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
+                ?>
+
+                <?php foreach($allergenes as $allergene): ?>
+
+                    <span><?= $allergene; ?></span>
+
+                 <?php endforeach; ?>
+              </div>
           </div>
 
         <?php endforeach; ?>
@@ -213,6 +243,17 @@ foreach($plats as $plat){
 
           <div class="dish">
               <h4><?= $plat['nom']; ?></h4>
+               <div class="allergenes">
+                <?php
+                $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
+                ?>
+
+                  <?php foreach($allergenes as $allergene): ?>
+
+                      <span><?= $allergene; ?></span>
+
+                  <?php endforeach; ?>
+                </div>
           </div>
 
         <?php endforeach; ?>

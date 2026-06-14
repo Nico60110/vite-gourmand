@@ -3,20 +3,57 @@ require '../../config/database.php';
 require '../../config/auth-admin.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
     $nom = $_POST['nom'];
     $type = $_POST['type'];
     $photo = $_POST['photo'];
 
-    $sql = 'INSERT INTO plat (nom, type, photo) VALUES (?, ?, ?)';
+    $sql = 'INSERT INTO plat (nom, type, photo)
+            VALUES (?, ?, ?)';
+
     $query = $pdo->prepare($sql);
+
     $query->execute([
-        $nom, 
-        $type, 
+        $nom,
+        $type,
         $photo
     ]);
 
-header("Location: plat.php");
+    $idPlat = $pdo->lastInsertId();
+
+    $allergenesSelectionnes = $_POST['allergenes'] ?? [];
+
+    foreach($allergenesSelectionnes as $idAllergene){
+
+        $sql = "
+        INSERT INTO plat_allergene
+        (
+            idPlat,
+            idAllergene
+        )
+        VALUES
+        (
+            ?, ?
+        )
+        ";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            $idPlat,
+            $idAllergene
+        ]);
+    }
+
+    header("Location: plat.php");
+    exit;
 }
+
+$sql = "SELECT * FROM allergene";
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$allergenes = $query->fetchAll();
 
 
 
@@ -56,12 +93,33 @@ header("Location: plat.php");
                 name="photo"
                 placeholder="URL de la photo">
 
-            <button type="submit" class="btn">
-                Ajouter le plat
-            </button>
+            <h3>Allergènes</h3>
 
-            </form>
-        </div>
+                <div class="allergenes-list">
+
+                    <?php foreach($allergenes as $allergene): ?>
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="allergenes[]"
+                                value="<?= $allergene['idAllergene']; ?>"
+                            >
+
+                            <?= $allergene['nom']; ?>
+                        </label>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+                <button type="submit" class="btn">
+                    Ajouter le plat
+                </button>
+
+                </form>
+
+                </div>
 
     </main>
 
