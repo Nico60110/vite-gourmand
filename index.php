@@ -1,3 +1,29 @@
+<?php
+
+require 'config/database.php';
+
+$sql = "
+SELECT
+    a.*,
+    u.prenom,
+    u.nom
+FROM avis a
+INNER JOIN utilisateur u
+ON a.idUtilisateur = u.idUtilisateur
+WHERE a.valide = 1
+ORDER BY a.dateAvis DESC
+LIMIT 6
+";
+
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$avis = $query->fetchAll();
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -74,21 +100,40 @@
 
     <h2>Avis de nos clients</h2>
 
-    <div class="testimonial-grid">
+   <div class="testimonial-grid">
 
-      <div class="card">
-        
-      </div>
+    <?php foreach($avis as $unAvis): ?>
 
-      <div class="card">
-       
-      </div>
+        <div class="card">
 
-      <div class="card">
-        
-      </div>
+            <div class="stars">
 
-    </div>
+                <?php for($i = 0; $i < $unAvis['note']; $i++): ?>
+
+                    ⭐
+
+                <?php endfor; ?>
+
+            </div>
+
+            <p>
+
+                "<?= htmlspecialchars($unAvis['commentaire']); ?>"
+
+            </p>
+
+            <strong>
+
+                <?= htmlspecialchars($unAvis['prenom']); ?>
+                <?= strtoupper(substr($unAvis['nom'], 0, 1)); ?>.
+
+            </strong>
+
+        </div>
+
+    <?php endforeach; ?>
+
+</div>
 
   </section>
 

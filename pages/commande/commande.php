@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $adresseLivraison = $_POST['adresseLivraison'];
     $nbPersonnes = $_POST['nbPersonnes'];
 
-    $idUtilisateur = 1;
+    $idUtilisateur = $_SESSION['user']['idUtilisateur'];
 
     $prixTotal = $menu['prixBase'];
 

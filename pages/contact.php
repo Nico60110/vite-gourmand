@@ -2,6 +2,7 @@
 
 require '../config/database.php';
 require '../vendor/autoload.php';
+$mailConfig = require '../config/mail.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -35,13 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'vitegourmandoff@gmail.com';
-            $mail->Password = 'aypt xqqm oaxc ypcy'; 
+            $mail->Username = $mailConfig['username'];
+            $mail->Password = $mailConfig['password'];
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            $mail->setFrom('vitegourmandoff@gmail.com', 'Vite & Gourmand');
-            $mail->addAddress('vitegourmandoff@gmail.com');
+            $mail->setFrom(
+                $mailConfig['from_email'],
+                $mailConfig['from_name']
+                );
+            
+            $mail->addAddress(
+                $mailConfig['to_email']
+            );
 
             
             $mail->addReplyTo($email);

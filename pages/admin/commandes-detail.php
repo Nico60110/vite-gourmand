@@ -214,7 +214,7 @@ $historique = $query->fetchAll();
 
         </section>
 
-        <a href="commandes-edit.php?id=1" class="btn">
+        <a href="commandes-edit.php?id=<?= $commande['idCommande']?>" class="btn">
             Modifier le statut
         </a>
 
