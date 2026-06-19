@@ -14,6 +14,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $confirmPassword = $_POST['confirm_password'];
 
+    $adresse = $_POST['adresse'];
+
+    $codePostal = $_POST['code_postale'];
+
+    $telephone = $_POST['phone'];
+
+    $ville = $_POST['ville'];
+
+    $pays = $_POST['pays'];
+
 
 
     if(
@@ -61,8 +71,19 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             // INSERT SQL
 
             $sql = "INSERT INTO utilisateur
-            (prenom, nom, email, motDePasse, idRole)
-            VALUES (?, ?, ?, ?, ?)";
+            (
+                prenom,
+                nom,
+                email,
+                motDePasse,
+                telephone,
+                adresse,
+                codePostal,
+                ville,
+                pays,
+                idRole
+            )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $query = $pdo->prepare($sql);
 
@@ -71,6 +92,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 $lastname,
                 $email,
                 $hashedPassword,
+                $telephone,
+                $adresse,
+                $codePostal,
+                $ville,
+                $pays,
                 $idRole
             ]);
             
@@ -158,9 +184,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                         <input type="email"  name="email" placeholder="Email" class="full-width">
 
+                        <input type="text"  name="adresse" placeholder="Adresse" class="full-width">
+
+                        <input type="text"  name="code_postale" placeholder="Code postale" class="full-width">
+
                         <input type="tel"  name="phone" placeholder="Téléphone" class="full-width">
 
-                        <input type="date" class="full-width">
+                        <input type="text"  name="ville" placeholder="Ville" class="full-width">
+
+                        <input type="text"  name="pays" placeholder="Pays" class="full-width">
+
+                        
 
                     </div>
 

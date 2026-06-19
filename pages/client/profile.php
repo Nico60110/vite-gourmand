@@ -38,16 +38,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $email = trim($_POST['email']);
     $telephone = trim($_POST['telephone']);
     $adresse = trim($_POST['adresse']);
+    $codePostal = trim($_POST['codePostal']);
+    $ville = trim($_POST['ville']);
+    $pays = trim($_POST['pays']);
 
     $sql = "
-    UPDATE utilisateur
-    SET
-        nom = ?,
-        prenom = ?,
-        email = ?,
-        telephone = ?,
-        adresse = ?
-    WHERE idUtilisateur = ?
+        UPDATE utilisateur
+        SET
+            nom = ?,
+            prenom = ?,
+            email = ?,
+            telephone = ?,
+            adresse = ?,
+            codePostal = ?,
+            ville = ?,
+            pays = ?
+        WHERE idUtilisateur = ?
     ";
 
     $query = $pdo->prepare($sql);
@@ -58,8 +64,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $email,
         $telephone,
         $adresse,
+        $codePostal,
+        $ville,
+        $pays,
         $idUtilisateur
     ]);
+
+    $utilisateur['nom'] = $nom;
+    $utilisateur['prenom'] = $prenom;
+    $utilisateur['email'] = $email;
+    $utilisateur['telephone'] = $telephone;
+    $utilisateur['adresse'] = $adresse;
+    $utilisateur['codePostal'] = $codePostal;
+    $utilisateur['ville'] = $ville;
+    $utilisateur['pays'] = $pays;
 
     $success = "Informations mises à jour.";
 }
@@ -165,6 +183,42 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="adresse"
                 value="<?= htmlspecialchars($utilisateur['adresse']); ?>"
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label>Code postal</label>
+
+            <input
+                type="text"
+                name="codePostal"
+                value="<?= htmlspecialchars($utilisateur['codePostal']); ?>"
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label>Pays</label>
+
+            <input
+                type="text"
+                name="pays"
+                value="<?= htmlspecialchars($utilisateur['pays']); ?>"
+            >
+        </div>
+
+        <br>
+
+        <div>
+            <label>Ville</label>
+
+            <input
+                type="text"
+                name="ville"
+                value="<?= htmlspecialchars($utilisateur['ville']); ?>"
             >
         </div>
 
