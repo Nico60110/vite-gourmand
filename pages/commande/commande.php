@@ -26,6 +26,14 @@ if(!$menu){
     exit;
 }
 
+$prixMenu = $menu['prixBase'];
+
+$reduction = 0;
+
+$prixLivraison = 15;
+
+$prixTotal = $prixMenu + $prixLivraison;
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $dateLivraison = $_POST['dateLivraison'];
     $heureLivraison = $_POST['heureLivraison'];
@@ -34,7 +42,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $idUtilisateur = $_SESSION['user']['idUtilisateur'];
 
-    $prixTotal = $menu['prixBase'];
+    $prixMenu = $menu['prixBase'];
+
+    $reduction = 0;
+
+    if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
+
+        $reduction = $prixMenu * 0.10;
+    }
+
+    $prixLivraison = 15;
+
+    $prixTotal = $prixMenu - $reduction + $prixLivraison;
 
 
     $sql = "INSERT INTO commande
@@ -274,35 +293,23 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <h2>Résumé</h2>
 
                 <div class="summary-item">
-
-                    <span><?=$menu['titre'];?></span>
-
-                    <span><?= $menu['prixBase']; ?> €</span>
-
+                    <span>Menu</span>
+                    <span><?= number_format($prixMenu, 2); ?> €</span>
                 </div>
 
                 <div class="summary-item">
-
-                    <span>Livraison</span>
-
-                    <span>15 €</span>
-
-                </div>
-
-                <div class="summary-item">
-
                     <span>Réduction</span>
+                    <span>-<?= number_format($reduction, 2); ?> €</span>
+                </div>
 
-                    <span>-25 €</span>
-
+                <div class="summary-item">
+                    <span>Livraison</span>
+                    <span><?= number_format($prixLivraison, 2); ?> €</span>
                 </div>
 
                 <div class="summary-item total">
-
                     <span>Total</span>
-
-                    <span><?= $menu['prixBase']; ?> €</span>
-
+                    <span><?= number_format($prixTotal, 2); ?> €</span>
                 </div>
 
                 <button type="submit" class="btn">
