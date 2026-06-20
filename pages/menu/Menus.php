@@ -12,7 +12,7 @@ $params = [];
 
 if(!empty($prixMax)){
 
-    $sql .= " AND prixBase <= ?";
+    $sql .= " AND prixParPersonne <= ?";
 
     $params[] = $prixMax;
 }
@@ -85,7 +85,7 @@ $menus = $query->fetchAll();
 
   <form method="GET" class="filters">
 
-    <input type="number" name="prixMax" value="<?= $_GET['prixMax'] ?? ''; ?>">
+    <input type="number" name="prixMax" placeholder="Prix max" value="<?= $_GET['prixMax'] ?? ''; ?>">
 
     <select name="theme">
 
@@ -140,6 +140,7 @@ $menus = $query->fetchAll();
       <div class="menu-grid">
 
 <?php foreach($menus as $menu): ?>
+    <?php $prixMin = $menu['nbPersonnesMin'] * $menu['prixParPersonne']?>
 
     <div class="menu-card">
 
@@ -156,7 +157,7 @@ $menus = $query->fetchAll();
             <p><?= $menu['description']; ?></p>
 
             <div class="info">
-                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $menu['prixBase']; ?> €
+                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $prixMin; ?> €
             </div>
 
             <a href="menu-detail.php?id=<?= $menu['idMenu']; ?>" class="btn">

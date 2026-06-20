@@ -28,6 +28,8 @@ $query->execute([$idMenu]);
 
 $menu = $query->fetch();
 
+$prixMin = $menu['nbPersonnesMin'] * $menu['prixParPersonne'];
+
 if(!$menu){
 
     header("Location: admin-menu.php");
@@ -67,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <main class="container">
 
-        <h1>Supprimer un menu</h1>
+        <h1 class="page-title">Supprimer un menu</h1>
 
         <div class="form-card">
 
@@ -78,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <br>
 
             <p>
-                <strong>Prix :</strong>
-                <?= $menu['prixBase']; ?> €
+                <strong>Prix pour le nombre minimum :</strong>
+                <?= $prixMin; ?> €
             </p>
 
             <p>

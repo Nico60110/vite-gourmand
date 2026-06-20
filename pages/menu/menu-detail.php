@@ -24,6 +24,8 @@ $query = $pdo->prepare($sql);
 $query->execute([$idMenu]);
 $menu = $query->fetch();
 
+$prixMin = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
+
 // =========================
 // SI MENU INTROUVABLE
 // =========================
@@ -108,8 +110,8 @@ foreach($resultatsAllergenes as $allergene){
   <section class="hero">
 
     <div class="hero-content">
-      <h1>"<?= $menu['titre']; ?></h1>
-      <p>"<?= $menu['description']; ?></p>
+      <h1><?= $menu['titre']; ?></h1>
+      <p><?= $menu['description']; ?></p>
     </div>
 
   </section>
@@ -134,23 +136,25 @@ foreach($resultatsAllergenes as $allergene){
 
       <div class="menu-info">
 
-        <span class="badge">"<?= $menu['theme']; ?></span>
+        <span class="badge"><?= $menu['theme']; ?></span>
 
-        <h2>"<?= $menu['titre']; ?></h2>
+        <h2><?= $menu['titre']; ?></h2>
 
         <p>
-          "<?= $menu['description']; ?>
+          <?= $menu['description']; ?>
         </p>
 
         <div class="details">
 
-          <div>"<?= $menu['nbPersonnesMin']; ?></div>
+          <div>Nombre personnes min : <?= $menu['nbPersonnesMin']; ?></div>
 
-          <div>💰 Prix : "<?= $menu['prixBase']; ?></div>
+          <div>💰 Prix par personnes : <?= $menu['prixParPersonne']; ?></div>
 
-          <div>🥗 Régime : "<?= $menu['regime']; ?></div>
+          <div>💰 Prix pour le nombre de personnes minimum : <?= number_format($prixMin, 2); ?></div>
 
-          <div>📦 Stock disponible : "<?= $menu['stock']; ?></div>
+          <div>🥗 Régime : <?= $menu['regime']; ?></div>
+
+          <div>📦 Stock disponible : <?= $menu['stock']; ?></div>
 
         </div>
 
@@ -161,7 +165,7 @@ foreach($resultatsAllergenes as $allergene){
           <h3>Conditions importantes</h3>
 
           <p>
-            "<?= $menu['conditions']; ?>
+            <?= $menu['conditions']; ?>
           </p>
 
         </div>

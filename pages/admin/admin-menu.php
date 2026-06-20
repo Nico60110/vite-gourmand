@@ -6,6 +6,9 @@ $sql = "SELECT * FROM menu";
 $query = $pdo->prepare($sql);
 $query->execute();
 $menus = $query->fetchAll();
+
+
+
 ?>
 
 
@@ -42,13 +45,13 @@ $menus = $query->fetchAll();
 
   <section class="menu-section">
 
-    <div class="menu-grid">
-
       <!-- CARD -->
 
       <div class="menu-grid">
 
 <?php foreach($menus as $menu): ?>
+
+    <?php $prixMin = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];?>
 
     <div class="menu-card">
 
@@ -65,7 +68,7 @@ $menus = $query->fetchAll();
             <p><?= $menu['description']; ?></p>
 
             <div class="info">
-                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $menu['prixBase']; ?> €
+                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= number_format($prixMin, 2); ?> €
             </div>
 
             

@@ -51,7 +51,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $nbPersonnesMin = $_POST['nbPersonnesMin'];
 
-    $prixBase = $_POST['prixBase'];
+    $prixParPersonne = $_POST['prixParPersonne'];
 
     $stock = $_POST['stock'];
 
@@ -64,7 +64,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 theme = ?,
                 regime = ?,
                 nbPersonnesMin = ?,
-                prixBase = ?,
+                prixParPersonne = ?,
                 stock = ?,
                 conditions = ?
             WHERE idMenu = ?";
@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $theme,
         $regime,
         $nbPersonnesMin,
-        $prixBase,
+        $prixParPersonne,
         $stock,
         $conditions,
         $idMenu
@@ -174,8 +174,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <input
                     type="number"
                     step="0.01"
-                    name="prixBase"
-                    value="<?= $menu['prixBase']; ?>"
+                    name="prixParPersonne"
+                    value="<?= $menu['prixParPersonne']; ?>"
                     required
                 >
 

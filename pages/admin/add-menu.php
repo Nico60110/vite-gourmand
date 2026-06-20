@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $theme = $_POST['theme'];
     $regime = $_POST['regime'];
     $nbPersonnesMin = $_POST['nbPersonnesMin'];
-    $prixBase = $_POST['prixBase'];
+    $prixParPersonne = $_POST['prixParPersonne'];
     $stock = $_POST['stock'];
     $conditions =$_POST['conditions'];
 
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         theme,
         regime,
         nbPersonnesMin,
-        prixBase,
+        prixParPersonne,
         stock,
         conditions
     )
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $theme,
         $regime,
         $nbPersonnesMin,
-        $prixBase,
+        $prixParPersonne,
         $stock,
         $conditions
     ]);
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     
 <main class="container">
 
-    <h1>Ajouter un menu</h1>
+    <h1 class="page-title">Ajouter un menu</h1>
 
     <div class="form-card">
 
@@ -91,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             <input type="number"
                    step="0.01"
-                   name="prixBase"
-                   placeholder="Prix de base"
+                   name="prixParPersonne"
+                   placeholder="Prix par personne"
                    required>
 
             <input type="number"
@@ -101,7 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                    value="0">
 
             <textarea name="conditions"
-                      placeholder="Conditions"></textarea>
+                      placeholder="Conditions">
+            </textarea>
 
             <button type="submit" class="btn">
                 Ajouter le menu
