@@ -15,9 +15,7 @@ $idUtilisateur = $_SESSION['user']['idUtilisateur'];
 $sql = "
 SELECT
     c.*,
-    m.titre AS menuTitre,
-    cm.quantite,
-    cm.prixUnitaire
+    m.titre AS menuTitre
 FROM commande c
 
 INNER JOIN commande_menu cm
@@ -80,13 +78,13 @@ $commandes = $query->fetchAll();
         </p>
 
         <p>
-            Quantité :
-            <?= $commande['quantite']; ?>
+            Nombre de personnes :
+            <?= $commande['nbPersonnes']; ?>
         </p>
 
         <p>
-            Nombre de personnes :
-            <?= $commande['nbPersonnes']; ?>
+            Prêt de matériel :
+            <?= $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
         </p>
 
         <p>
@@ -120,6 +118,16 @@ $commandes = $query->fetchAll();
                 class="btn"
             >
                 Annuler
+            </a>
+
+        <?php endif; ?>
+
+        <?php if($commande['statut'] !== 'EN_ATTENTE'): ?>
+
+            <a
+                href="suivie-commande.php?id=<?= $commande['idCommande']; ?>"
+                class="btn">
+                Suivre la commande
             </a>
 
         <?php endif; ?>

@@ -14,7 +14,22 @@ if(!isset($_GET['id'])){
     exit;
 }
 
+$idUtilisateur = $_SESSION['user']['idUtilisateur'];
+
+
+
 $idMenu = $_GET['id'];
+
+$sql = "SELECT * FROM materiel ORDER BY nom";
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$materiels = $query->fetchAll();
+
+$sql = "SELECT * FROM utilisateur WHERE idUtilisateur = ? ";
+$query = $pdo->prepare($sql);
+$query->execute([$idUtilisateur]);
+$utilisateur = $query->fetch();
 
 $sql = 'SELECT * FROM menu WHERE idMenu = ?';
 $query = $pdo->prepare($sql);
@@ -26,11 +41,16 @@ if(!$menu){
     exit;
 }
 
-$prixMenu = $menu['prixBase'];
+$prixMenu = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
 
 $reduction = 0;
 
-$prixLivraison = 15;
+if(strtolower($utilisateur['ville']) === 'bordeaux'){
+        $prixLivraison = 0;
+    }
+else{
+        $prixLivraison = 5;
+    }
 
 $prixTotal = $prixMenu + $prixLivraison;
 
@@ -42,7 +62,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $idUtilisateur = $_SESSION['user']['idUtilisateur'];
 
-    $prixMenu = $menu['prixBase'];
+    $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
 
     $reduction = 0;
 
@@ -51,21 +71,42 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $reduction = $prixMenu * 0.10;
     }
 
-    $prixLivraison = 15;
+    if(strtolower($utilisateur['ville']) === 'bordeaux'){
+        $prixLivraison = 0;
+    }
+    else{
+        $prixLivraison = 5;
+    }
 
     $prixTotal = $prixMenu - $reduction + $prixLivraison;
 
+    $pretMateriel = 0;
+
+
+    if(isset($_POST['materiel'])){
+
+    foreach($_POST['materiel'] as $quantite){
+
+        if($quantite > 0){
+
+            $pretMateriel = 1;
+            break;
+        }
+    }
+}
 
     $sql = "INSERT INTO commande
-    (
-        dateLivraison,
-        heureLivraison,
-        adresseLivraison,
-        nbPersonnes,
-        prixTotal,
-        idUtilisateur
+(
+    dateLivraison,
+    heureLivraison,
+    adresseLivraison,
+    nbPersonnes,
+    prixTotal,
+    pretMateriel,
+    idUtilisateur
+)
     )
-    VALUES (?, ?, ?, ?, ?, ?)";
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $query = $pdo->prepare($sql);
     $query->execute([
@@ -74,30 +115,51 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $adresseLivraison,
         $nbPersonnes,
         $prixTotal,
+        $pretMateriel,
         $idUtilisateur
     ]);
 
     $idCommande = $pdo->lastInsertId();
 
+    if(isset($_POST['materiel'])){
+
+    foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+        if($quantite > 0){
+
+            $sql = "INSERT INTO commande_materiel
+            (idCommande, idMateriel, quantite)
+            VALUES (?, ?, ?)";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $idCommande,
+                $idMateriel,
+                $quantite
+            ]);
+            }
+        }
+    }
+
+    
+
 
     $sql = "INSERT INTO commande_menu
     (
-        quantite,
-        prixUnitaire,
         idCommande,
         idMenu
     )
-    VALUES (?, ?, ?, ?)";
+    VALUES (?, ?,)";
 
     $query = $pdo->prepare($sql);
     $query->execute([
-        1,
-        $menu['prixBase'],
         $idCommande,
         $idMenu
     ]);
 
-    $sql = "INSERT INTO historique_statut
+   
+     $sql = "INSERT INTO historique_statut
     (
         statut,
         commentaire,
@@ -112,9 +174,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $idCommande
     ]);
 
+    
+
     header("Location: ../menu/menus.php");
     exit;
+
+    
 }
+
+
 
 
 ?>
@@ -178,13 +246,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                     <div class="form-grid">
 
-                        <input type="text" placeholder="Prénom">
+                        <input type="text" value="<?= htmlspecialchars($utilisateur['prenom']); ?>" placeholder="Prénom">
 
-                        <input type="text" placeholder="Nom">
+                        <input type="text" value="<?= htmlspecialchars($utilisateur['nom']); ?>" placeholder="Nom">
 
-                        <input type="email" placeholder="Adresse email">
+                        <input type="email" value="<?= htmlspecialchars($utilisateur['email']); ?>" placeholder="Adresse email">
 
-                        <input type="tel" placeholder="Téléphone">
+                        <input type="tel" value="<?= htmlspecialchars($utilisateur['telephone']); ?>" placeholder="Téléphone">
 
                         <input type="date" name="dateLivraison" required>
 
@@ -246,29 +314,40 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                        <input
                             type="number"
                             name="nbPersonnes"
+                            placeholder="nombre personnes"
                             min="<?= $menu['nbPersonnesMin']; ?>"
                             required>
-                        <select>
-
-                            <option>
-                                Choisir un régime
-                            </option>
-
-                            <option>
-                                Classique
-                            </option>
-
-                            <option>
-                                Végétarien
-                            </option>
-
-                            <option>
-                                Vegan
-                            </option>
-
-                        </select>
 
                     </div>
+
+                    <div>
+                        <label>
+                            <input type="checkbox" name="pretMateriel">
+                            Je souhaite un prêt de matériel
+                        </label>
+                    </div>
+
+                    <h3>Prêt de matériel</h3>
+
+                   <?php foreach($materiels as $materiel): ?>
+
+                        <div>
+
+                            <label>
+                                <?= htmlspecialchars($materiel['nom']); ?>
+                            </label>
+
+                            <input
+                                type="number"
+                                name="materiel[<?= $materiel['idMateriel']; ?>]"
+                                min="0"
+                                value="0"
+                                
+                            >
+
+                        </div>
+
+                    <?php endforeach; ?>
 
                     <!-- CONDITIONS -->
 

@@ -44,6 +44,7 @@ $statutsBloques = [
     'ACCEPTEE',
     'EN_PREPARATION',
     'EN_LIVRAISON',
+    'EN_ATTENTE_RETOUR_MATERIEL',
     'TERMINEE',
     'ANNULEE'
 ];
@@ -54,6 +55,50 @@ if(in_array($commande['statut'], $statutsBloques)){
     exit;
 }
 
+$sql = "SELECT * FROM materiel ORDER BY nom";
+$query = $pdo->prepare($sql);
+$query->execute();
+
+$materiels = $query->fetchAll();
+
+$sql = "
+SELECT cm.*, m.nom
+FROM commande_materiel cm
+
+INNER JOIN materiel m
+ON cm.idMateriel = m.idMateriel
+
+WHERE cm.idCommande = ?
+";
+
+$query = $pdo->prepare($sql);
+$query->execute([$idCommande]);
+$materielsCommande = $query->fetchAll();
+
+$quantitesCommande = [];
+
+foreach($materielsCommande as $materiel){
+
+    $quantitesCommande[$materiel['idMateriel']] = $materiel['quantite'];
+}
+
+$sql = "
+SELECT m.*
+FROM menu m
+
+INNER JOIN commande_menu cm
+ON m.idMenu = cm.idMenu
+
+WHERE cm.idCommande = ?
+";
+
+$query = $pdo->prepare($sql);
+$query->execute([$idCommande]);
+
+$menu = $query->fetch();
+
+
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     $dateLivraison = $_POST['dateLivraison'];
@@ -61,15 +106,67 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $adresseLivraison = $_POST['adresseLivraison'];
     $nbPersonnes = $_POST['nbPersonnes'];
 
+
+    if($nbPersonnes < $menu['nbPersonnesMin']){
+
+        die("Nombre minimum de personnes non respecté.");
+    }
+
+    $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
+
+    $reduction = 0;
+
+    if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
+
+        $reduction = $prixMenu * 0.10;
+    }
+
+    $sql = "SELECT ville FROM utilisateur WHERE idUtilisateur = ?";
+    $query = $pdo->prepare($sql);
+    $query->execute([$_SESSION['user']['idUtilisateur']]);
+
+    $user = $query->fetch();
+
+    if(strtolower($user['ville']) === 'bordeaux'){
+
+    $prixLivraison = 0;
+
+    }else{
+
+        $prixLivraison = 5;
+    }
+
+    $prixTotal = $prixMenu - $reduction + $prixLivraison;
+
+
+
+    $pretMateriel = 0;
+
+    if(isset($_POST['materiel'])){
+
+        foreach($_POST['materiel'] as $quantite){
+
+            if($quantite > 0){
+
+                $pretMateriel = 1;
+                break;
+            }
+        }
+    }
+
+
     $sql = "
     UPDATE commande
     SET
         dateLivraison = ?,
         heureLivraison = ?,
         adresseLivraison = ?,
-        nbPersonnes = ?
+        nbPersonnes = ?,
+        prixMenu = ?,
+        prixTotal = ?,
+        pretMateriel = ?
     WHERE idCommande = ?
-    ";
+        ";
 
     $query = $pdo->prepare($sql);
 
@@ -78,8 +175,50 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $heureLivraison,
         $adresseLivraison,
         $nbPersonnes,
+        $prixMenu,
+        $prixTotal,
+        $pretMateriel,
         $idCommande
     ]);
+
+    
+    if(isset($_POST['materiel'])){
+
+    $sql = "
+    DELETE FROM commande_materiel
+    WHERE idCommande = ?
+    ";
+
+    $query = $pdo->prepare($sql);
+    $query->execute([$idCommande]);
+
+    foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+        if($quantite > 0){
+
+            $sql = "
+            INSERT INTO commande_materiel
+            (
+                idCommande,
+                idMateriel,
+                quantite
+            )
+            VALUES (?, ?, ?)
+            ";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $idCommande,
+                $idMateriel,
+                $quantite
+            ]);
+        }
+    }
+}
+  
+
+    
 
     header('Location: commande-client.php');
     exit;
@@ -166,11 +305,34 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="number"
                 name="nbPersonnes"
                 value="<?= $commande['nbPersonnes']; ?>"
-                min="1"
+                min="<?= $menu['nbPersonnesMin']; ?>"
                 required
             >
 
         </div>
+
+        <br>
+
+        <h3>Matériels :</h3>
+
+       <?php foreach($materiels as $materiel): ?>
+
+        <div>
+
+            <label>
+                <?= htmlspecialchars($materiel['nom']); ?>
+            </label>
+
+            <input
+                type="number"
+                name="materiel[<?= $materiel['idMateriel']; ?>]"
+                min="0"
+                value="<?= $quantitesCommande[$materiel['idMateriel']] ?? 0; ?>"
+            >
+
+        </div>
+
+        <?php endforeach; ?>
 
         <br>
 

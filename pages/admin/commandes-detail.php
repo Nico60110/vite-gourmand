@@ -43,9 +43,7 @@ if(!$commande){
 // =========================
 
 $sql = "
-SELECT m.titre,
-       cm.quantite,
-       cm.prixUnitaire
+SELECT m.titre, m.prixParPersonne
 FROM commande_menu cm
 INNER JOIN menu m
 ON cm.idMenu = m.idMenu
@@ -178,9 +176,11 @@ $historique = $query->fetchAll();
 
                 <p><?= $menu['titre']; ?></p>
 
-                <p>Quantité : <?= $menu['quantite']; ?></p>
+                <p>
+                    <strong>Prix unitaire :</strong> 
+                <?= $menu['prixParPersonne']; ?>
+                </p>
 
-                <p>Prix : <?= $menu['prixUnitaire']; ?> €</p>
 
             <?php endforeach; ?>
 

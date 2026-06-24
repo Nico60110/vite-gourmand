@@ -105,6 +105,10 @@ $commandes = $query->fetchAll();
                 LIVREE
             </option>
 
+            <option value="LIVREE">
+                EN_ATTENTE_MATERIEL
+            </option>
+
             <option value="TERMINEE">
                 TERMINEE
             </option>
@@ -148,6 +152,20 @@ $commandes = $query->fetchAll();
                 Prix total :
                 <?= $commande['prixTotal']; ?> €
             </p>
+            
+            <p>
+                Prêt matériel :
+                <?= $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
+            </p>
+            
+            <?php if($commande['pretMateriel'] == 1): ?>
+
+                <p>
+                    Matériel rendu :
+                    <?= $commande['restitutionMateriel'] ? 'Oui' : 'Non'; ?>
+                </p>
+
+            <?php endif; ?>
 
             <span class="statut">
                 <?= $commande['statut']; ?>

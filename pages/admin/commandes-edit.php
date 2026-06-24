@@ -32,6 +32,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $statut = $_POST['statut'];
 
+    $restitutionMateriel =
+    isset($_POST['restitutionMateriel']) ? 1 : 0;
+
+    if($commande['pretMateriel'] == 1 && $restitutionMateriel == 1){
+        $statut = 'TERMINEE';
+    }
+
     // Cas annulation
     if($statut === 'ANNULEE'){
 
@@ -47,12 +54,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             // Mise à jour commande
             $sql = "
             UPDATE commande
-            SET statut = ?
+            SET 
+                statut = ?,
+                restitutionMateriel = ?
             WHERE idCommande = ?
             ";
 
             $query = $pdo->prepare($sql);
-            $query->execute([$statut, $idCommande]);
+            $query->execute([
+                $statut, 
+                $restitutionMateriel,
+                $idCommande
+            ]);
 
             // Historique
             $commentaire =
@@ -204,6 +217,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 LIVREE
             </option>
 
+            <option value="EN_ATTENTE_MATERIEL"
+                <?= $commande['statut'] === 'EN_ATTENTE_MATERIEL' ? 'selected' : ''; ?>>
+                EN_ATTENTE_MATERIEL
+            </option>
+
             <option value="TERMINEE"
                 <?= $commande['statut'] === 'TERMINEE' ? 'selected' : ''; ?>>
                 TERMINEE
@@ -262,6 +280,22 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
             <p class="error">
                 <?= $erreur; ?>
             </p>
+
+        <?php endif; ?>
+
+        <?php if($commande['pretMateriel'] == 1): ?>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="restitutionMateriel"
+                    value="1"
+                    <?= $commande['restitutionMateriel'] ? 'checked' : ''; ?>
+                >
+                Matériel restitué
+            </label>
+
+            <br><br>
 
         <?php endif; ?>
 
