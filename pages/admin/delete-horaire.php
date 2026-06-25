@@ -41,6 +41,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <link rel="stylesheet" href="../../css/admin_plat-menu.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
 

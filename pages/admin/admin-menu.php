@@ -23,6 +23,7 @@ $menus = $query->fetchAll();
     <title>Document</title>
     <link rel="stylesheet" href="../../css/menus.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
 <body>
 

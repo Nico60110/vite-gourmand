@@ -82,10 +82,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         rel="stylesheet">
     <link rel="stylesheet" href="../../css/login.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-
-
-
-
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
 

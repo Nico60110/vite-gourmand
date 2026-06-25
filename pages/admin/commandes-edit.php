@@ -146,6 +146,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <title>Document</title>
     <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
 <body>
     <?php require '../../includes/navbar.php';?>

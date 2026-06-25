@@ -97,9 +97,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <link rel="stylesheet" href="../../css/admin_plat-menu.css">
-     <link
+    <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
         rel="stylesheet">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
 

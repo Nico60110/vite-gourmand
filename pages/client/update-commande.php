@@ -240,6 +240,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
 
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
+
 </head>
 
 <body>

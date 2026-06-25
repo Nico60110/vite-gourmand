@@ -40,9 +40,25 @@ if(session_status() === PHP_SESSION_NONE){
 
             <?php if($_SESSION['user']['idRole'] == 3): ?>
 
-                <a href="/vite_gourmand/pages/commande/mes-commandes.php">
-                    Mes commandes
-                </a>
+                <div class="dropdown">
+
+                    <button class="dropdown-btn">
+                        Mon profil ▼
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="/vite_gourmand/pages/client/profile.php">
+                            Mon profil
+                        </a>
+
+                        <a href="/vite_gourmand/pages/client/commande-client.php">
+                            Mes commandes
+                        </a>
+
+                    </div>
+
+                </div>
 
             <?php endif; ?>
 
@@ -50,9 +66,37 @@ if(session_status() === PHP_SESSION_NONE){
                 $_SESSION['user']['idRole'] == 1
                 || $_SESSION['user']['idRole'] == 2): ?>
 
-                <a href="/vite_gourmand/pages/admin/commandes.php">
-                    Administration
-                </a>
+                <div class="dropdown">
+
+                    <button class="dropdown-btn">
+                        Admin ▼
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <a href="/vite_gourmand/pages/admin/commandes.php">
+                            Admin Commande
+                        </a>
+
+                        <a href="/vite_gourmand/pages/admin/admin-menu.php">
+                            Admin menu
+                        </a>
+
+                        <a href="/vite_gourmand/pages/admin/plat.php">
+                            Admin plat
+                        </a>
+
+                        <a href="/vite_gourmand/pages/admin/admin-avis.php">
+                            Admin avis
+                        </a>
+
+                        <a href="/vite_gourmand/pages/admin/horaire.php">
+                            Admin horaire
+                        </a>
+
+                    </div>
+
+                </div>
 
             <?php endif; ?>
 
