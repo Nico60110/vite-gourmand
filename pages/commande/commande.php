@@ -96,16 +96,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 
     $sql = "INSERT INTO commande
-(
-    dateLivraison,
-    heureLivraison,
-    adresseLivraison,
-    nbPersonnes,
-    prixTotal,
-    pretMateriel,
-    idUtilisateur
-)
+    (
+        dateLivraison,
+        heureLivraison,
+        adresseLivraison,
+        nbPersonnes,
+        prixTotal,
+        pretMateriel,
+        idUtilisateur
     )
+    
     VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     $query = $pdo->prepare($sql);
@@ -150,7 +150,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         idCommande,
         idMenu
     )
-    VALUES (?, ?,)";
+    VALUES (?, ?)";
 
     $query = $pdo->prepare($sql);
     $query->execute([
@@ -205,8 +205,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <link rel="stylesheet" href="../../css/commande.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/vite_gourmand/js/prix-commande.js" defer></script>
 
 </head>
+
+
+<script>
+
+const prixParPersonne = <?= $menu['prixParPersonne']; ?>;
+const nbMin = <?= $menu['nbPersonnesMin']; ?>;
+const prixLivraison = <?= $prixLivraison; ?>;
+
+</script>
+
+
 
 <body>
     <?php require '../../includes/navbar.php';?>
@@ -315,6 +327,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                        <input
                             type="number"
                             name="nbPersonnes"
+                            id="nbPersonnes"
                             placeholder="nombre personnes"
                             min="<?= $menu['nbPersonnesMin']; ?>"
                             required>
@@ -374,22 +387,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 <div class="summary-item">
                     <span>Menu</span>
-                    <span><?= number_format($prixMenu, 2); ?> €</span>
+                    <span id="prixMenu"><?= number_format($prixMenu, 2); ?> €</span>
                 </div>
 
                 <div class="summary-item">
                     <span>Réduction</span>
-                    <span>-<?= number_format($reduction, 2); ?> €</span>
+                    <span id="reduction">-<?= number_format($reduction, 2); ?> €</span>
                 </div>
 
                 <div class="summary-item">
                     <span>Livraison</span>
-                    <span><?= number_format($prixLivraison, 2); ?> €</span>
+                    <span id="livraison"><?= number_format($prixLivraison, 2); ?> €</span>
                 </div>
 
                 <div class="summary-item total">
                     <span>Total</span>
-                    <span><?= number_format($prixTotal, 2); ?> €</span>
+                    <span id="prixTotal"><?= number_format($prixTotal, 2); ?> €</span>
                 </div>
 
                 <button type="submit" class="btn">

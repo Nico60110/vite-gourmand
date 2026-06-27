@@ -134,9 +134,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 <select name="theme">
 
-                    <option value="Classique"
-                        <?= $menu['theme'] === 'Classique' ? 'selected' : ''; ?>>
-                        Classique
+                    <option value="Tradition"
+                        <?= $menu['theme'] === 'Tradition' ? 'selected' : ''; ?>>
+                        Tradition
                     </option>
 
                     <option value="Noël"
@@ -144,9 +144,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         Noël
                     </option>
 
-                    <option value="Vegan"
-                        <?= $menu['theme'] === 'Vegan' ? 'selected' : ''; ?>>
-                        Vegan
+                    <option value="Vegetal"
+                        <?= $menu['theme'] === 'Vegetal' ? 'selected' : ''; ?>>
+                        Vegetal
+                    </option>
+
+                    <option value="Pizza"
+                        <?= $menu['theme'] === 'Pizza' ? 'selected' : ''; ?>>
+                        Pizza
                     </option>
 
                 </select>
