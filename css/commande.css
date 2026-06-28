@@ -340,6 +340,10 @@ textarea {
     margin-bottom: 12px;
 }
 
+.cache {
+    display: none;
+}
+
 /* =========================
    BOUTON
 ========================= */

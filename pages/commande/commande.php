@@ -206,6 +206,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
     <script src="/vite_gourmand/js/prix-commande.js" defer></script>
+    <script src="/vite_gourmand/js/commande.js" defer></script>
 
 </head>
 
@@ -336,12 +337,13 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
                     <div>
                         <label>
-                            <input type="checkbox" name="pretMateriel">
+                            <input type="checkbox" id="pretMateriel" name="pretMateriel">
                             Je souhaite un prêt de matériel
                         </label>
                     </div>
 
-                    <h3>Prêt de matériel</h3>
+                    <div id="listeMateriel" class="cache">
+                        <h3>Prêt de matériel</h3>
 
                    <?php foreach($materiels as $materiel): ?>
 
@@ -362,6 +364,10 @@ const prixLivraison = <?= $prixLivraison; ?>;
                         </div>
 
                     <?php endforeach; ?>
+
+                    </div>
+
+                    
 
                     <!-- CONDITIONS -->
 
