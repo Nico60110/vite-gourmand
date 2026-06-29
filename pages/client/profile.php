@@ -101,6 +101,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
         rel="stylesheet">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/vite_gourmand/js/profile.js" defer></script>
 
 </head>
 
@@ -130,7 +131,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="nom"
                 value="<?= htmlspecialchars($utilisateur['nom']); ?>"
-                required
+                readonly
             >
 
         </div>
@@ -144,7 +145,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             type="text"
             name="prenom"
             value="<?= htmlspecialchars($utilisateur['prenom']); ?>"
-            required
+            readonly
             >
         </div>
 
@@ -158,7 +159,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="email"
                 name="email"
                 value="<?= htmlspecialchars($utilisateur['email']); ?>"
-                required
+                readonly
             >
 
         </div>
@@ -172,6 +173,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="telephone"
                 value="<?= htmlspecialchars($utilisateur['telephone']); ?>"
+                readonly
             >
         </div>
 
@@ -184,6 +186,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="adresse"
                 value="<?= htmlspecialchars($utilisateur['adresse']); ?>"
+                readonly
             >
         </div>
 
@@ -196,6 +199,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="codePostal"
                 value="<?= htmlspecialchars($utilisateur['codePostal']); ?>"
+                readonly
             >
         </div>
 
@@ -208,6 +212,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="pays"
                 value="<?= htmlspecialchars($utilisateur['pays']); ?>"
+                readonly
             >
         </div>
 
@@ -220,13 +225,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="text"
                 name="ville"
                 value="<?= htmlspecialchars($utilisateur['ville']); ?>"
+                readonly
             >
         </div>
 
         <br>
 
-        <button type="submit" class="btn">
+        <button type="button" id="btnModifier" class="btn">
             Modifier mes informations
+        </button>
+
+        <button
+            type="submit"
+            id="btnEnregistrer"
+            class="btn"
+            style="display:none;">
+            Enregistrer
         </button>
 
     </form>
