@@ -1,11 +1,8 @@
 <?php 
 
 require '../config/database.php';
-require '../vendor/autoload.php';
-$mailConfig = require '../config/mail.php';
+require '../config/mail.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 $success = null;
 $erreur = null;
@@ -13,66 +10,44 @@ $erreur = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 🔐 Sécurisation / validation
-    $titre = trim($_POST['titre'] ?? '');
-    $email = filter_var($_POST['email'] ?? '', FILTER_VALIDATE_EMAIL);
-    $message = trim($_POST['message'] ?? '');
+    $nom = trim($_POST['nom']);
+    $email = trim($_POST['email']);
+    $titre = trim($_POST['titre']);
+    $message = trim($_POST['message']);
 
-    if (empty($titre) || empty($email) || empty($message)) {
+    if (empty($nom) || empty($titre) || empty($email) || empty($message)) {
         $erreur = "Tous les champs sont obligatoires.";
     } else {
 
-        try {
-
-            // 💾 INSERT BDD
+            //  INSERT BDD
             $sql = 'INSERT INTO contact (titre, email, message, dateContact) 
                     VALUES (?, ?, ?, NOW())';
 
             $query = $pdo->prepare($sql);
             $query->execute([$titre, $email, $message]);
 
-            // 📧 ENVOI EMAIL
-            $mail = new PHPMailer(true);
+            $sujetMail = "Nouveau message de contact : " . $titre;
 
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = $mailConfig['username'];
-            $mail->Password = $mailConfig['password'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $messageMail = "
+            <h2>Nouveau message reçu</h2>
 
-            $mail->setFrom(
-                $mailConfig['from_email'],
-                $mailConfig['from_name']
-                );
-            
-            $mail->addAddress(
-                $mailConfig['to_email']
-            );
+            <p><strong>Nom :</strong> {$nom}</p>
 
-            
-            $mail->addReplyTo($email);
+            <p><strong>Email :</strong> {$email}</p>
 
-            $mail->isHTML(true);
-            $mail->Subject = $titre;
+            <p><strong>Titre :</strong> {$titre}</p>
 
-            $mail->Body = "
-                <h3>Nouveau message reçu</h3>
-                <p><b>Email :</b> $email</p>
-                <p><b>Titre :</b> $titre</p>
-                <p><b>Message :</b><br>" . nl2br($message) . "</p>
+            <p><strong>Message :</strong></p>
+
+            <p>{$message}</p>
             ";
 
-            
-            $mail->SMTPDebug = 0;
-
-            $mail->send();
-
-            $success = "Message envoyé avec succès.";
-
-        } catch (Exception $e) {
-            $erreur = "Erreur lors de l'envoi du message.";
-        }
+            envoyerMail(
+                "vitegourmandoff@gmail.com",
+                "Administrateur",
+                $sujetMail,
+                $messageMail
+            );
     }
 }
 ?>
@@ -149,11 +124,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST" class="contact-form">
 
         <div class="row">
-            <input type="text" name="titre" placeholder="Titre">
-            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="nom" placeholder="Votre nom" required>
+            <input type="text" name="titre"  placeholder="Titre" required>
         </div>
 
-        <textarea name="message" placeholder="Votre Message"></textarea>
+        <div>
+            <input type="email" name="email" placeholder="Email" required>
+            
+            <textarea name="message" placeholder="Votre Message" required></textarea>
+        </div>
+       
 
         <button type="submit" class="btn">
             Envoyer le message →

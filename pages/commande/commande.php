@@ -1,5 +1,7 @@
 <?php
 require '../../config/database.php';
+require '../../config/mail.php';
+
 session_start();
 
 if(!isset($_SESSION['user'])){
@@ -174,8 +176,39 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $idCommande
     ]);
 
-    
+    $sujet = "Confirmation de votre commande";
 
+    $message = "
+    <h2>Bonjour {$utilisateur['prenom']},</h2>
+
+    <p>Nous avons bien reçu votre commande.</p>
+
+    <p>
+        <strong>Numéro de commande :</strong> {$idCommande}<br>
+        <strong>Date de livraison :</strong> {$dateLivraison}<br>
+        <strong>Heure de livraison :</strong> {$heureLivraison}<br>
+        <strong>Nombre de personnes :</strong> {$nbPersonnes}<br>
+        <strong>Montant total :</strong> {$prixTotal} €
+    </p>
+
+    <p>
+        Votre commande est actuellement <strong>EN ATTENTE</strong>.
+    </p>
+
+    <p>
+        Merci pour votre confiance.<br>
+        L'équipe <strong>Vite & Gourmand</strong>
+    </p>
+    ";
+
+    envoyerMail(
+        $utilisateur['email'],
+        $utilisateur['prenom'],
+        $sujet,
+        $message
+    );
+
+    
     header("Location: ../menu/menus.php");
     exit;
 
@@ -337,7 +370,7 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
                     <div>
                         <label>
-                            <input type="checkbox" id="pretMateriel" name="pretMateriel">
+                            <input type="checkbox" id="pretMateriel">
                             Je souhaite un prêt de matériel
                         </label>
                     </div>

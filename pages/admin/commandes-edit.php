@@ -2,6 +2,7 @@
 
 require '../../config/auth-admin.php';
 require '../../config/database.php';
+require '../../config/mail.php';
 
 if(!isset($_GET['id'])){
 
@@ -111,6 +112,51 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         $query = $pdo->prepare($sql);
         $query->execute([$statut, $idCommande]);
+
+        if($statut === 'TERMINEE'){
+
+    $sql = "
+    SELECT email, prenom
+    FROM utilisateur
+    WHERE idUtilisateur = ?
+    ";
+
+    $query = $pdo->prepare($sql);
+
+    $query->execute([$commande['idUtilisateur']]);
+
+    $client = $query->fetch();
+
+    $sujet = "Votre commande est terminée";
+
+    $message = "
+    <h2>Bonjour {$client['prenom']},</h2>
+
+    <p>
+        Votre commande est maintenant terminée.
+    </p>
+
+    <p>
+        Nous espérons que notre prestation vous a satisfait.
+    </p>
+
+    <p>
+        Vous pouvez dès maintenant vous connecter afin de laisser un avis.
+    </p>
+
+    <br>
+
+    <p>
+        L'équipe <strong>Vite & Gourmand</strong>
+    </p>
+    ";
+
+    envoyerMail(
+        $client['email'],
+        $client['prenom'],
+        $sujet,
+        $message);
+    }
 
         $sql = "
         INSERT INTO historique_statut

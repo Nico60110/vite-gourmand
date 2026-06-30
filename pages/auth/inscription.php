@@ -1,6 +1,7 @@
 <?php
 
 require '../../config/database.php';
+require '../../config/mail.php';
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
@@ -99,6 +100,43 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 $pays,
                 $idRole
             ]);
+
+            $sujet = "Bienvenue chez Vite & Gourmand";
+
+            $message = "
+            <h2>Bienvenue {$firstname} !</h2>
+
+            <p>
+            Nous sommes ravis de vous accueillir sur <strong>Vite & Gourmand</strong>.
+            </p>
+
+            <p>
+            Votre compte a été créé avec succès. Vous pouvez dès maintenant :
+            </p>
+
+            <ul>
+                <li>Découvrir nos menus.</li>
+                <li>Commander en ligne.</li>
+                <li>Suivre vos commandes.</li>
+                <li>Laisser un avis après vos prestations.</li>
+            </ul>
+
+            <p>
+            Nous espérons avoir le plaisir de préparer vos prochains événements.
+            </p>
+
+            <p>
+            À bientôt,<br>
+            L'équipe <strong>Vite & Gourmand</strong>
+            </p>
+            ";
+
+            envoyerMail(
+                $email,
+                $firstname,
+                $sujet,
+                $message
+            );
             
 
             header("Location: login.php");
@@ -179,21 +217,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                     <div class="form-grid">
 
-                        <input type="text" name="firstname" placeholder="Prenom">
+                        <input type="text" name="firstname" required placeholder="Prenom">
 
-                        <input type="text"  name="lastname" placeholder="Nom">
+                        <input type="text"  name="lastname" required placeholder="Nom">
 
-                        <input type="email"  name="email" placeholder="Email" class="full-width">
+                        <input type="email"  name="email" required placeholder="Email" class="full-width">
 
-                        <input type="text"  name="adresse" placeholder="Adresse" class="full-width">
+                        <input type="text"  name="adresse" required placeholder="Adresse" class="full-width">
 
-                        <input type="text"  name="code_postale" placeholder="Code postale" class="full-width">
+                        <input type="text"  name="code_postale" required placeholder="Code postale" class="full-width">
 
-                        <input type="tel"  name="phone" placeholder="Téléphone" class="full-width">
+                        <input type="tel"  name="phone" required placeholder="Téléphone" class="full-width">
 
-                        <input type="text"  name="ville" placeholder="Ville" class="full-width">
+                        <input type="text"  name="ville" required placeholder="Ville" class="full-width">
 
-                        <input type="text"  name="pays" placeholder="Pays" class="full-width">
+                        <input type="text"  name="pays" required placeholder="Pays" class="full-width">
 
                         
 
@@ -211,9 +249,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                     <div class="security-box">
 
-                        <input type="password"  name="password" placeholder="Mot de passe">
+                        <input type="password"  name="password" required placeholder="Mot de passe">
 
-                        <input type="password"  name="confirm_password" placeholder="Confirmer mot de passe">
+                        <input type="password"  name="confirm_password" required placeholder="Confirmer mot de passe">
 
                        <button type="submit" class="btn">
                             Créer mon compte →
