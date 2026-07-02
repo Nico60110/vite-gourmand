@@ -1,6 +1,9 @@
 <?php
 require '../../config/database.php';
 require '../../config/mail.php';
+require '../../config/mongo.php';
+/*var_dump(isset($collectionStatistiques));
+die();*/
 
 session_start();
 
@@ -174,6 +177,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         'EN_ATTENTE',
         'Commande créée',
         $idCommande
+    ]);
+
+   $collectionStatistiques->insertOne([
+
+    "idCommande" => (int)$idCommande,
+
+    "idMenu" => (int)$idMenu,
+
+    "nomMenu" => $menu['titre'],
+
+    "prix" => (float)$prixTotal,
+
+    "dateCommande" => new MongoDB\BSON\UTCDateTime(),
+
+    "nbPersonnes" => (int)$nbPersonnes
+
     ]);
 
     $sujet = "Confirmation de votre commande";

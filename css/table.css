@@ -1,0 +1,62 @@
+table {
+
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+
+}
+
+th,
+td {
+
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+
+}
+
+th {
+
+    background: #f3f3f3;
+
+}
+
+.filters {
+    background: white;
+    margin: 50px auto;
+    width: 90%;
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.filters input,
+.filters select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    min-width: 180px;
+    font-size: 15px;
+}
+
+
+.desactiver {
+
+    background: #d9534f;
+
+}
+
+.reactiver {
+
+    background: #28a745;
+
+}
+
+.graphique {
+    margin: 30px auto;
+    max-width: 900px;
+}

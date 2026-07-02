@@ -20,6 +20,15 @@ body {
     color: #4E342E;
 }
 
+.page-title {
+    padding: 30px;
+    margin: 30px;
+    text-align: center;
+    color: #4E342E;
+    font-size: 40px;
+    font-family: 'Playfair Display', serif;
+}
+
 /* =========================
    CONTAINER PRINCIPAL
 ========================= */

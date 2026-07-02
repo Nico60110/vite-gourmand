@@ -18,7 +18,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     // RECHERCHE UTILISATEUR
     // =========================
 
-    $sql = "SELECT * FROM utilisateur WHERE email = ?";
+    $sql = "SELECT * FROM utilisateur WHERE email = ? AND actif = 1"  ;
 
     $query = $pdo->prepare($sql);
 
