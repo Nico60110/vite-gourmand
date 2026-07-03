@@ -104,7 +104,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <title>Modifier un menu</title>
 
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
@@ -115,9 +115,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <main class="container">
 
-        <h1>Modifier un menu</h1>
+        <h1 class="page-title">Modifier un menu</h1>
 
-        <div class="form-card">
+        <div class="card">
 
             <form method="POST" class="form-grid">
 

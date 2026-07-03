@@ -46,7 +46,7 @@ $commandes = $query->fetchAll();
     <title>Mes commandes</title>
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
@@ -57,7 +57,7 @@ $commandes = $query->fetchAll();
 
 <main class="container">
 
-    <h1>Mes commandes</h1>
+    <h1 class="page-title">Mes commandes</h1>
 
     <?php if(empty($commandes)): ?>
 
@@ -67,7 +67,7 @@ $commandes = $query->fetchAll();
 
     <?php foreach($commandes as $commande): ?>
 
-    <div class="commande-card">
+    <div class="card">
 
         <h3>
             Commande #<?= $commande['idCommande']; ?>

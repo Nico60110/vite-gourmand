@@ -109,7 +109,7 @@ foreach($allergenesSelectionnes as $idAllergene){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
@@ -118,9 +118,9 @@ foreach($allergenesSelectionnes as $idAllergene){
     <?php require '../../includes/navbar.php';?>
 
     <main class="container">
-        <h1>Modifier un plat</h1>
+        <h1 class="page-title">Modifier un plat</h1>
 
-        <div class="form-card">
+        <div class="card">
     <form method="POST" class="form-grid">
 
                 <input
@@ -165,6 +165,8 @@ foreach($allergenesSelectionnes as $idAllergene){
                 >
 
                 <?php endif; ?>
+
+                <br>
 
                 <h3>Allergènes</h3>
 

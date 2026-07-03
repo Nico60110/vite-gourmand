@@ -137,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link rel="stylesheet" href="../../css/inscription.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
 
@@ -144,11 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php require '../../includes/navbar.php'; ?>
 
-<h1 class="page-title">
-    Création d'un compte employé
-</h1>
+
 
 <main class="register-container">
+
+    <h1 class="page-title">
+    Création d'un compte employé
+    </h1>
 
     <?php if($erreur): ?>
 

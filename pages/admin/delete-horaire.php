@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <title>Supprimer un horaire</title>
 
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
@@ -50,9 +50,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <main class="container">
 
-    <h1>Supprimer un horaire</h1>
+    <h1 class="page-title">Supprimer un horaire</h1>
 
-    <div class="form-card">
+    <div class="card">
 
         <h2><?= $horaire['jour']; ?></h2>
 

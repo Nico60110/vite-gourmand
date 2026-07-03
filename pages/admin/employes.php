@@ -78,8 +78,9 @@ $employes = $query->fetchAll();
 <title>Gestion des employés</title>
 
 <link rel="stylesheet" href="../../css/vite&gourmand.css">
-<link rel="stylesheet" href="../../css/admin_plat-menu.css">
+<link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
 <link rel="stylesheet" href="../../css/table.css">
+<script src="/vite_gourmand/js/navbar.js" defer></script>
 
 
 </head>
@@ -137,7 +138,7 @@ $employes = $query->fetchAll();
         <?php if($employe['actif']): ?>
 
             <a
-                class="btn desactiver"
+                class=" desactiver"
                 href="?action=desactiver&id=<?= $employe['idUtilisateur']; ?>"
                 onclick="return confirm('Désactiver cet employé ?')">
 
@@ -148,7 +149,7 @@ $employes = $query->fetchAll();
         <?php else: ?>
 
             <a
-                class="btn reactiver"
+                class=" reactiver"
                 href="?action=reactiver&id=<?= $employe['idUtilisateur']; ?>">
 
                 Réactiver

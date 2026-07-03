@@ -1,20 +1,4 @@
 /* =========================
-   RESET
-========================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: #F8F5F2;
-    color: #4E342E;
-}
-
-/* =========================
    CONTAINER
 ========================= */
 
@@ -29,23 +13,17 @@ body {
 /* =========================
    TITLE
 ========================= */
-.page-title {
 
-    text-align: center;
 
-    font-family: 'Playfair Display', serif;
-
-    font-size: 40px;
-
-    margin-bottom: 40px;
+h2 {
+    margin-bottom: 20px;
 }
 
 /* =========================
    FORM
 ========================= */
 
-.form-card {
-
+.card {
     background: white;
 
     padding: 40px;
@@ -74,6 +52,8 @@ body {
 
     border-radius: 10px;
 }
+
+
 
 /* =========================
    INPUTS
@@ -123,17 +103,6 @@ label {
     font-weight: 500;
 }
 
-.allergenes-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.allergenes-list label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
 
 /* =========================
    BUTTON
@@ -150,6 +119,8 @@ label {
     border: none;
 
     padding: 18px;
+
+    margin-top: 20px;
 
     border-radius: 8px;
 
@@ -195,7 +166,7 @@ label {
 
 @media(max-width:768px) {
 
-    h1 {
+    .page-title {
 
         font-size: 32px;
     }

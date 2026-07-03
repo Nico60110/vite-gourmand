@@ -67,16 +67,16 @@ $allergenes = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
 <body>
     <?php require '../../includes/navbar.php';?>
     <main class="container">
-        <h1>Ajouter un plat</h1>
+        <h1 class="page-title">Ajouter un plat</h1>
 
-        <div class="form-card">
+        <div class="card">
             <form method="POST" class="form-grid">
 
             <input type="text"
@@ -92,11 +92,12 @@ $allergenes = $query->fetchAll();
 
             <input type="text"
                 name="photo"
-                placeholder="URL de la photo">
+                placeholder="URL de la photo"
+            >
+            
+            <br>
 
             <h3>Allergènes</h3>
-
-                <div class="allergenes-list">
 
                     <?php foreach($allergenes as $allergene): ?>
 
@@ -119,8 +120,6 @@ $allergenes = $query->fetchAll();
                 </button>
 
                 </form>
-
-                </div>
 
     </main>
 

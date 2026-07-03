@@ -82,7 +82,7 @@ $historique = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
@@ -195,21 +195,18 @@ $historique = $query->fetchAll();
 
             <?php foreach($historique as $item): ?>
 
-                <div class="historique-item">
 
-                    <strong>
-                        <?= $item['statut']; ?>
-                    </strong>
+                <strong>
+                    <?= $item['statut']; ?>
+                </strong>
 
-                    <p>
-                        <?= $item['dateStatut']; ?>
-                    </p>
+                <p>
+                    <?= $item['dateStatut']; ?>
+                </p>
 
-                    <p>
-                        <?= $item['commentaire']; ?>
-                    </p>
-
-                </div>
+                <p>
+                    <?= $item['commentaire']; ?>
+                </p>
 
             <?php endforeach; ?>
 

@@ -437,3 +437,44 @@ nav {
         gap: 20px;
     }
 }
+
+
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #F8F5F2;
+    color: #4E342E;
+}
+
+.page-title {
+
+    text-align: center;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 40px;
+
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+
+}
+
+h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}

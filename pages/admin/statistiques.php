@@ -121,8 +121,10 @@ foreach ($resultats as $ligne) {
     <title>Statistiques</title>
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
+    <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/table.css">
+    <script src="/vite_gourmand/js/navbar.js" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

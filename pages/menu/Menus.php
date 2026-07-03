@@ -63,8 +63,8 @@ $menus = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/menus.css">
+    <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
     <script src="/vite_gourmand/js/filtres.js" defer></script>
@@ -159,7 +159,7 @@ $menus = $query->fetchAll();
                             <?= $menu['theme']; ?>
                         </span>
 
-                        <h2><?= $menu['titre']; ?></h2>
+                        <h3><?= $menu['titre']; ?></h3>
 
                         <p><?= $menu['description']; ?></p>
 

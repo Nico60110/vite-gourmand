@@ -22,7 +22,7 @@ $horaires = $query->fetchAll();
 
     <title>Gestion des horaires</title>
 
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
@@ -34,9 +34,9 @@ $horaires = $query->fetchAll();
 
 <main class="container">
 
-    <h1>Gestion des horaires</h1>
+    <h1 class="page-title">Gestion des horaires</h1>
 
-    <div class="form-card">
+    <div class="card">
 
         <?php foreach($horaires as $horaire): ?>
 

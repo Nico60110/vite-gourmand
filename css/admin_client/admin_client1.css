@@ -6,17 +6,6 @@
     margin: 70px auto;
 }
 
-.page-title {
-
-    font-family: 'Playfair Display', serif;
-
-    text-align: center;
-
-    font-size: 42px;
-
-    margin-bottom: 40px;
-}
-
 
 .detail-layout {
 
@@ -28,24 +17,18 @@
 }
 
 .card {
-
     background: white;
 
     border-radius: 18px;
 
     padding: 35px;
 
+    margin-bottom: 20px;
+
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.card h2 {
 
-    font-family: 'Playfair Display', serif;
-
-    margin-bottom: 20px;
-
-    font-size: 30px;
-}
 
 .card p {
 
@@ -73,17 +56,6 @@
     font-weight: 600;
 }
 
-.historique-item {
-
-    padding: 15px;
-
-    background: #F8F5F2;
-
-    border-radius: 10px;
-
-    margin-bottom: 15px;
-}
-
 select,
 textarea {
     width: 100%;
@@ -107,6 +79,8 @@ input {
     background: #E67E22;
 
     color: white;
+
+    text-decoration: none;
 
     margin-top: 20px;
 

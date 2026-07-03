@@ -126,7 +126,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
     <title>Laisser un avis</title>
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
@@ -137,7 +137,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
 
 <main class="container">
 
-    <h1>Laisser un avis</h1>
+    <h1 class="page-title">Laisser un avis</h1>
 
     <?php if(isset($erreur)): ?>
 
@@ -149,7 +149,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
 
     <?php if(!$avisExistant): ?>
 
-        <form method="POST">
+        <form method="POST" class="card">
 
             <div>
 

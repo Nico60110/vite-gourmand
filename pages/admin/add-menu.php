@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../css/admin_plat-menu.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <h1 class="page-title">Ajouter un menu</h1>
 
-    <div class="form-card">
+    <div class="card">
 
         <form method="POST" class="form-grid">
 

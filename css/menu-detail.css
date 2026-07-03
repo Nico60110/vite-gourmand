@@ -1,31 +1,4 @@
 /* =========================
-   RESET CSS
-========================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* =========================
-   STYLE GENERAL
-========================= */
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: #F8F5F2;
-    color: #4E342E;
-}
-
-/* Suppression du style des liens */
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* =========================
    HERO SECTION
 ========================= */
 
@@ -152,16 +125,7 @@ a {
     font-size: 14px;
 }
 
-/* Titre menu */
 
-.menu-info h2 {
-
-    font-family: 'Playfair Display', serif;
-
-    font-size: 32px;
-
-    margin-bottom: 20px;
-}
 
 /* Texte description */
 
@@ -208,8 +172,6 @@ a {
 
 .conditions h3 {
 
-    margin-bottom: 15px;
-
     color: #E67E22;
 }
 
@@ -239,6 +201,14 @@ a {
     margin-bottom: 10px;
 
     font-size: 16px;
+}
+
+
+/* Suppression du style des liens */
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* =========================
@@ -288,18 +258,6 @@ a {
     margin-bottom: 60px;
 }
 
-/* Titre section composition */
-
-.composition h2 {
-
-    font-family: 'Playfair Display', serif;
-
-    margin-bottom: 30px;
-
-    font-size: 32px;
-
-}
-
 /* Catégorie :
    Entrée / Plat / Dessert */
 
@@ -312,11 +270,8 @@ a {
 
 .category h3 {
 
-    margin-bottom: 20px;
-
     color: #E67E22;
 
-    font-size: 24px;
 }
 
 /* Carte plat */

@@ -238,7 +238,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
 
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
 
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
@@ -250,9 +250,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <main class="container">
 
-    <h1>Modifier ma commande</h1>
+    <h1 class="page-title">Modifier ma commande</h1>
 
-    <form method="POST">
+    <form method="POST" class="card">
 
         <div>
 
@@ -331,8 +331,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 min="0"
                 value="<?= $quantitesCommande[$materiel['idMateriel']] ?? 0; ?>"
             >
+            
 
         </div>
+
+        <br>
 
         <?php endforeach; ?>
 
@@ -342,7 +345,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             Enregistrer les modifications
         </button>
 
-        <a href="mes-commandes.php" class="btn">
+        <a href="commande-client.php" class="btn">
             Retour
         </a>
 

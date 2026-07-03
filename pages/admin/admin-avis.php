@@ -33,7 +33,7 @@ $avis = $query->fetchAll();
     <title>Gestion des avis</title>
 
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 
 </head>
@@ -44,7 +44,7 @@ $avis = $query->fetchAll();
 
 <main class="container">
 
-    <h1>Gestion des avis clients</h1>
+    <h1 class="page-title">Gestion des avis clients</h1>
 
     <?php if(empty($avis)): ?>
 

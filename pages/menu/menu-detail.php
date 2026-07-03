@@ -94,8 +94,6 @@ foreach($resultatsAllergenes as $allergene){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title><?= $menu['titre']; ?></title>
-  <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/menu-detail.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>

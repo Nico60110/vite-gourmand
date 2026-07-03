@@ -74,12 +74,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Connexion - Vite & Gourmand</title>
-
-    <!-- GOOGLE FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="../../css/login.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -151,20 +145,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
                 </div>
 
-                <!-- OPTIONS -->
-
-                <div class="options">
-
-                    <label>
-                        <input type="checkbox">
-                        Se souvenir de moi
-                    </label>
-
-                    <a href="#" class="forgot-password">
+                <a href="#" class="forgot-password">
                         Mot de passe oublié ?
-                    </a>
+                </a>
 
-                </div>
+                
 
                 <!-- BUTTON -->
 

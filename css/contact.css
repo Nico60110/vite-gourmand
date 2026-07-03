@@ -1,39 +1,4 @@
 /* =========================
-   RESET CSS
-========================= */
-
-/* Suppression des marges et paddings par défaut */
-
-* {
-    margin: 0;
-    padding: 0;
-
-    /* Permet d’inclure padding + border
-       dans la largeur totale */
-
-    box-sizing: border-box;
-}
-
-/* =========================
-   STYLE GENERAL
-========================= */
-
-body {
-
-    /* Police principale */
-
-    font-family: 'Roboto', sans-serif;
-
-    /* Couleur de fond globale */
-
-    background: #F8F5F2;
-
-    /* Couleur texte principale */
-
-    color: #4E342E;
-}
-
-/* =========================
    HERO SECTION
 ========================= */
 
@@ -162,17 +127,6 @@ body {
     color: #E67E22;
 }
 
-/* Titre information */
-
-.info-item h3 {
-
-    margin-bottom: 10px;
-
-    font-family: 'Playfair Display', serif;
-
-    font-size: 24px;
-}
-
 /* Texte information */
 
 .info-item p {
@@ -296,17 +250,6 @@ textarea {
     color: #E67E22;
 
     margin-bottom: 20px;
-}
-
-/* Titre feature */
-
-.feature h3 {
-
-    font-family: 'Playfair Display', serif;
-
-    margin-bottom: 20px;
-
-    font-size: 24px;
 }
 
 /* Texte feature */

@@ -2,8 +2,6 @@
 require '../../config/database.php';
 require '../../config/mail.php';
 require '../../config/mongo.php';
-/*var_dump(isset($collectionStatistiques));
-die();*/
 
 session_start();
 
@@ -248,12 +246,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Commande - Vite & Gourmand</title>
-
-    <!-- GOOGLE FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
-        rel="stylesheet">
+    
     <link rel="stylesheet" href="../../css/commande.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -387,38 +380,36 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
                     </div>
 
-                    <div>
+                    <div class="pret-materiel-check">
                         <label>
                             <input type="checkbox" id="pretMateriel">
                             Je souhaite un prêt de matériel
                         </label>
                     </div>
 
-                    <div id="listeMateriel" class="cache">
+                    <div id="listeMateriel" class="materiel-list cache">
+
                         <h3>Prêt de matériel</h3>
 
-                   <?php foreach($materiels as $materiel): ?>
+                        <?php foreach($materiels as $materiel): ?>
 
-                        <div>
+                            <div class="materiel-item">
 
-                            <label>
-                                <?= htmlspecialchars($materiel['nom']); ?>
-                            </label>
+                                <label>
+                                    <?= htmlspecialchars($materiel['nom']); ?>
+                                </label>
 
-                            <input
-                                type="number"
-                                name="materiel[<?= $materiel['idMateriel']; ?>]"
-                                min="0"
-                                value="0"
-                                
-                            >
+                                <input
+                                    type="number"
+                                    name="materiel[<?= $materiel['idMateriel']; ?>]"
+                                    min="0"
+                                    value="0">
 
-                        </div>
+                            </div>
 
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
 
                     </div>
-
                     
 
                     <!-- CONDITIONS -->

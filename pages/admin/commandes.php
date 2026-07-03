@@ -69,7 +69,8 @@ $commandes = $query->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>admin-commandes</title>
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
+    <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 </head>
@@ -78,7 +79,7 @@ $commandes = $query->fetchAll();
     
 <section class="container">
 
-    <form method="GET" class="filter-form">
+    <form method="GET" class="filters">
 
         <select name="statut">
 

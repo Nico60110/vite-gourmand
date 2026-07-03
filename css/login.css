@@ -1,25 +1,4 @@
 /* =========================
-           RESET
-        ========================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: #F8F5F2;
-    color: #4E342E;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-/* =========================
            CONTAINER
         ========================= */
 
@@ -119,20 +98,11 @@ a {
     padding: 70px;
 }
 
-.login-form h2 {
+.login-form .subtitle {
 
-    font-family: 'Playfair Display', serif;
+    margin-bottom: 30px;
 
-    font-size: 32px;
-
-    margin-bottom: 15px;
-}
-
-.subtitle {
-
-    margin-bottom: 50px;
-
-    color: #6D6D6D;
+    color: #4E342E;
 
     line-height: 1.5;
 }
@@ -177,28 +147,17 @@ a {
     border-color: #E67E22;
 }
 
-/* =========================
-           OPTIONS
-        ========================= */
-
-.options {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 35px;
-
-    font-size: 16px;
-}
 
 .forgot-password {
 
     color: #E67E22;
 
     font-weight: 500;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* =========================
@@ -226,6 +185,8 @@ a {
     transition: 0.3s;
 
     margin-bottom: 25px;
+
+    margin-top: 25px;
 }
 
 .btn:hover {
@@ -288,14 +249,6 @@ a {
     color: #E67E22;
 }
 
-.feature h3 {
-
-    font-family: 'Playfair Display', serif;
-
-    margin-bottom: 15px;
-
-    font-size: 24px;
-}
 
 .feature p {
 

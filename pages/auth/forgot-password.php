@@ -143,7 +143,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($token) && $utilisateurToken)
 <head>
     <meta charset="UTF-8">
     <title>Mot de passe oublié</title>
-    <link rel="stylesheet" href="../../css/admin/commandes-admin.css">
+    <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     link
 </head>

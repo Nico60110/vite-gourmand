@@ -155,12 +155,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     <title>Inscription - Vite & Gourmand</title>
     <link rel="stylesheet" href="../../css/inscription.css">
-
-    <!-- GOOGLE FONT -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Roboto:wght@400;500&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
 

@@ -31,9 +31,6 @@ $avis = $query->fetchAll();
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vite & Gourmand</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="css/accueil.css">
   <link rel="stylesheet" href="css/vite&gourmand.css">
   <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -58,7 +55,7 @@ $avis = $query->fetchAll();
         pour tous vos événements
       </p>
 
-      <a href="#" class="btn">
+      <a href="pages/menu/Menus.php" class="btn">
         Découvrir nos menus →
       </a>
 
@@ -100,42 +97,37 @@ $avis = $query->fetchAll();
 
     <h2>Avis de nos clients</h2>
 
-   <div class="testimonial-grid">
+    <div class="avis-slider">
 
-    <?php foreach($avis as $unAvis): ?>
+        <?php foreach($avis as $index => $unAvis): ?>
 
-        <div class="card">
+            <div class="card avis-card <?= $index === 0 ? 'active' : ''; ?>">
 
-            <div class="stars">
+                <div class="stars">
+                    <?php for($i = 0; $i < $unAvis['note']; $i++): ?>
+                        ⭐
+                    <?php endfor; ?>
+                </div>
 
-                <?php for($i = 0; $i < $unAvis['note']; $i++): ?>
+                <p><?= htmlspecialchars($unAvis['commentaire']); ?></p>
 
-                    ⭐
-
-                <?php endfor; ?>
+                <strong>
+                    <?= htmlspecialchars($unAvis['prenom']); ?>
+                    <?= strtoupper(substr($unAvis['nom'], 0, 1)); ?>.
+                </strong>
 
             </div>
 
-            <p>
+        <?php endforeach; ?>
 
-                "<?= htmlspecialchars($unAvis['commentaire']); ?>"
-
-            </p>
-
-            <strong>
-
-                <?= htmlspecialchars($unAvis['prenom']); ?>
-                <?= strtoupper(substr($unAvis['nom'], 0, 1)); ?>.
-
-            </strong>
-
+        <div class="avis-buttons">
+            <button type="button" id="prevAvis" class="btn">←</button>
+            <button type="button" id="nextAvis" class="btn">→</button>
         </div>
 
-    <?php endforeach; ?>
+    </div>
 
-</div>
-
-  </section>
+</section>
 
   <?php require 'includes/footer.php'; ?>
 
