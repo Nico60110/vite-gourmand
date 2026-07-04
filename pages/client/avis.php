@@ -94,7 +94,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
         )
         VALUES
         (
-            ?, ?, 1, ?, ?
+            ?, ?, 0, ?, ?
         )
         ";
 
