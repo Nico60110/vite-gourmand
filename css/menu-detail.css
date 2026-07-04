@@ -76,19 +76,44 @@
    IMAGE MENU
 ========================= */
 
-.gallery img {
+.plat-slider {
+    position: relative;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 18px;
+}
 
+.plat-slide {
+    display: none;
     width: 100%;
-
-    border-radius: 20px;
-
+    height: 100%;
     object-fit: cover;
+}
 
-    height: 500px;
+.plat-slide.active {
+    display: block;
+}
 
-    /* Ombre légère */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, .45);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+}
 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.slider-btn.prev {
+    left: 15px;
+}
+
+.slider-btn.next {
+    right: 15px;
 }
 
 /* =========================
@@ -314,11 +339,5 @@ a {
         grid-template-columns: 1fr;
     }
 
-    /* Réduction image */
-
-    .gallery img {
-
-        height: 350px;
-    }
 
 }

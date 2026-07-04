@@ -97,6 +97,7 @@ foreach($resultatsAllergenes as $allergene){
     <link rel="stylesheet" href="../../css/menu-detail.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/vite_gourmand/js/plat-slider.js" defer></script>
   
 </head>
 
@@ -125,9 +126,23 @@ foreach($resultatsAllergenes as $allergene){
 
       <!-- IMAGE -->
 
-      <div class="gallery">
+      <div class="gallery plat-slider">
 
-        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1400" alt="Menu Gourmet">
+        <?php foreach($plats as $index => $plat): ?>
+
+            <?php if(!empty($plat['photo'])): ?>
+
+                <img
+                    src="/vite_gourmand/images/plats/<?= htmlspecialchars($plat['photo']); ?>"
+                    alt="<?= htmlspecialchars($plat['nom']); ?>"
+                    class="plat-slide <?= $index === 0 ? 'active' : ''; ?>">
+
+            <?php endif; ?>
+
+          <?php endforeach; ?>
+
+          <button type="button" id="prevPlat" class="slider-btn prev">←</button>
+          <button type="button" id="nextPlat" class="slider-btn next">→</button>
 
       </div>
 
