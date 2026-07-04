@@ -90,6 +90,22 @@ if(session_status() === PHP_SESSION_NONE){
                             Admin avis
                         </a>
 
+                        <?php if($_SESSION['user']['idRole'] == 1): ?>
+
+                            <a href="/vite_gourmand/pages/admin/statistiques.php">
+                                Statistiques
+                            </a>
+
+                            <a href="/vite_gourmand/pages/admin/employes.php">
+                                Employés
+                            </a>
+
+                            <a href="/vite_gourmand/pages/admin/add-employer.php">
+                                Ajouter employé
+                            </a>
+
+                        <?php endif; ?>
+
                         <a href="/vite_gourmand/pages/admin/horaire.php">
                             Admin horaire
                         </a>

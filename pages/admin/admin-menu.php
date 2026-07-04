@@ -46,6 +46,14 @@ $menus = $query->fetchAll();
 
   <section class="menu-section">
 
+    <div class="add-pages">
+
+        <a href="add-menu.php" class="btn">
+            + Ajouter un menu
+        </a>
+
+    </div>
+
       <!-- CARD -->
 
       <div class="menu-grid">

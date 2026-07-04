@@ -27,6 +27,14 @@ $plats = $query->fetchAll();
 
    <h1>Gestion des plats</h1>
 
+   <div class="add-pages">
+
+        <a href="add-plat.php" class="btn">
+            + Ajouter un plat
+        </a>
+
+    </div>
+
     <div class="plat-grid">
 
         <?php foreach($plats as $plat): ?>

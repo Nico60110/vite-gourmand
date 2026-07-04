@@ -478,3 +478,21 @@ h3 {
     font-size: 24px;
     margin-bottom: 20px;
 }
+
+.add-pages {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 30px;
+}
+
+.add-pages .btn {
+
+    flex: none;
+
+    padding: 15px 25px;
+
+    text-decoration: none;
+}
