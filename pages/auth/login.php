@@ -3,64 +3,34 @@
 session_start();
 
 require '../../config/database.php';
+$erreur = "";
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-    // =========================
-    // RECUPERATION DONNEES
-    // =========================
-
-    $email = $_POST['email'];
-
+    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
     $password = $_POST['password'];
 
-    // =========================
-    // RECHERCHE UTILISATEUR
-    // =========================
+    if($email !== false){
 
-    $sql = "SELECT * FROM utilisateur WHERE email = ? AND actif = 1"  ;
+        $sql = "SELECT * FROM utilisateur WHERE email = ? AND actif = 1";
 
-    $query = $pdo->prepare($sql);
+        $query = $pdo->prepare($sql);
+        $query->execute([$email]);
 
-    $query->execute([$email]);
+        $user = $query->fetch();
 
-    $user = $query->fetch();
+        if($user && password_verify($password, $user['motDePasse'])){
 
-    // =========================
-    // VERIFICATION UTILISATEUR
-    // =========================
-
-    if($user){
-
-        // =========================
-        // VERIFICATION PASSWORD
-        // =========================
-
-        if(password_verify($password, $user['motDePasse'])){
-
-            // =========================
-            // CREATION SESSION
-            // =========================
+            session_regenerate_id(true);
 
             $_SESSION['user'] = $user;
 
-            // =========================
-            // REDIRECTION
-            // =========================
-
             header("Location: ../../index.php");
-
             exit;
-
-        } else {
-
-            echo "Mot de passe incorrect";
         }
-
-    } else {
-
-        echo "Email introuvable";
     }
+
+    $erreur = "Email ou mot de passe incorrect.";
 }
 
 ?>
@@ -125,27 +95,42 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                     Accédez à votre espace personnel Vite & Gourmand.
                 </p>
 
+                <?php if(!empty($erreur)): ?>
+                    <p class="error">
+                        <?= htmlspecialchars($erreur); ?>
+                    </p>
+                <?php endif; ?>
+
                 <!-- EMAIL -->
 
                 <div class="input-group">
 
-                    <label>Email</label>
-
-                    <input type="email" name="email" placeholder="Entrez votre email">
-
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Entrez votre email"
+                        autocomplete="email"
+                        required>
                 </div>
 
                 <!-- PASSWORD -->
 
                 <div class="input-group">
 
-                    <label>Mot de passe</label>
-
-                    <input type="password" name="password" placeholder="Entrez votre mot de passe">
+                    <label for="password">Mot de passe</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Entrez votre mot de passe"
+                        autocomplete="current-password"
+                        required>
 
                 </div>
 
-                <a href="#" class="forgot-password">
+                <a href="forgot-password.php" class="forgot-password">
                         Mot de passe oublié ?
                 </a>
 
@@ -162,13 +147,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <div class="register-link">
 
                     Pas encore de compte ?
-                    <a href="#">
+                    <a href="inscription.php">
                         Créer un compte
                     </a>
 
                 </div>
 
-            
+            </form>
 
         </section>
 

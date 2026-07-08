@@ -1,54 +1,41 @@
 <?php
 require '../../config/database.php';
 
-$prixMax = $_GET['prixMax'] ?? '';
+$prixMax = isset($_GET['prixMax']) ? (float) $_GET['prixMax'] : 0;
 $theme = $_GET['theme'] ?? '';
 $regime = $_GET['regime'] ?? '';
-$personnesMin = $_GET['personnesMin'] ?? '';
+$personnesMin = isset($_GET['personnesMin']) ? (int) $_GET['personnesMin'] : 0;
 
 
 $sql = "SELECT * FROM menu WHERE 1=1";
 
 $params = [];
 
-if (!empty($prixMax)) {
-
+if ($prixMax > 0) {
     $sql .= " AND (prixParPersonne * nbPersonnesMin) <= ?";
-
     $params[] = $prixMax;
 }
 
-if (!empty($theme)) {
-
+if ($theme !== '') {
     $sql .= " AND theme = ?";
-
     $params[] = $theme;
 }
 
-if (!empty($regime)) {
-
+if ($regime !== '') {
     $sql .= " AND regime = ?";
-
     $params[] = $regime;
 }
 
-if (!empty($personnesMin)) {
-
+if ($personnesMin > 0) {
     $sql .= " AND nbPersonnesMin <= ?";
-
     $params[] = $personnesMin;
 }
-
 
 
 $query = $pdo->prepare($sql);
 $query->execute($params);
 
 $menus = $query->fetchAll();
-
-
-
-
 
 ?>
 
@@ -57,12 +44,12 @@ $menus = $query->fetchAll();
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Menus</title>
     <link rel="stylesheet" href="../../css/menus.css">
     <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
@@ -90,7 +77,7 @@ $menus = $query->fetchAll();
 
     <form id="filtreForm" class="filters">
 
-        <input type="number" name="prixMax" min="0" placeholder="Prix max" value="<?= $_GET['prixMax'] ?? ''; ?>">
+        <input type="number" name="prixMax" min="0" placeholder="Prix max" value="<?= htmlspecialchars($_GET['prixMax'] ?? ''); ?>">
 
         <select name="theme">
 
@@ -156,18 +143,18 @@ $menus = $query->fetchAll();
                     <div class="menu-content">
 
                         <span class="badge">
-                            <?= $menu['theme']; ?>
+                            <?= htmlspecialchars($menu['theme']); ?>
                         </span>
 
-                        <h3><?= $menu['titre']; ?></h3>
+                        <h3><?= htmlspecialchars($menu['titre']); ?></h3>
 
-                        <p><?= $menu['description']; ?></p>
+                        <p><?= htmlspecialchars($menu['description']); ?></p>
 
                         <div class="info">
-                            Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $prixMin; ?> €
+                            Minimum <?= (int) $menu['nbPersonnesMin']; ?> personnes • <?= number_format((float)$prixMin, 2, ',', ' '); ?> €
                         </div>
 
-                        <a href="menu-detail.php?id=<?= $menu['idMenu']; ?>" class="btn">
+                        <a href="menu-detail.php?id=<?= (int) $menu['idMenu']; ?>" class="btn">
                             Voir le détail
                         </a>
 

@@ -14,7 +14,7 @@ if(!isset($_GET['id'])){
 // =========================
 // RECUPERATION ID
 // =========================
-$idMenu = $_GET['id'];
+$idMenu = (int) $_GET['id'];
 
 // =========================
 // REQUETE SQL
@@ -23,8 +23,6 @@ $sql = 'SELECT * FROM menu WHERE idMenu = ?';
 $query = $pdo->prepare($sql);
 $query->execute([$idMenu]);
 $menu = $query->fetch();
-
-$prixMin = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
 
 // =========================
 // SI MENU INTROUVABLE
@@ -35,6 +33,9 @@ if(!$menu){
 
     exit;
 }
+
+$prixMin = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
+
 
 $sql = 'SELECT p.*, mp.typeMenu
         FROM menu_plat mp
@@ -93,7 +94,7 @@ foreach($resultatsAllergenes as $allergene){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title><?= $menu['titre']; ?></title>
+  <title><?= htmlspecialchars($menu['titre']); ?></title>
     <link rel="stylesheet" href="../../css/menu-detail.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -110,8 +111,8 @@ foreach($resultatsAllergenes as $allergene){
   <section class="hero">
 
     <div class="hero-content">
-      <h1><?= $menu['titre']; ?></h1>
-      <p><?= $menu['description']; ?></p>
+      <h1><?= htmlspecialchars($menu['titre']); ?></h1>
+      <p><?= htmlspecialchars($menu['description']); ?></p>
     </div>
 
   </section>
@@ -150,25 +151,25 @@ foreach($resultatsAllergenes as $allergene){
 
       <div class="menu-info">
 
-        <span class="badge"><?= $menu['theme']; ?></span>
+        <span class="badge"><?=htmlspecialchars($menu['theme']); ?></span>
 
-        <h2><?= $menu['titre']; ?></h2>
+        <h2><?= htmlspecialchars($menu['titre']); ?></h2>
 
         <p>
-          <?= $menu['description']; ?>
+          <?= htmlspecialchars($menu['description']); ?>
         </p>
 
         <div class="details">
 
-          <div>Nombre personnes min : <?= $menu['nbPersonnesMin']; ?></div>
+          <div>Nombre personnes min : <?= (int) $menu['nbPersonnesMin']; ?></div>
 
-          <div>💰 Prix par personnes : <?= $menu['prixParPersonne']; ?></div>
+          <div>💰 Prix par personnes : <?= number_format((float)$menu['prixParPersonne'], 2, ',', ' '); ?> €</div>
 
-          <div>💰 Prix pour le nombre de personnes minimum : <?= number_format($prixMin, 2); ?></div>
+          <div>💰 Prix pour le nombre de personnes minimum : <?= number_format((float)$prixMin, 2, ',', ' '); ?> €</div>
 
-          <div>🥗 Régime : <?= $menu['regime']; ?></div>
+          <div>🥗 Régime : <?= htmlspecialchars($menu['regime']); ?></div>
 
-          <div>📦 Stock disponible : <?= $menu['stock']; ?></div>
+          <div>📦 Stock disponible : <?= (int) $menu['stock']; ?></div>
 
         </div>
 
@@ -179,12 +180,12 @@ foreach($resultatsAllergenes as $allergene){
           <h3>Conditions importantes</h3>
 
           <p>
-            <?= $menu['conditions']; ?>
+            <?= htmlspecialchars($menu['conditions']); ?>
           </p>
 
         </div>
 
-        <a href="../commande/commande.php?id=<?= $menu['idMenu']; ?>" class="btn">
+        <a href="../commande/commande.php?id=<?= (int) $menu['idMenu']; ?>" class="btn">
           Commander ce menu
         </a>
 
@@ -207,7 +208,7 @@ foreach($resultatsAllergenes as $allergene){
           <?php foreach($entrees as $plat): ?>
 
           <div class="dish">
-              <h4><?= $plat['nom']; ?></h4>
+              <h4><?= htmlspecialchars($plat['nom']); ?></h4>
               <div class="allergenes">
                 <?php
                 $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
@@ -215,7 +216,7 @@ foreach($resultatsAllergenes as $allergene){
 
                 <?php foreach($allergenes as $allergene): ?>
 
-                    <span><?= $allergene; ?></span>
+                    <span><?= htmlspecialchars($allergene); ?></span>
 
                 <?php endforeach; ?>
               </div>
@@ -234,7 +235,7 @@ foreach($resultatsAllergenes as $allergene){
         <?php foreach($platsPrincipaux as $plat): ?>
 
           <div class="dish">
-              <h4><?= $plat['nom']; ?></h4>
+              <h4><?= htmlspecialchars($plat['nom']); ?></h4>
               <div class="allergenes">
                <?php
                 $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
@@ -242,7 +243,7 @@ foreach($resultatsAllergenes as $allergene){
 
                 <?php foreach($allergenes as $allergene): ?>
 
-                    <span><?= $allergene; ?></span>
+                    <span><?= htmlspecialchars($allergene); ?></span>
 
                  <?php endforeach; ?>
               </div>
@@ -260,7 +261,7 @@ foreach($resultatsAllergenes as $allergene){
         <?php foreach($desserts as $plat): ?>
 
           <div class="dish">
-              <h4><?= $plat['nom']; ?></h4>
+              <h4><?= htmlspecialchars($plat['nom']); ?></h4>
                <div class="allergenes">
                 <?php
                 $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
@@ -268,7 +269,7 @@ foreach($resultatsAllergenes as $allergene){
 
                   <?php foreach($allergenes as $allergene): ?>
 
-                      <span><?= $allergene; ?></span>
+                      <span><?= htmlspecialchars($allergene); ?></span>
 
                   <?php endforeach; ?>
                 </div>

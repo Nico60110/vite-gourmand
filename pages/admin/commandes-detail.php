@@ -13,7 +13,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
 
 // =========================
 // COMMANDE + CLIENT
@@ -43,7 +43,7 @@ if(!$commande){
 // =========================
 
 $sql = "
-SELECT m.titre, m.prixParPersonne
+SELECT m.titre
 FROM commande_menu cm
 INNER JOIN menu m
 ON cm.idMenu = m.idMenu
@@ -81,7 +81,7 @@ $historique = $query->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Commande détail</title>
     <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -101,40 +101,40 @@ $historique = $query->fetchAll();
 
         <section class="card">
 
-            <h2>Commande <?= $commande['idCommande']; ?></h2>
+            <h2>Commande <?= (int) $commande['idCommande']; ?></h2>
 
             <p>
                 <strong>Date commande :</strong>
-               <?= $commande['dateCommande']; ?>
+               <?= htmlspecialchars($commande['dateCommande']); ?>
             </p>
 
             <p>
                 <strong>Date livraison :</strong>
-                <?= $commande['dateLivraison']; ?>
+                <?= htmlspecialchars($commande['dateLivraison']); ?>
             </p>
 
             <p>
                 <strong>Heure livraison :</strong>
-                <?= $commande['heureLivraison']; ?>
+                <?= htmlspecialchars($commande['heureLivraison']); ?>
             </p>
 
             <p>
                 <strong>Adresse :</strong>
-                <?= $commande['adresseLivraison']; ?>
+                <?= htmlspecialchars($commande['adresseLivraison']); ?>
             </p>
 
             <p>
                 <strong>Nombre de personnes :</strong>
-                <?= $commande['nbPersonnes']; ?>
+                <?= (int) $commande['nbPersonnes']; ?>
             </p>
 
             <p>
                 <strong>Prix total :</strong>
-                <?= $commande['prixTotal']; ?> €
+                <?= number_format((float) $commande['prixTotal'], 2, ',', ' '); ?> €
             </p>
 
             <span class="statut">
-                <?= $commande['statut']; ?>
+                <?= htmlspecialchars($commande['statut']); ?>
             </span>
 
         </section>
@@ -147,22 +147,22 @@ $historique = $query->fetchAll();
 
             <p>
                 <strong>Nom :</strong>
-                <?= $commande['nom']; ?>
+                <?= htmlspecialchars($commande['nom']); ?>
             </p>
 
             <p>
                 <strong>Prénom :</strong>
-                <?= $commande['prenom']; ?>
+                <?= htmlspecialchars($commande['prenom']); ?>
             </p>
 
             <p>
                 <strong>Email :</strong>
-                <?= $commande['email']; ?>
+                <?= htmlspecialchars($commande['email']); ?>
             </p>
 
             <p>
                 <strong>Téléphone :</strong>
-                <?= $commande['telephone']; ?>
+                <?= htmlspecialchars($commande['telephone']); ?>
             </p>
 
         </section>
@@ -175,13 +175,7 @@ $historique = $query->fetchAll();
 
             <?php foreach($menus as $menu): ?>
 
-                <p><?= $menu['titre']; ?></p>
-
-                <p>
-                    <strong>Prix unitaire :</strong> 
-                <?= $menu['prixParPersonne']; ?>
-                </p>
-
+                <p><?= htmlspecialchars($menu['titre']); ?></p>
 
             <?php endforeach; ?>
 
@@ -197,22 +191,22 @@ $historique = $query->fetchAll();
 
 
                 <strong>
-                    <?= $item['statut']; ?>
+                    <?= htmlspecialchars($item['statut']); ?>
                 </strong>
 
                 <p>
-                    <?= $item['dateStatut']; ?>
+                    <?= htmlspecialchars($item['dateStatut']); ?>
                 </p>
 
                 <p>
-                    <?= $item['commentaire']; ?>
+                    <?= htmlspecialchars($item['commentaire']); ?>
                 </p>
 
             <?php endforeach; ?>
 
         </section>
 
-        <a href="commandes-edit.php?id=<?= $commande['idCommande']?>" class="btn">
+        <a href="commandes-edit.php?id=<?= (int) $commande['idCommande']?>" class="btn">
             Modifier le statut
         </a>
 

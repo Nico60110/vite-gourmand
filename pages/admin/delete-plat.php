@@ -9,7 +9,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idPlat = $_GET['id'];
+$idPlat = (int) $_GET['id'];
 
 $sql = 'SELECT * FROM plat WHERE idPlat = ?';
 $query = $pdo->prepare($sql);
@@ -64,11 +64,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         <div class="card">
 
-            <h2><?= $plat['nom']; ?></h2>
+            <h2><?= htmlspecialchars($plat['nom']); ?></h2>
 
             <p>
                 <strong>Type :</strong>
-                <?= ucfirst($plat['type']); ?>
+                <?= htmlspecialchars(ucfirst($plat['type'])); ?>
             </p>
 
             <br>
@@ -76,8 +76,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <?php if(!empty($plat['photo'])): ?>
 
                 <img
-                    src="../../images/plats/<?= $plat['photo']; ?>"
-                    alt="<?= $plat['nom']; ?>"
+                    src="../../images/plats/<?= htmlspecialchars($plat['photo']); ?>"
+                    alt="<?= htmlspecialchars($plat['nom']); ?>"
                     class="preview-image"
                 >
 

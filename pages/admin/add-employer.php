@@ -25,6 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = $_POST['confirmPassword'];
 
     if (
+    empty($firstname) ||
+    empty($lastname) ||
+    empty($email) ||
+    empty($password) ||
+    empty($confirmPassword)
+    ) {
+    $erreur = "Tous les champs sont obligatoires.";
+
+    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+    $erreur = "Adresse email invalide.";
+
+    }elseif (
         !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/', $password)
     ) {
 
@@ -82,9 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             $sujet = "Création de votre compte";
+            $prenomSafe = htmlspecialchars($firstname, ENT_QUOTES, 'UTF-8');
+            $emailSafe = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
             $message = "
-            <h2>Bonjour {$firstname},</h2>
+            <h2>Bonjour {$prenomSafe},</h2>
 
             <p>
             Un compte employé vient d'être créé pour vous sur
@@ -92,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
 
             <p>
-            <strong>Identifiant :</strong> {$email}
+            <strong>Identifiant :</strong> {$emailSafe}
             </p>
 
             <p>
@@ -155,16 +170,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php if($erreur): ?>
 
-        <p style="color:red;">
-            <?= $erreur ?>
+        <p class="error">
+            <?= htmlspecialchars($erreur) ?>
         </p>
 
     <?php endif; ?>
 
     <?php if($success): ?>
 
-        <p style="color:green;">
-            <?= $success ?>
+        <p class="success">
+            <?= htmlspecialchars($success) ?>
         </p>
 
     <?php endif; ?>

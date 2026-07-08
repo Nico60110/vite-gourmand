@@ -42,14 +42,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && empty($token)){
             $email
         ]);
 
-        $lien = "http://localhost/vite_gourmand/pages/auth/forgot-password.php?token=" . $resetToken;
+        $lien = htmlspecialchars("http://localhost/vite_gourmand/pages/auth/forgot-password.php?token=" . $resetToken);
 
         $sujet = "Réinitialisation de votre mot de passe";
+        $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
 
         $message = "
         <h2>Réinitialisation du mot de passe</h2>
 
-        <p>Bonjour {$utilisateur['prenom']},</p>
+        <p>Bonjour {$prenomSafe},</p>
 
         <p>
         Cliquez sur le lien ci-dessous pour créer un nouveau mot de passe :
@@ -160,11 +161,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($token) && $utilisateurToken)
     <h1 class="page-title">Mot de passe oublié</h1>
 
     <?php if($success): ?>
-        <p><?= $success; ?></p>
+        <p class="success"><?= $success; ?></p>
     <?php endif; ?>
 
     <?php if($erreur): ?>
-        <p><?= $erreur; ?></p>
+        <p class="error"><?= $erreur; ?></p>
     <?php endif; ?>
 
     <?php if(empty($token)): ?>

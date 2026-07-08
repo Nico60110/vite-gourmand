@@ -14,7 +14,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idMenu = $_GET['id'];
+$idMenu = (int) $_GET['id'];
 
 // =========================
 // RECUPERATION MENU
@@ -28,14 +28,14 @@ $query->execute([$idMenu]);
 
 $menu = $query->fetch();
 
-$prixMin = $menu['nbPersonnesMin'] * $menu['prixParPersonne'];
-
 if(!$menu){
 
     header("Location: admin-menu.php");
 
     exit;
 }
+
+$prixMin = $menu['nbPersonnesMin'] * $menu['prixParPersonne'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $sql = "DELETE FROM menu WHERE idMenu = ?";
@@ -74,20 +74,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         <div class="card">
 
-            <h2><?= $menu['titre']; ?></h2>
+            <h2><?= htmlspecialchars($menu['titre']); ?></h2>
 
-            <p><?= $menu['description']; ?></p>
+            <p><?= htmlspecialchars($menu['description']); ?></p>
 
             <br>
 
             <p>
                 <strong>Prix pour le nombre minimum :</strong>
-                <?= $prixMin; ?> €
+                <?= number_format($prixMin, 2, ',', ' '); ?> €
             </p>
 
             <p>
                 <strong>Nombre minimum :</strong>
-                <?= $menu['nbPersonnesMin']; ?> personnes
+                <?= (int) $menu['nbPersonnesMin']; ?> personnes
             </p>
 
             <br>

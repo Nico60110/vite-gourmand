@@ -27,11 +27,15 @@ $menus = $query->fetchAll();
    FILTRES
 =========================== */
 
-$idMenu = $_GET['menu'] ?? "";
-$dateDebut = $_GET['dateDebut'] ?? "";
-$dateFin = $_GET['dateFin'] ?? "";
+$idMenu = isset($_GET['menu']) ? (int) $_GET['menu'] : 0;
+$dateDebut = isset($_GET['dateDebut']) ? trim($_GET['dateDebut']) : "";
+$dateFin = isset($_GET['dateFin']) ? trim($_GET['dateFin']) : "";
 
 $filtre = [];
+
+if ($idMenu > 0) {
+    $filtre["idMenu"] = $idMenu;
+}
 
 if (!empty($idMenu)) {
 
@@ -155,7 +159,7 @@ foreach ($resultats as $ligne) {
             <?php foreach($menus as $menu): ?>
 
                 <option
-                    value="<?= $menu['idMenu']; ?>"
+                    value="<?= (int) $menu['idMenu']; ?>"
                     <?= ($idMenu == $menu['idMenu']) ? 'selected' : ''; ?>>
 
                     <?= htmlspecialchars($menu['titre']); ?>
@@ -220,13 +224,13 @@ foreach ($resultats as $ligne) {
 
                     <td>
 
-                        <?= $stat->nbCommandes; ?>
+                        <?= (int) $stat->nbCommandes; ?>
 
                     </td>
 
                     <td>
 
-                        <?= number_format($stat->chiffreAffaires,2,","," "); ?>
+                        <?= number_format((float)$stat->chiffreAffaires,2,","," "); ?>
 
                     </td>
 

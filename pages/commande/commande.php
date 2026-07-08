@@ -6,35 +6,34 @@ require '../../config/mongo.php';
 session_start();
 
 if(!isset($_SESSION['user'])){
-
     header("Location: ../auth/login.php");
-
     exit;
 }
 
 if(!isset($_GET['id'])){
-    header('location:../menu/menus.php');
+    header('Location: ../menu/menus.php');
     exit;
 }
 
-$idUtilisateur = $_SESSION['user']['idUtilisateur'];
-
-
-
-$idMenu = $_GET['id'];
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
+$idMenu = (int) $_GET['id'];
 
 $sql = "SELECT * FROM materiel ORDER BY nom";
 $query = $pdo->prepare($sql);
 $query->execute();
-
 $materiels = $query->fetchAll();
 
-$sql = "SELECT * FROM utilisateur WHERE idUtilisateur = ? ";
+$sql = "SELECT * FROM utilisateur WHERE idUtilisateur = ?";
 $query = $pdo->prepare($sql);
 $query->execute([$idUtilisateur]);
 $utilisateur = $query->fetch();
 
-$sql = 'SELECT * FROM menu WHERE idMenu = ?';
+if(!$utilisateur){
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+$sql = "SELECT * FROM menu WHERE idMenu = ?";
 $query = $pdo->prepare($sql);
 $query->execute([$idMenu]);
 $menu = $query->fetch();
@@ -45,196 +44,190 @@ if(!$menu){
 }
 
 $prixMenu = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
-
 $reduction = 0;
-
-if(strtolower($utilisateur['ville']) === 'bordeaux'){
-        $prixLivraison = 0;
-    }
-else{
-        $prixLivraison = 5;
-    }
-
+$prixLivraison = strtolower($utilisateur['ville']) === 'bordeaux' ? 0 : 5;
 $prixTotal = $prixMenu + $prixLivraison;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $dateLivraison = $_POST['dateLivraison'];
-    $heureLivraison = $_POST['heureLivraison'];
-    $adresseLivraison = $_POST['adresseLivraison'];
-    $nbPersonnes = $_POST['nbPersonnes'];
 
-    $idUtilisateur = $_SESSION['user']['idUtilisateur'];
+    $dateLivraison = trim($_POST['dateLivraison']);
+    $heureLivraison = trim($_POST['heureLivraison']);
+    $adresseLivraison = trim($_POST['adresseLivraison']);
+    $nbPersonnes = (int) $_POST['nbPersonnes'];
 
-    $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
+    if(
+        empty($dateLivraison) ||
+        empty($heureLivraison) ||
+        empty($adresseLivraison)
+    ){
+        $erreur = "Tous les champs obligatoires doivent être remplis.";
 
-    $reduction = 0;
+    } elseif($nbPersonnes < $menu['nbPersonnesMin']){
 
-    if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
+        $erreur = "Le nombre minimum de personnes est de " . (int) $menu['nbPersonnesMin'] . ".";
 
-        $reduction = $prixMenu * 0.10;
-    }
+    } else {
 
-    if(strtolower($utilisateur['ville']) === 'bordeaux'){
-        $prixLivraison = 0;
-    }
-    else{
-        $prixLivraison = 5;
-    }
+        $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
+        $reduction = 0;
 
-    $prixTotal = $prixMenu - $reduction + $prixLivraison;
-
-    $pretMateriel = 0;
-
-
-    if(isset($_POST['materiel'])){
-
-    foreach($_POST['materiel'] as $quantite){
-
-        if($quantite > 0){
-
-            $pretMateriel = 1;
-            break;
+        if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
+            $reduction = $prixMenu * 0.10;
         }
-    }
-}
 
-    $sql = "INSERT INTO commande
-    (
-        dateLivraison,
-        heureLivraison,
-        adresseLivraison,
-        nbPersonnes,
-        prixTotal,
-        pretMateriel,
-        idUtilisateur
-    )
-    
-    VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $prixLivraison = strtolower($utilisateur['ville']) === 'bordeaux' ? 0 : 5;
 
-    $query = $pdo->prepare($sql);
-    $query->execute([
-        $dateLivraison,
-        $heureLivraison,
-        $adresseLivraison,
-        $nbPersonnes,
-        $prixTotal,
-        $pretMateriel,
-        $idUtilisateur
-    ]);
+        $prixTotal = $prixMenu - $reduction + $prixLivraison;
 
-    $idCommande = $pdo->lastInsertId();
+        $pretMateriel = 0;
 
-    if(isset($_POST['materiel'])){
+        if(isset($_POST['materiel'])){
 
-    foreach($_POST['materiel'] as $idMateriel => $quantite){
+            foreach($_POST['materiel'] as $quantite){
 
-        if($quantite > 0){
+                $quantite = (int) $quantite;
 
-            $sql = "INSERT INTO commande_materiel
-            (idCommande, idMateriel, quantite)
-            VALUES (?, ?, ?)";
-
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
-                $idCommande,
-                $idMateriel,
-                $quantite
-            ]);
+                if($quantite > 0){
+                    $pretMateriel = 1;
+                    break;
+                }
             }
         }
+
+        $sql = "INSERT INTO commande
+        (
+            dateLivraison,
+            heureLivraison,
+            adresseLivraison,
+            nbPersonnes,
+            prixTotal,
+            pretMateriel,
+            idUtilisateur
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            $dateLivraison,
+            $heureLivraison,
+            $adresseLivraison,
+            $nbPersonnes,
+            $prixTotal,
+            $pretMateriel,
+            $idUtilisateur
+        ]);
+
+        $idCommande = (int) $pdo->lastInsertId();
+
+        if(isset($_POST['materiel'])){
+
+            foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+                $idMateriel = (int) $idMateriel;
+                $quantite = (int) $quantite;
+
+                if($idMateriel > 0 && $quantite > 0){
+
+                    $sql = "INSERT INTO commande_materiel
+                    (idCommande, idMateriel, quantite)
+                    VALUES (?, ?, ?)";
+
+                    $query = $pdo->prepare($sql);
+
+                    $query->execute([
+                        $idCommande,
+                        $idMateriel,
+                        $quantite
+                    ]);
+                }
+            }
+        }
+
+        $sql = "INSERT INTO commande_menu
+        (
+            idCommande,
+            idMenu
+        )
+        VALUES (?, ?)";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            $idCommande,
+            $idMenu
+        ]);
+
+        $sql = "INSERT INTO historique_statut
+        (
+            statut,
+            commentaire,
+            idCommande
+        )
+        VALUES (?, ?, ?)";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            'EN_ATTENTE',
+            'Commande créée',
+            $idCommande
+        ]);
+
+        $collectionStatistiques->insertOne([
+
+            "idCommande" => $idCommande,
+
+            "idMenu" => $idMenu,
+
+            "nomMenu" => $menu['titre'],
+
+            "prix" => (float) $prixTotal,
+
+            "dateCommande" => new MongoDB\BSON\UTCDateTime(),
+
+            "nbPersonnes" => $nbPersonnes
+
+        ]);
+
+        $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
+
+        $sujet = "Confirmation de votre commande";
+
+        $message = "
+        <h2>Bonjour {$prenomSafe},</h2>
+
+        <p>Nous avons bien reçu votre commande.</p>
+
+        <p>
+            <strong>Numéro de commande :</strong> {$idCommande}<br>
+            <strong>Date de livraison :</strong> " . htmlspecialchars($dateLivraison, ENT_QUOTES, 'UTF-8') . "<br>
+            <strong>Heure de livraison :</strong> " . htmlspecialchars($heureLivraison, ENT_QUOTES, 'UTF-8') . "<br>
+            <strong>Nombre de personnes :</strong> {$nbPersonnes}<br>
+            <strong>Montant total :</strong> " . number_format((float) $prixTotal, 2, ',', ' ') . " €
+        </p>
+
+        <p>
+            Votre commande est actuellement <strong>EN ATTENTE</strong>.
+        </p>
+
+        <p>
+            Merci pour votre confiance.<br>
+            L'équipe <strong>Vite & Gourmand</strong>
+        </p>
+        ";
+
+        envoyerMail(
+            $utilisateur['email'],
+            $utilisateur['prenom'],
+            $sujet,
+            $message
+        );
+
+        header("Location: ../menu/menus.php");
+        exit;
     }
-
-    
-
-
-    $sql = "INSERT INTO commande_menu
-    (
-        idCommande,
-        idMenu
-    )
-    VALUES (?, ?)";
-
-    $query = $pdo->prepare($sql);
-    $query->execute([
-        $idCommande,
-        $idMenu
-    ]);
-
-   
-     $sql = "INSERT INTO historique_statut
-    (
-        statut,
-        commentaire,
-        idCommande
-    )
-    VALUES (?, ?, ?)";
-
-    $query = $pdo->prepare($sql);
-    $query->execute([
-        'EN_ATTENTE',
-        'Commande créée',
-        $idCommande
-    ]);
-
-   $collectionStatistiques->insertOne([
-
-    "idCommande" => (int)$idCommande,
-
-    "idMenu" => (int)$idMenu,
-
-    "nomMenu" => $menu['titre'],
-
-    "prix" => (float)$prixTotal,
-
-    "dateCommande" => new MongoDB\BSON\UTCDateTime(),
-
-    "nbPersonnes" => (int)$nbPersonnes
-
-    ]);
-
-    $sujet = "Confirmation de votre commande";
-
-    $message = "
-    <h2>Bonjour {$utilisateur['prenom']},</h2>
-
-    <p>Nous avons bien reçu votre commande.</p>
-
-    <p>
-        <strong>Numéro de commande :</strong> {$idCommande}<br>
-        <strong>Date de livraison :</strong> {$dateLivraison}<br>
-        <strong>Heure de livraison :</strong> {$heureLivraison}<br>
-        <strong>Nombre de personnes :</strong> {$nbPersonnes}<br>
-        <strong>Montant total :</strong> {$prixTotal} €
-    </p>
-
-    <p>
-        Votre commande est actuellement <strong>EN ATTENTE</strong>.
-    </p>
-
-    <p>
-        Merci pour votre confiance.<br>
-        L'équipe <strong>Vite & Gourmand</strong>
-    </p>
-    ";
-
-    envoyerMail(
-        $utilisateur['email'],
-        $utilisateur['prenom'],
-        $sujet,
-        $message
-    );
-
-    
-    header("Location: ../menu/menus.php");
-    exit;
-
-    
 }
-
-
-
-
 ?>
 
 
@@ -277,6 +270,12 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
             <h1>Commander un menu</h1>
 
+            <?php if(isset($erreur)): ?>
+                <p class="error">
+                    <?= htmlspecialchars($erreur); ?>
+                </p>
+            <?php endif; ?>
+
             <p>
                 Finalisez votre commande traiteur en quelques étapes
             </p>
@@ -305,13 +304,13 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
                     <div class="form-grid">
 
-                        <input type="text" value="<?= htmlspecialchars($utilisateur['prenom']); ?>" placeholder="Prénom">
+                        <input type="text" value="<?= htmlspecialchars($utilisateur['prenom']); ?>" placeholder="Prénom" readonly>
 
-                        <input type="text" value="<?= htmlspecialchars($utilisateur['nom']); ?>" placeholder="Nom">
+                        <input type="text" value="<?= htmlspecialchars($utilisateur['nom']); ?>" placeholder="Nom" readonly>
 
-                        <input type="email" value="<?= htmlspecialchars($utilisateur['email']); ?>" placeholder="Adresse email">
+                        <input type="email" value="<?= htmlspecialchars($utilisateur['email']); ?>" placeholder="Adresse email" readonly>
 
-                        <input type="tel" value="<?= htmlspecialchars($utilisateur['telephone']); ?>" placeholder="Téléphone">
+                        <input type="tel" value="<?= htmlspecialchars($utilisateur['telephone']); ?>" placeholder="Téléphone" readonly>
 
                         <input type="date" name="dateLivraison" required>
 
@@ -324,9 +323,6 @@ const prixLivraison = <?= $prixLivraison; ?>;
                             class="full-width"
                             required>
 
-                        <textarea
-                            placeholder="Informations complémentaires"
-                            class="full-width"></textarea>
 
                     </div>
 
@@ -346,14 +342,14 @@ const prixLivraison = <?= $prixLivraison; ?>;
 
                         <div>
 
-                            <h3><?=$menu['titre'];?></h3>
+                            <h3><?=htmlspecialchars($menu['titre']);?></h3>
 
                             <p>
-                                <?=$menu['description'];?>
+                                <?=htmlspecialchars($menu['description']);?>
                             </p>
 
                             <span class="badge">
-                               <?=$menu['nbPersonnesMin'];?> personnes minimum
+                               <?= (int) $menu['nbPersonnesMin'];?> personnes minimum
                             </span>
 
                         </div>
@@ -419,7 +415,7 @@ const prixLivraison = <?= $prixLivraison; ?>;
                         <h3>Conditions du menu</h3>
 
                         <p>
-                            <?=$menu['conditions'];?>
+                            <?= htmlspecialchars($menu['conditions']);?>
                         </p>
 
                     </div>

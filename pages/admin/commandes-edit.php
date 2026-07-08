@@ -10,7 +10,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
 
 $sql = "
 SELECT c.*, u.nom, u.prenom
@@ -31,7 +31,7 @@ if(!$commande){
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-    $statut = $_POST['statut'];
+    $statut = trim($_POST['statut']);
 
     $restitutionMateriel =
     isset($_POST['restitutionMateriel']) ? 1 : 0;
@@ -115,70 +115,71 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         if($statut === 'TERMINEE'){
 
-    $sql = "
-    SELECT email, prenom
-    FROM utilisateur
-    WHERE idUtilisateur = ?
-    ";
-
-    $query = $pdo->prepare($sql);
-
-    $query->execute([$commande['idUtilisateur']]);
-
-    $client = $query->fetch();
-
-    $sujet = "Votre commande est terminée";
-
-    $message = "
-    <h2>Bonjour {$client['prenom']},</h2>
-
-    <p>
-        Votre commande est maintenant terminée.
-    </p>
-
-    <p>
-        Nous espérons que notre prestation vous a satisfait.
-    </p>
-
-    <p>
-        Vous pouvez dès maintenant vous connecter afin de laisser un avis.
-    </p>
-
-    <br>
-
-    <p>
-        L'équipe <strong>Vite & Gourmand</strong>
-    </p>
-    ";
-
-    envoyerMail(
-        $client['email'],
-        $client['prenom'],
-        $sujet,
-        $message);
-    }
-
         $sql = "
-        INSERT INTO historique_statut
-        (
-            statut,
-            idCommande
-        )
-        VALUES
-        (
-            ?, ?
-        )
+        SELECT email, prenom
+        FROM utilisateur
+        WHERE idUtilisateur = ?
         ";
 
         $query = $pdo->prepare($sql);
-        $query->execute([
-            $statut,
-            $idCommande
-        ]);
 
-        header("Location: commandes-detail.php?id=" . $idCommande);
-        exit;
-    }
+        $query->execute([$commande['idUtilisateur']]);
+
+        $client = $query->fetch();
+
+        $sujet = "Votre commande est terminée";
+        $prenomSafe = htmlspecialchars($client['prenom'], ENT_QUOTES, 'UTF-8');
+
+        $message = "
+        <h2>Bonjour {$prenomSafe},</h2>
+
+        <p>
+            Votre commande est maintenant terminée.
+        </p>
+
+        <p>
+            Nous espérons que notre prestation vous a satisfait.
+        </p>
+
+        <p>
+            Vous pouvez dès maintenant vous connecter afin de laisser un avis.
+        </p>
+
+        <br>
+
+        <p>
+            L'équipe <strong>Vite & Gourmand</strong>
+        </p>
+        ";
+
+        envoyerMail(
+            $client['email'],
+            $client['prenom'],
+            $sujet,
+            $message);
+        }
+
+            $sql = "
+            INSERT INTO historique_statut
+            (
+                statut,
+                idCommande
+            )
+            VALUES
+            (
+                ?, ?
+            )
+            ";
+
+            $query = $pdo->prepare($sql);
+            $query->execute([
+                $statut,
+                $idCommande
+            ]);
+
+            header("Location: commandes-detail.php?id=" . $idCommande);
+            exit;
+        }
 }
 ?>
 
@@ -211,18 +212,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
         <p>
             <strong>Client :</strong>
-            <?= $commande['prenom']; ?>
-            <?= $commande['nom']; ?>
+            <?= htmlspecialchars($commande['prenom']); ?>
+            <?= htmlspecialchars($commande['nom']); ?>
         </p>
 
         <p>
             <strong>Date livraison :</strong>
-            <?= $commande['dateLivraison']; ?>
+            <?= htmlspecialchars($commande['dateLivraison']); ?>
         </p>
 
         <p>
             <strong>Prix total :</strong>
-            <?= $commande['prixTotal']; ?> €
+            <?= number_format((float) $commande['prixTotal'], 2, ',', ' '); ?> €
         </p>
 
     </section>
@@ -240,42 +241,42 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         <select name="statut" id="statut">
 
             <option value="EN_ATTENTE"
-                <?= $commande['statut'] === 'EN_ATTENTE' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'EN_ATTENTE' ? 'selected' : ''; ?>>
                 EN_ATTENTE
             </option>
 
             <option value="ACCEPTEE"
-                <?= $commande['statut'] === 'ACCEPTEE' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'ACCEPTEE' ? 'selected' : ''; ?>>
                 ACCEPTEE
             </option>
 
             <option value="EN_PREPARATION"
-                <?= $commande['statut'] === 'EN_PREPARATION' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'EN_PREPARATION' ? 'selected' : ''; ?>>
                 EN_PREPARATION
             </option>
 
             <option value="EN_LIVRAISON"
-                <?= $commande['statut'] === 'EN_LIVRAISON' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'EN_LIVRAISON' ? 'selected' : ''; ?>>
                 EN_LIVRAISON
             </option>
 
             <option value="LIVREE"
-                <?= $commande['statut'] === 'LIVREE' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'LIVREE' ? 'selected' : ''; ?>>
                 LIVREE
             </option>
 
             <option value="EN_ATTENTE_MATERIEL"
-                <?= $commande['statut'] === 'EN_ATTENTE_MATERIEL' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'EN_ATTENTE_MATERIEL' ? 'selected' : ''; ?>>
                 EN_ATTENTE_MATERIEL
             </option>
 
             <option value="TERMINEE"
-                <?= $commande['statut'] === 'TERMINEE' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'TERMINEE' ? 'selected' : ''; ?>>
                 TERMINEE
             </option>
 
             <option value="ANNULEE"
-                <?= $commande['statut'] === 'ANNULEE' ? 'selected' : ''; ?>>
+                <?= htmlspecialchars($commande['statut']) === 'ANNULEE' ? 'selected' : ''; ?>>
                 ANNULEE
             </option>
 
@@ -325,7 +326,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         <?php if(isset($erreur)): ?>
 
             <p class="error">
-                <?= $erreur; ?>
+                <?= htmlspecialchars($erreur); ?>
             </p>
 
         <?php endif; ?>

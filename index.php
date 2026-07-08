@@ -114,7 +114,7 @@ $avis = $query->fetchAll();
 
                 <strong>
                     <?= htmlspecialchars($unAvis['prenom']); ?>
-                    <?= strtoupper(substr($unAvis['nom'], 0, 1)); ?>.
+                    <?= htmlspecialchars(strtoupper(substr($unAvis['nom'], 0, 1))); ?>.
                 </strong>
 
             </div>

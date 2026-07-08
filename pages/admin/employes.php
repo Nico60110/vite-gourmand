@@ -139,7 +139,7 @@ $employes = $query->fetchAll();
 
             <a
                 class=" desactiver"
-                href="?action=desactiver&id=<?= $employe['idUtilisateur']; ?>"
+                href="?action=desactiver&id=<?= (int) $employe['idUtilisateur']; ?>"
                 onclick="return confirm('Désactiver cet employé ?')">
 
                 Désactiver
@@ -150,7 +150,7 @@ $employes = $query->fetchAll();
 
             <a
                 class=" reactiver"
-                href="?action=reactiver&id=<?= $employe['idUtilisateur']; ?>">
+                href="?action=reactiver&id=<?= (int) $employe['idUtilisateur']; ?>">
 
                 Réactiver
 

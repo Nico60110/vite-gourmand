@@ -3,73 +3,50 @@
 require '../../config/database.php';
 require '../../config/mail.php';
 
+$erreur = "";
+
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-    $firstname = $_POST['firstname'];
-
-    $lastname = $_POST['lastname'];
-
-    $email = $_POST['email'];
-
+    $firstname = trim($_POST['firstname']);
+    $lastname = trim($_POST['lastname']);
+    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
     $password = $_POST['password'];
-
     $confirmPassword = $_POST['confirm_password'];
+    $adresse = trim($_POST['adresse']);
+    $codePostal = trim($_POST['code_postale']);
+    $telephone = trim($_POST['phone']);
+    $ville = trim($_POST['ville']);
+    $pays = trim($_POST['pays']);
 
-    $adresse = $_POST['adresse'];
+    if($email === false){
 
-    $codePostal = $_POST['code_postale'];
+        $erreur = "Email invalide.";
 
-    $telephone = $_POST['phone'];
+    }elseif(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/', $password)){
 
-    $ville = $_POST['ville'];
+        $erreur = "Mot de passe non sécurisé.";
 
-    $pays = $_POST['pays'];
+    }elseif($password !== $confirmPassword){
 
+        $erreur = "Les mots de passe ne correspondent pas.";
 
+    }else{
 
-    if(
-    !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',$password))
-    {
-        echo "Mot de passe non sécurisé";
-    }
-    elseif($password !== $confirmPassword){
-
-    echo "Les mots de passe ne correspondent pas";
-
-    }
-    else {
-
-        // HASH PASSWORD
-
-        $hashedPassword = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
-
-        // ROLE PAR DEFAUT
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $idRole = 3;
 
-        // VERIFICATION EMAIL
-
         $checkEmail = $pdo->prepare(
-            "SELECT * FROM utilisateur WHERE email = ?"
+            "SELECT idUtilisateur FROM utilisateur WHERE email = ?"
         );
 
         $checkEmail->execute([$email]);
 
-        $user = $checkEmail->fetch();
-        
+        if($checkEmail->fetch()){
 
-        // SI EMAIL EXISTE
+            $erreur = "Email déjà utilisé.";
 
-        if($user){
-
-            echo "Email déjà utilisé";
-
-        } else {
-
-            // INSERT SQL
+        }else{
 
             $sql = "INSERT INTO utilisateur
             (
@@ -84,7 +61,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 pays,
                 idRole
             )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $query = $pdo->prepare($sql);
 
@@ -103,16 +80,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
             $sujet = "Bienvenue chez Vite & Gourmand";
 
+            $prenomSafe = htmlspecialchars($firstname);
+
             $message = "
-            <h2>Bienvenue {$firstname} !</h2>
+            <h2>Bienvenue {$prenomSafe} !</h2>
 
-            <p>
-            Nous sommes ravis de vous accueillir sur <strong>Vite & Gourmand</strong>.
-            </p>
+            <p>Nous sommes ravis de vous accueillir sur <strong>Vite & Gourmand</strong>.</p>
 
-            <p>
-            Votre compte a été créé avec succès. Vous pouvez dès maintenant :
-            </p>
+            <p>Votre compte a été créé avec succès. Vous pouvez dès maintenant :</p>
 
             <ul>
                 <li>Découvrir nos menus.</li>
@@ -121,23 +96,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <li>Laisser un avis après vos prestations.</li>
             </ul>
 
-            <p>
-            Nous espérons avoir le plaisir de préparer vos prochains événements.
-            </p>
-
-            <p>
-            À bientôt,<br>
-            L'équipe <strong>Vite & Gourmand</strong>
-            </p>
+            <p>À bientôt,<br>
+            L'équipe <strong>Vite & Gourmand</strong></p>
             ";
 
-            envoyerMail(
-                $email,
-                $firstname,
-                $sujet,
-                $message
-            );
-            
+            envoyerMail($email, $firstname, $sujet, $message);
 
             header("Location: login.php");
             exit;
@@ -208,6 +171,12 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                     <h2 class="section-title">
                         Informations personnelles
                     </h2>
+
+                    <?php if(!empty($erreur)): ?>
+                        <p class="error">
+                            <?= htmlspecialchars($erreur); ?>
+                        </p>
+                    <?php endif; ?>
 
                     <div class="form-grid">
 

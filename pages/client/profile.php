@@ -10,7 +10,7 @@ if(!isset($_SESSION['user'])){
     exit;
 }
 
-$idUtilisateur = $_SESSION['user']['idUtilisateur'];
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
 
 $sql = "
 SELECT *
@@ -42,44 +42,72 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $ville = trim($_POST['ville']);
     $pays = trim($_POST['pays']);
 
-    $sql = "
-        UPDATE utilisateur
-        SET
-            nom = ?,
-            prenom = ?,
-            email = ?,
-            telephone = ?,
-            adresse = ?,
-            codePostal = ?,
-            ville = ?,
-            pays = ?
-        WHERE idUtilisateur = ?
-    ";
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-    $query = $pdo->prepare($sql);
+        $erreur = "Adresse email invalide.";
 
-    $query->execute([
-        $nom,
-        $prenom,
-        $email,
-        $telephone,
-        $adresse,
-        $codePostal,
-        $ville,
-        $pays,
-        $idUtilisateur
-    ]);
+    }else{
 
-    $utilisateur['nom'] = $nom;
-    $utilisateur['prenom'] = $prenom;
-    $utilisateur['email'] = $email;
-    $utilisateur['telephone'] = $telephone;
-    $utilisateur['adresse'] = $adresse;
-    $utilisateur['codePostal'] = $codePostal;
-    $utilisateur['ville'] = $ville;
-    $utilisateur['pays'] = $pays;
+        $sql = "
+        SELECT idUtilisateur
+        FROM utilisateur
+        WHERE email = ?
+        AND idUtilisateur != ?
+        ";
 
-    $success = "Informations mises à jour.";
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            $email,
+            $idUtilisateur
+        ]);
+
+        if($query->fetch()){
+
+            $erreur = "Cet email est déjà utilisé.";
+
+        }else{
+
+            $sql = "
+            UPDATE utilisateur
+            SET
+                nom = ?,
+                prenom = ?,
+                email = ?,
+                telephone = ?,
+                adresse = ?,
+                codePostal = ?,
+                ville = ?,
+                pays = ?
+            WHERE idUtilisateur = ?
+            ";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $nom,
+                $prenom,
+                $email,
+                $telephone,
+                $adresse,
+                $codePostal,
+                $ville,
+                $pays,
+                $idUtilisateur
+            ]);
+
+            $utilisateur['nom'] = $nom;
+            $utilisateur['prenom'] = $prenom;
+            $utilisateur['email'] = $email;
+            $utilisateur['telephone'] = $telephone;
+            $utilisateur['adresse'] = $adresse;
+            $utilisateur['codePostal'] = $codePostal;
+            $utilisateur['ville'] = $ville;
+            $utilisateur['pays'] = $pays;
+
+            $success = "Informations mises à jour.";
+        }
+    }
 }
 
 ?>
@@ -110,10 +138,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <h1 class="page-title">Mon profil</h1>
 
+    <?php if(isset($erreur)): ?>
+
+        <p class="error">
+            <?= htmlspecialchars($erreur); ?>
+        </p>
+
+    <?php endif; ?>
+
+
     <?php if(isset($success)): ?>
 
-        <p>
-            <?= $success; ?>
+        <p class="success">
+            <?= htmlspecialchars($success); ?>
         </p>
 
     <?php endif; ?>

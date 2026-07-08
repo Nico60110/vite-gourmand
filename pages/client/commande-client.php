@@ -10,7 +10,7 @@ if(!isset($_SESSION['user'])){
     exit;
 }
 
-$idUtilisateur = $_SESSION['user']['idUtilisateur'];
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
 
 $sql = "
 SELECT
@@ -70,52 +70,52 @@ $commandes = $query->fetchAll();
     <div class="card">
 
         <h3>
-            Commande #<?= $commande['idCommande']; ?>
+            Commande #<?= (int) $commande['idCommande']; ?>
         </h3>
 
         <p>
             Menu :
-            <strong><?= $commande['menuTitre']; ?></strong>
+            <strong><?= htmlspecialchars($commande['menuTitre']); ?></strong>
         </p>
 
         <p>
             Nombre de personnes :
-            <?= $commande['nbPersonnes']; ?>
+            <?= (int) $commande['nbPersonnes']; ?>
         </p>
 
         <p>
             Prêt de matériel :
-            <?= $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
+            <?= (int) $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
         </p>
 
         <p>
             Prix total :
-            <?= $commande['prixTotal']; ?> €
+            <?= number_format((float) $commande['prixTotal'], 2, ',', ''); ?> €
         </p>
 
         <p>
             Date livraison :
-            <?= $commande['dateLivraison']; ?>
+            <?= htmlspecialchars($commande['dateLivraison']); ?>
             à
-            <?= $commande['heureLivraison']; ?>
+            <?= htmlspecialchars($commande['heureLivraison']); ?>
         </p>
 
         <p>
             Statut :
-            <?= $commande['statut']; ?>
+            <?= htmlspecialchars($commande['statut']); ?>
         </p>
 
         <?php if($commande['statut'] === 'EN_ATTENTE'): ?>
 
             <a
-                href="update-commande.php?id=<?= $commande['idCommande']; ?>"
+                href="update-commande.php?id=<?= (int) $commande['idCommande']; ?>"
                 class="btn"
             >
                 Modifier
             </a>
 
             <a
-                href="cancel-commande.php?id=<?= $commande['idCommande']; ?>"
+                href="cancel-commande.php?id=<?= (int) $commande['idCommande']; ?>"
                 class="btn"
             >
                 Annuler
@@ -126,7 +126,7 @@ $commandes = $query->fetchAll();
         <?php if($commande['statut'] !== 'EN_ATTENTE'): ?>
 
             <a
-                href="suivie-commande.php?id=<?= $commande['idCommande']; ?>"
+                href="suivie-commande.php?id=<?= (int) $commande['idCommande']; ?>"
                 class="btn">
                 Suivre la commande
             </a>
@@ -136,7 +136,7 @@ $commandes = $query->fetchAll();
         <?php if($commande['statut'] === 'TERMINEE'): ?>
 
             <a
-                href="avis.php?id=<?= $commande['idCommande']; ?>"
+                href="avis.php?id=<?= (int) $commande['idCommande']; ?>"
                 class="btn"
             >
                 Donner un avis

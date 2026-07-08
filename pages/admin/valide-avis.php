@@ -3,7 +3,7 @@
 require '../../config/database.php';
 require '../../config/auth-admin.php';
 
-$idAvis = $_GET['id'];
+$idAvis = (int) $_GET['id'];
 
 $sql = "
 UPDATE avis

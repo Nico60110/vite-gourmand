@@ -16,9 +16,9 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
 
-$idUtilisateur = $_SESSION['user']['idUtilisateur'];
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
 
 // =========================
 // VERIFICATION COMMANDE
@@ -74,7 +74,7 @@ if($avisExistant){
 
 if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
 
-    $note = $_POST['note'];
+    $note = (int) $_POST['note'];
     $commentaire = trim($_POST['commentaire']);
 
     if($note < 1 || $note > 5){
@@ -141,8 +141,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !$avisExistant){
 
     <?php if(isset($erreur)): ?>
 
-        <p style="color:red;">
-            <?= $erreur; ?>
+        <p class="error">
+            <?= htmlspecialchars($erreur); ?>
         </p>
 
     <?php endif; ?>

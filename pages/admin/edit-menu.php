@@ -14,7 +14,8 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idMenu = $_GET['id'];
+$idMenu = (int) $_GET['id'];
+$erreur = '';
 
 // =========================
 // RECUPERATION MENU
@@ -41,23 +42,37 @@ if(!$menu){
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    $titre = $_POST['titre'];
+    $titre = trim($_POST['titre']);
 
-    $description = $_POST['description'];
+    $description = trim($_POST['description']);
 
-    $theme = $_POST['theme'];
+    $theme = trim($_POST['theme']);
 
-    $regime = $_POST['regime'];
+    $regime = trim($_POST['regime']);
 
-    $nbPersonnesMin = $_POST['nbPersonnesMin'];
+    $nbPersonnesMin = (int) $_POST['nbPersonnesMin'];
 
-    $prixParPersonne = $_POST['prixParPersonne'];
+    $prixParPersonne = (float) $_POST['prixParPersonne'];
 
-    $stock = $_POST['stock'];
+    $stock = (int) $_POST['stock'];
 
-    $conditions = $_POST['conditions'];
+    $conditions = trim($_POST['conditions']);
 
-    $sql = "UPDATE menu
+    if (
+    empty($titre) ||
+    empty($description) ||
+    empty($theme) ||
+    empty($regime) ||
+    empty($nbPersonnesMin) ||
+    empty($prixParPersonne) ||
+    empty($stock) ||
+    empty($conditions)
+    ) {
+
+    $erreur = 'Tous les champs sont obligatoires';
+    
+    }else{
+         $sql = "UPDATE menu
             SET
                 titre = ?,
                 description = ?,
@@ -69,23 +84,25 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 conditions = ?
             WHERE idMenu = ?";
 
-    $query = $pdo->prepare($sql);
+            $query = $pdo->prepare($sql);
 
-    $query->execute([
-        $titre,
-        $description,
-        $theme,
-        $regime,
-        $nbPersonnesMin,
-        $prixParPersonne,
-        $stock,
-        $conditions,
-        $idMenu
-    ]);
+            $query->execute([
+                $titre,
+                $description,
+                $theme,
+                $regime,
+                $nbPersonnesMin,
+                $prixParPersonne,
+                $stock,
+                $conditions,
+                $idMenu
+            ]);
 
-    header("Location: admin-menu.php");
+            header("Location: admin-menu.php");
 
-    exit;
+            exit;
+
+        }
 }
 ?>
 
@@ -124,33 +141,33 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <input
                     type="text"
                     name="titre"
-                    value="<?= $menu['titre']; ?>"
+                    value="<?= htmlspecialchars($menu['titre']); ?>"
                     required
                 >
 
                 <textarea
-                    name="description"
-                ><?= $menu['description']; ?></textarea>
+                    name="description">
+                    <?= htmlspecialchars($menu['description']); ?></textarea>
 
                 <select name="theme">
 
                     <option value="Tradition"
-                        <?= $menu['theme'] === 'Tradition' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['theme']) === 'Tradition' ? 'selected' : ''; ?>>
                         Tradition
                     </option>
 
                     <option value="Noël"
-                        <?= $menu['theme'] === 'Noël' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['theme']) === 'Noël' ? 'selected' : ''; ?>>
                         Noël
                     </option>
 
                     <option value="Vegetal"
-                        <?= $menu['theme'] === 'Vegetal' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['theme']) === 'Vegetal' ? 'selected' : ''; ?>>
                         Vegetal
                     </option>
 
                     <option value="Pizza"
-                        <?= $menu['theme'] === 'Pizza' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['theme']) === 'Pizza' ? 'selected' : ''; ?>>
                         Pizza
                     </option>
 
@@ -159,12 +176,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <select name="regime">
 
                     <option value="Classique"
-                        <?= $menu['regime'] === 'Classique' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['regime']) === 'Classique' ? 'selected' : ''; ?>>
                         Classique
                     </option>
 
                     <option value="Vegan"
-                        <?= $menu['regime'] === 'Vegan' ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($menu['regime']) === 'Vegan' ? 'selected' : ''; ?>>
                         Vegan
                     </option>
 
@@ -173,7 +190,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <input
                     type="number"
                     name="nbPersonnesMin"
-                    value="<?= $menu['nbPersonnesMin']; ?>"
+                    value="<?= (int) $menu['nbPersonnesMin']; ?>"
                     required
                 >
 
@@ -181,19 +198,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     type="number"
                     step="0.01"
                     name="prixParPersonne"
-                    value="<?= $menu['prixParPersonne']; ?>"
+                    value="<?= (float) $menu['prixParPersonne']; ?>"
                     required
                 >
 
                 <input
                     type="number"
                     name="stock"
-                    value="<?= $menu['stock']; ?>"
+                    value="<?= (int) $menu['stock']; ?>"
                 >
 
                 <textarea
                     name="conditions"
-                ><?= $menu['conditions']; ?></textarea>
+                ><?= htmlspecialchars($menu['conditions']); ?></textarea>
 
                 <button type="submit" class="btn">
                     Modifier le menu

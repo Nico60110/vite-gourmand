@@ -9,7 +9,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
 
 $sql = "
 SELECT *

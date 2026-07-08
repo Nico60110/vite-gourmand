@@ -107,7 +107,7 @@ $commandes = $query->fetchAll();
                 LIVREE
             </option>
 
-            <option value="LIVREE">
+            <option value="EN_ATTENTE_MATERIEL">
                 EN_ATTENTE_MATERIEL
             </option>
 
@@ -137,45 +137,45 @@ $commandes = $query->fetchAll();
         <div class="card">
 
             <h2>
-                Commande #<?= $commande['idCommande']; ?>
+                Commande #<?= (int) $commande['idCommande']; ?>
             </h2>
 
             <p>
                 Date livraison :
-                <?= $commande['dateLivraison']; ?>
+                <?= htmlspecialchars($commande['dateLivraison']); ?>
             </p>
 
             <p>
                 Nombre de personnes :
-                <?= $commande['nbPersonnes']; ?>
+                <?= (int) $commande['nbPersonnes']; ?>
             </p>
 
             <p>
                 Prix total :
-                <?= $commande['prixTotal']; ?> €
+                <?= number_format((float)$commande['prixTotal'], 2, ',', ' '); ?> €
             </p>
             
             <p>
                 Prêt matériel :
-                <?= $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
+                <?= (int) $commande['pretMateriel'] == 1 ? 'Oui' : 'Non'; ?>
             </p>
             
             <?php if($commande['pretMateriel'] == 1): ?>
 
                 <p>
                     Matériel rendu :
-                    <?= $commande['restitutionMateriel'] ? 'Oui' : 'Non'; ?>
+                    <?= (int) $commande['restitutionMateriel'] ? 'Oui' : 'Non'; ?>
                 </p>
 
             <?php endif; ?>
 
             <span class="statut">
-                <?= $commande['statut']; ?>
+                <?= htmlspecialchars($commande['statut']); ?>
             </span>
 
             <br>
 
-            <a href="commandes-detail.php?id=<?= $commande['idCommande']; ?>" class="btn">
+            <a href="commandes-detail.php?id=<?= (int) $commande['idCommande']; ?>" class="btn">
                 Voir le détail
             </a>
 

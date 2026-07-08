@@ -496,3 +496,34 @@ h3 {
 
     text-decoration: none;
 }
+
+.error {
+
+    color: #c0392b;
+
+    background: #fdecea;
+
+    border: 1px solid #f5c2c0;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+}
+
+.success {
+
+    color: green;
+
+    background: #fdecea;
+
+    border: 1px solid #f5c2c0;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+}

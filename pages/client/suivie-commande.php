@@ -15,7 +15,7 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
 
 $sql = "
 SELECT *
@@ -25,6 +25,8 @@ AND idUtilisateur = ?
 ";
 
 $query = $pdo->prepare($sql);
+
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
 
 $query->execute([
     $idCommande,
@@ -48,7 +50,7 @@ $statutsAutorises = [
     'TERMINEE'
 ];
 
-if(!in_array($commande['statut'], $statutsAutorises)){
+if(!in_array($commande['statut'], $statutsAutorises, true)){
 
     header('Location: commande-client.php');
     exit;
@@ -92,12 +94,12 @@ $historique = $query->fetchAll();
     <div class="card">
 
         <strong>
-            <?= $ligne['statut']; ?>
+            <?= htmlspecialchars($ligne['statut']); ?>
         </strong>
 
         <br>
 
-        <?= date('d/m/Y à H:i', strtotime($ligne['dateStatut'])); ?>
+        <?= htmlspecialchars(date('d/m/Y à H:i', strtotime($ligne['dateStatut']))); ?>
 
     </div>
 

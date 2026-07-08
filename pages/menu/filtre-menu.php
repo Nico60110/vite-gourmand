@@ -2,38 +2,38 @@
 
 require '../../config/database.php';
 
-$prixMax = $_GET['prixMax'] ?? '';
-$theme = $_GET['theme'] ?? '';
-$regime = $_GET['regime'] ?? '';
-$personnesMin = $_GET['personnesMin'] ?? '';
+$prixMax = isset($_GET['prixMax']) ? (float) $_GET['prixMax'] : 0;
+$theme = isset($_GET['theme']) ? $_GET['theme'] : '';
+$regime = isset($_GET['regime']) ? $_GET['regime'] : '';
+$personnesMin = isset($_GET['personnesMin']) ? (int) $_GET['personnesMin'] : 0;
 
 
 $sql = "SELECT * FROM menu WHERE 1=1";
 
 $params = [];
 
-if(!empty($prixMax)){
+if($prixMax > 0){
 
     $sql .= " AND (prixParPersonne * nbPersonnesMin) <= ?";
 
     $params[] = $prixMax;
 }
 
-if(!empty($theme)){
+if($theme !== ''){
 
     $sql .= " AND theme = ?";
 
     $params[] = $theme;
 }
 
-if(!empty($regime)){
+if($regime !== ''){
 
     $sql .= " AND regime = ?";
 
     $params[] = $regime;
 }
 
-if(!empty($personnesMin)){
+if($personnesMin > 0){
 
     $sql .= " AND nbPersonnesMin <= ?";
 
@@ -71,11 +71,11 @@ foreach($menus as $menu):
         </p>
 
         <div class="info">
-            Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= $prixMin; ?> €
+            Minimum <?= (int) $menu['nbPersonnesMin']; ?> personnes • <?= number_format((float)$prixMin, 2, ',', ' '); ?> €
         </div>
 
         <a
-            href="menu-detail.php?id=<?= $menu['idMenu']; ?>"
+            href="menu-detail.php?id=<?= (int) $menu['idMenu']; ?>"
             class="btn">
 
             Voir le détail

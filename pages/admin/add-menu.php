@@ -2,44 +2,64 @@
 require '../../config/database.php';
 require '../../config/auth-admin.php';
 
+$erreur = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $titre = $_POST['titre'];
-    $description = $_POST['description'];
-    $theme = $_POST['theme'];
-    $regime = $_POST['regime'];
-    $nbPersonnesMin = $_POST['nbPersonnesMin'];
-    $prixParPersonne = $_POST['prixParPersonne'];
-    $stock = $_POST['stock'];
-    $conditions =$_POST['conditions'];
+    $titre = trim($_POST['titre']);
+    $description = trim($_POST['description']);
+    $theme = trim($_POST['theme']);
+    $regime = trim($_POST['regime']);
+    $nbPersonnesMin = (int) $_POST['nbPersonnesMin'];
+    $prixParPersonne = (float) $_POST['prixParPersonne'];
+    $stock = (int) $_POST['stock'];
+    $conditions = trim($_POST['conditions']);
 
-    $sql = "INSERT INTO menu
-    (
-        titre,
-        description,
-        theme,
-        regime,
-        nbPersonnesMin,
-        prixParPersonne,
-        stock,
-        conditions
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    if (
+    empty($titre) ||
+    empty($description) ||
+    empty($theme) ||
+    empty($regime) ||
+    empty($nbPersonnesMin) ||
+    empty($prixParPersonne) ||
+    empty($stock) ||
+    empty($conditions)
+    ) {
+    $erreur = 'Tous les champs sont obligatoires';
+    }else
+        {
 
-    $query = $pdo->prepare($sql);
-    $query->execute([
-        $titre,
-        $description,
-        $theme,
-        $regime,
-        $nbPersonnesMin,
-        $prixParPersonne,
-        $stock,
-        $conditions
-    ]);
+            $sql = "INSERT INTO menu
+        (
+            titre,
+            description,
+            theme,
+            regime,
+            nbPersonnesMin,
+            prixParPersonne,
+            stock,
+            conditions
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    header("Location: admin-menu.php");
+        $query = $pdo->prepare($sql);
+        $query->execute([
+            $titre,
+            $description,
+            $theme,
+            $regime,
+            $nbPersonnesMin,
+            $prixParPersonne,
+            $stock,
+            $conditions
+        ]);
 
-    exit;
+        header("Location: admin-menu.php");
+
+        exit;
+
+        }
+
+   
 }
 
 
@@ -47,11 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ajouter menu</title>
     <link rel="stylesheet" href="../../css/admin_client/admin_client2.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -64,13 +84,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <h1 class="page-title">Ajouter un menu</h1>
 
+     <?php if($erreur): ?>
+
+        <p class="error">
+            <?= htmlspecialchars($erreur) ?>
+        </p>
+
+    <?php endif; ?>
+
     <div class="card">
 
         <form method="POST" class="form-grid">
 
             <input type="text" name="titre" placeholder="Titre" required>
 
-            <textarea name="description" placeholder="Description"></textarea>
+            <textarea name="description" placeholder="Description" required></textarea>
 
             <select name="theme">
                 <option value="Classique">Classique</option>
@@ -99,10 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input type="number"
                    name="stock"
                    placeholder="Stock"
-                   value="0">
+                   value="0"
+                   required>
 
             <textarea name="conditions"
-                      placeholder="Conditions">
+                      placeholder="Conditions"
+                      required>
             </textarea>
 
             <button type="submit" class="btn">

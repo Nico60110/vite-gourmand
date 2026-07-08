@@ -89,7 +89,7 @@ $avis = $query->fetchAll();
 
                 <strong>Date :</strong>
 
-                <?= $unAvis['dateAvis']; ?>
+                <?= htmlspecialchars($unAvis['dateAvis']); ?>
 
             </p>
 
@@ -97,7 +97,7 @@ $avis = $query->fetchAll();
 
                 <strong>Commande :</strong>
 
-                #<?= $unAvis['idCommande']; ?>
+                #<?= (int) $unAvis['idCommande']; ?>
 
             </p>
 
@@ -120,14 +120,14 @@ $avis = $query->fetchAll();
             <?php if(!$unAvis['valide']): ?>
 
                 <a
-                    href="valide-avis.php?id=<?= $unAvis['idAvis']; ?>"
+                    href="valide-avis.php?id=<?= (int) $unAvis['idAvis']; ?>"
                     class="btn"
                 >
                     Valider
                 </a>
 
                 <a
-                    href="refuse-avis.php?id=<?= $unAvis['idAvis']; ?>"
+                    href="refuse-avis.php?id=<?= (int) $unAvis['idAvis']; ?>"
                     class="btn"
                 >
                     Refuser

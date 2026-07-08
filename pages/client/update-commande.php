@@ -16,7 +16,12 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idCommande = $_GET['id'];
+$idCommande = (int) $_GET['id'];
+$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
+
+// =========================
+// VERIFICATION COMMANDE
+// =========================
 
 $sql = "
 SELECT *
@@ -29,7 +34,7 @@ $query = $pdo->prepare($sql);
 
 $query->execute([
     $idCommande,
-    $_SESSION['user']['idUtilisateur']
+    $idUtilisateur
 ]);
 
 $commande = $query->fetch();
@@ -49,11 +54,15 @@ $statutsBloques = [
     'ANNULEE'
 ];
 
-if(in_array($commande['statut'], $statutsBloques)){
+if(in_array($commande['statut'], $statutsBloques, true)){
 
     header('Location: commande-client.php');
     exit;
 }
+
+// =========================
+// MATERIEL
+// =========================
 
 $sql = "SELECT * FROM materiel ORDER BY nom";
 $query = $pdo->prepare($sql);
@@ -64,15 +73,14 @@ $materiels = $query->fetchAll();
 $sql = "
 SELECT cm.*, m.nom
 FROM commande_materiel cm
-
 INNER JOIN materiel m
 ON cm.idMateriel = m.idMateriel
-
 WHERE cm.idCommande = ?
 ";
 
 $query = $pdo->prepare($sql);
 $query->execute([$idCommande]);
+
 $materielsCommande = $query->fetchAll();
 
 $quantitesCommande = [];
@@ -82,13 +90,15 @@ foreach($materielsCommande as $materiel){
     $quantitesCommande[$materiel['idMateriel']] = $materiel['quantite'];
 }
 
+// =========================
+// MENU DE LA COMMANDE
+// =========================
+
 $sql = "
 SELECT m.*
 FROM menu m
-
 INNER JOIN commande_menu cm
 ON m.idMenu = cm.idMenu
-
 WHERE cm.idCommande = ?
 ";
 
@@ -97,131 +107,148 @@ $query->execute([$idCommande]);
 
 $menu = $query->fetch();
 
-
-
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    $dateLivraison = $_POST['dateLivraison'];
-    $heureLivraison = $_POST['heureLivraison'];
-    $adresseLivraison = $_POST['adresseLivraison'];
-    $nbPersonnes = $_POST['nbPersonnes'];
-
-
-    if($nbPersonnes < $menu['nbPersonnesMin']){
-
-        die("Nombre minimum de personnes non respecté.");
-    }
-
-    $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
-
-    $reduction = 0;
-
-    if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
-
-        $reduction = $prixMenu * 0.10;
-    }
-
-    $sql = "SELECT ville FROM utilisateur WHERE idUtilisateur = ?";
-    $query = $pdo->prepare($sql);
-    $query->execute([$_SESSION['user']['idUtilisateur']]);
-
-    $user = $query->fetch();
-
-    if(strtolower($user['ville']) === 'bordeaux'){
-
-    $prixLivraison = 0;
-
-    }else{
-
-        $prixLivraison = 5;
-    }
-
-    $prixTotal = $prixMenu - $reduction + $prixLivraison;
-
-
-
-    $pretMateriel = 0;
-
-    if(isset($_POST['materiel'])){
-
-        foreach($_POST['materiel'] as $quantite){
-
-            if($quantite > 0){
-
-                $pretMateriel = 1;
-                break;
-            }
-        }
-    }
-
-
-    $sql = "
-    UPDATE commande
-    SET
-        dateLivraison = ?,
-        heureLivraison = ?,
-        adresseLivraison = ?,
-        nbPersonnes = ?,
-        prixMenu = ?,
-        prixTotal = ?,
-        pretMateriel = ?
-    WHERE idCommande = ?
-        ";
-
-    $query = $pdo->prepare($sql);
-
-    $query->execute([
-        $dateLivraison,
-        $heureLivraison,
-        $adresseLivraison,
-        $nbPersonnes,
-        $prixMenu,
-        $prixTotal,
-        $pretMateriel,
-        $idCommande
-    ]);
-
-    
-    if(isset($_POST['materiel'])){
-
-    $sql = "
-    DELETE FROM commande_materiel
-    WHERE idCommande = ?
-    ";
-
-    $query = $pdo->prepare($sql);
-    $query->execute([$idCommande]);
-
-    foreach($_POST['materiel'] as $idMateriel => $quantite){
-
-        if($quantite > 0){
-
-            $sql = "
-            INSERT INTO commande_materiel
-            (
-                idCommande,
-                idMateriel,
-                quantite
-            )
-            VALUES (?, ?, ?)
-            ";
-
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
-                $idCommande,
-                $idMateriel,
-                $quantite
-            ]);
-        }
-    }
-}
-  
-
-    
+if(!$menu){
 
     header('Location: commande-client.php');
     exit;
+}
+
+// =========================
+// TRAITEMENT FORMULAIRE
+// =========================
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $dateLivraison = trim($_POST['dateLivraison']);
+    $heureLivraison = trim($_POST['heureLivraison']);
+    $adresseLivraison = trim($_POST['adresseLivraison']);
+    $nbPersonnes = (int) $_POST['nbPersonnes'];
+
+    if(
+        empty($dateLivraison) ||
+        empty($heureLivraison) ||
+        empty($adresseLivraison)
+    ){
+
+        $erreur = "Tous les champs obligatoires doivent être remplis.";
+
+    } elseif($nbPersonnes < $menu['nbPersonnesMin']){
+
+        $erreur = "Nombre minimum de personnes non respecté.";
+
+    } else {
+
+        $prixMenu = $menu['prixParPersonne'] * $nbPersonnes;
+
+        $reduction = 0;
+
+        if($nbPersonnes >= ($menu['nbPersonnesMin'] + 5)){
+
+            $reduction = $prixMenu * 0.10;
+        }
+
+        $sql = "SELECT ville FROM utilisateur WHERE idUtilisateur = ?";
+        $query = $pdo->prepare($sql);
+        $query->execute([$idUtilisateur]);
+
+        $user = $query->fetch();
+
+        if($user && strtolower($user['ville']) === 'bordeaux'){
+
+            $prixLivraison = 0;
+
+        } else {
+
+            $prixLivraison = 5;
+        }
+
+        $prixTotal = $prixMenu - $reduction + $prixLivraison;
+
+        $pretMateriel = 0;
+
+        if(isset($_POST['materiel'])){
+
+            foreach($_POST['materiel'] as $quantite){
+
+                $quantite = (int) $quantite;
+
+                if($quantite > 0){
+
+                    $pretMateriel = 1;
+                    break;
+                }
+            }
+        }
+
+        $sql = "
+        UPDATE commande
+        SET
+            dateLivraison = ?,
+            heureLivraison = ?,
+            adresseLivraison = ?,
+            nbPersonnes = ?,
+            prixMenu = ?,
+            prixTotal = ?,
+            pretMateriel = ?
+        WHERE idCommande = ?
+        AND idUtilisateur = ?
+        ";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            $dateLivraison,
+            $heureLivraison,
+            $adresseLivraison,
+            $nbPersonnes,
+            $prixMenu,
+            $prixTotal,
+            $pretMateriel,
+            $idCommande,
+            $idUtilisateur
+        ]);
+
+        $sql = "
+        DELETE FROM commande_materiel
+        WHERE idCommande = ?
+        ";
+
+        $query = $pdo->prepare($sql);
+        $query->execute([$idCommande]);
+
+        if(isset($_POST['materiel'])){
+
+            foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+                $idMateriel = (int) $idMateriel;
+                $quantite = (int) $quantite;
+
+                if($idMateriel > 0 && $quantite > 0){
+
+                    $sql = "
+                    INSERT INTO commande_materiel
+                    (
+                        idCommande,
+                        idMateriel,
+                        quantite
+                    )
+                    VALUES (?, ?, ?)
+                    ";
+
+                    $query = $pdo->prepare($sql);
+
+                    $query->execute([
+                        $idCommande,
+                        $idMateriel,
+                        $quantite
+                    ]);
+                }
+            }
+        }
+
+        header('Location: commande-client.php');
+        exit;
+    }
 }
 ?>
 
@@ -252,6 +279,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <h1 class="page-title">Modifier ma commande</h1>
 
+    <?php if(isset($erreur)): ?>
+
+        <p class="error">
+            <?= htmlspecialchars($erreur); ?>
+        </p>
+
+    <?php endif; ?>
+
     <form method="POST" class="card">
 
         <div>
@@ -261,7 +296,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input
                 type="date"
                 name="dateLivraison"
-                value="<?= $commande['dateLivraison']; ?>"
+                value="<?= htmlspecialchars($commande['dateLivraison']); ?>"
                 required
             >
 
@@ -276,7 +311,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input
                 type="time"
                 name="heureLivraison"
-                value="<?= $commande['heureLivraison']; ?>"
+                value="<?= htmlspecialchars($commande['heureLivraison']); ?>"
                 required
             >
 
@@ -306,8 +341,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input
                 type="number"
                 name="nbPersonnes"
-                value="<?= $commande['nbPersonnes']; ?>"
-                min="<?= $menu['nbPersonnesMin']; ?>"
+                value="<?= (int) $commande['nbPersonnes']; ?>"
+                min="<?= (int) $menu['nbPersonnesMin']; ?>"
                 required
             >
 
@@ -329,7 +364,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 type="number"
                 name="materiel[<?= $materiel['idMateriel']; ?>]"
                 min="0"
-                value="<?= $quantitesCommande[$materiel['idMateriel']] ?? 0; ?>"
+                value="<?= isset($quantitesCommande[$materiel['idMateriel']]) ? (int) $quantitesCommande[$materiel['idMateriel']] : 0; ?>"
             >
             
 

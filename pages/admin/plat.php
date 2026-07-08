@@ -15,7 +15,7 @@ $plats = $query->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>plats admin</title>
     <link rel="stylesheet" href="../../css/plat.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -41,23 +41,31 @@ $plats = $query->fetchAll();
 
             <div class="plat-card">
 
-                <img src="../../images/plats/<?=$plat['photo']; ?>" alt="<?= $plat['nom']; ?>">
+                <?php if (!empty($plat['photo'])): ?>
 
+                    <img
+                        src="../../images/plats/<?= htmlspecialchars($plat['photo']); ?>"
+                        alt="<?= htmlspecialchars($plat['nom']); ?>"
+                    >
+
+                <?php endif; ?>
+
+                
                 <div class="plat-content">
 
                     <span class="type">
-                        <?= ucfirst($plat['type']); ?>
+                        <?= htmlspecialchars(ucfirst($plat['type'])); ?>
                     </span>
 
-                    <h2><?= $plat['nom']; ?></h2>
+                    <h2><?= htmlspecialchars($plat['nom']); ?></h2>
 
                     <div class="actions">
 
-                        <a href="edit-plat.php?id=<?= $plat['idPlat']; ?>" class="btn">
+                        <a href="edit-plat.php?id=<?= (int) $plat['idPlat']; ?>" class="btn">
                             Modifier
                         </a>
 
-                        <a href="delete-plat.php?id=<?= $plat['idPlat']; ?>" class="btn btn-delete">
+                        <a href="delete-plat.php?id=<?= (int) $plat['idPlat']; ?>" class="btn btn-delete">
                             Supprimer
                         </a>
 

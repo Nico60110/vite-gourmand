@@ -2,51 +2,64 @@
 require '../../config/database.php';
 require '../../config/auth-admin.php';
 
+$erreur = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    $nom = $_POST['nom'];
-    $type = $_POST['type'];
-    $photo = $_POST['photo'];
+    $nom = trim($_POST['nom']);
+    $type = trim($_POST['type']);
+    $photo = trim($_POST['photo']);
 
-    $sql = 'INSERT INTO plat (nom, type, photo)
+    if(
+        empty($nom) ||
+        empty($type) ||
+        empty($photo)
+    ){
+        $erreur = 'Tout les champs doivent être remplis';
+    }else{
+        $sql = 'INSERT INTO plat (nom, type, photo)
             VALUES (?, ?, ?)';
-
-    $query = $pdo->prepare($sql);
-
-    $query->execute([
-        $nom,
-        $type,
-        $photo
-    ]);
-
-    $idPlat = $pdo->lastInsertId();
-
-    $allergenesSelectionnes = $_POST['allergenes'] ?? [];
-
-    foreach($allergenesSelectionnes as $idAllergene){
-
-        $sql = "
-        INSERT INTO plat_allergene
-        (
-            idPlat,
-            idAllergene
-        )
-        VALUES
-        (
-            ?, ?
-        )
-        ";
 
         $query = $pdo->prepare($sql);
 
         $query->execute([
-            $idPlat,
-            $idAllergene
+            $nom,
+            $type,
+            $photo
         ]);
+
+        $idPlat = $pdo->lastInsertId();
+
+        $allergenesSelectionnes = $_POST['allergenes'] ?? [];
+
+        foreach($allergenesSelectionnes as $idAllergene){
+
+            $sql = "
+            INSERT INTO plat_allergene
+            (
+                idPlat,
+                idAllergene
+            )
+            VALUES
+            (
+                ?, ?
+            )
+            ";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $idPlat,
+                $idAllergene
+            ]);
+        }
+
+        header("Location: plat.php");
+        exit;
+
     }
 
-    header("Location: plat.php");
-    exit;
+    
 }
 
 $sql = "SELECT * FROM allergene";
@@ -75,6 +88,14 @@ $allergenes = $query->fetchAll();
     <?php require '../../includes/navbar.php';?>
     <main class="container">
         <h1 class="page-title">Ajouter un plat</h1>
+        
+        <?php if($erreur): ?>
+
+            <p class="error">
+                <?= htmlspecialchars($erreur) ?>
+            </p>
+
+        <?php endif; ?>
 
         <div class="card">
             <form method="POST" class="form-grid">
@@ -92,7 +113,8 @@ $allergenes = $query->fetchAll();
 
             <input type="text"
                 name="photo"
-                placeholder="URL de la photo"
+                placeholder="nom et extension de l'image"
+                required
             >
             
             <br>
@@ -108,12 +130,12 @@ $allergenes = $query->fetchAll();
                                 value="<?= $allergene['idAllergene']; ?>"
                             >
 
-                            <?= $allergene['nom']; ?>
+                            <?= htmlspecialchars($allergene['nom']); ?>
                         </label>
 
                     <?php endforeach; ?>
 
-                </div>
+        </div>
 
                 <button type="submit" class="btn">
                     Ajouter le plat

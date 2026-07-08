@@ -7,6 +7,7 @@ $query = $pdo->prepare($sql);
 $query->execute();
 $horaires = $query->fetchAll();
 
+
 ?>
 
 
@@ -42,7 +43,7 @@ $horaires = $query->fetchAll();
 
             <div class="horaire-item">
 
-                <h3><?= $horaire['jour']; ?></h3>
+                <h3><?= htmlspecialchars($horaire['jour']); ?></h3>
 
                 <p>
 
@@ -58,9 +59,9 @@ $horaires = $query->fetchAll();
 
                     } else {
 
-                        echo $horaire['heureOuverture']
+                        echo htmlspecialchars($horaire['heureOuverture'])
                              . " - "
-                             . $horaire['heureFermeture'];
+                             . htmlspecialchars($horaire['heureFermeture']);
 
                     }
 
@@ -71,14 +72,14 @@ $horaires = $query->fetchAll();
                 <div class="actions">
 
                     <a
-                        href="edit-horaire.php?id=<?= $horaire['idHoraire']; ?>"
+                        href="edit-horaire.php?id=<?= (int) $horaire['idHoraire']; ?>"
                         class="btn"
                     >
                         Modifier
                     </a>
 
                     <a
-                        href="delete-horaire.php?id=<?= $horaire['idHoraire']; ?>"
+                        href="delete-horaire.php?id=<?= (int) $horaire['idHoraire']; ?>"
                         class="btn btn-delete"
                     >
                         Supprimer

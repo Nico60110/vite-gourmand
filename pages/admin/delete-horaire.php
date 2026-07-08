@@ -7,12 +7,17 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idHoraire = $_GET['id'];
+$idHoraire = (int) $_GET['id'];
 
 $sql = 'SELECT * FROM horaire WHERE idHoraire = ?';
 $query = $pdo->prepare($sql);
 $query->execute([$idHoraire]);
 $horaire = $query->fetch();
+
+if (!$horaire) {
+    header('Location: horaire.php');
+    exit;
+}
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $sql = 'DELETE FROM horaire WHERE idHoraire = ?';
@@ -54,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <div class="card">
 
-        <h2><?= $horaire['jour']; ?></h2>
+        <h2><?= htmlspecialchars($horaire['jour']); ?></h2>
 
         <p>
 
@@ -68,9 +73,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             <?php else: ?>
 
-                <?= $horaire['heureOuverture']; ?>
+                <?= htmlspecialchars($horaire['heureOuverture']); ?>
                 -
-                <?= $horaire['heureFermeture']; ?>
+                <?= htmlspecialchars($horaire['heureFermeture']); ?>
 
             <?php endif; ?>
 

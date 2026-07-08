@@ -16,11 +16,11 @@ $menus = $query->fetchAll();
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>admin menu</title>
     <link rel="stylesheet" href="../../css/menus.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <script src="/vite_gourmand/js/navbar.js" defer></script>
@@ -69,23 +69,23 @@ $menus = $query->fetchAll();
         <div class="menu-content">
 
             <span class="badge">
-                <?= $menu['theme']; ?>
+                <?= htmlspecialchars($menu['theme']); ?>
             </span>
 
-            <h2><?= $menu['titre']; ?></h2>
+            <h2><?= htmlspecialchars($menu['titre']); ?></h2>
 
-            <p><?= $menu['description']; ?></p>
+            <p><?= htmlspecialchars($menu['description']); ?></p>
 
             <div class="info">
-                Minimum <?= $menu['nbPersonnesMin']; ?> personnes • <?= number_format($prixMin, 2); ?> €
+                Minimum <?= (int) $menu['nbPersonnesMin']; ?> personnes • <?= number_format((float)$prixMin, 2, ',', ' '); ?> €
             </div>
 
             
-            <a href="edit-menu.php?id=<?= $menu['idMenu']; ?>" class="btn">
+            <a href="edit-menu.php?id=<?= (int) $menu['idMenu']; ?>" class="btn">
                 Modifier
             </a>
 
-          <a href="delete.php?id=<?= $menu['idMenu']; ?>" class="btn">
+          <a href="delete.php?id=<?= (int) $menu['idMenu']; ?>" class="btn">
                 Supprimer
           </a>
 

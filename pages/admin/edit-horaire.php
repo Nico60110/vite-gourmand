@@ -7,7 +7,8 @@ if(!isset($_GET['id'])){
     exit;
 }
 
-$idHoraire = $_GET['id'];
+$idHoraire = (int) $_GET['id'];
+$erreur = '';
 
 $sql = 'SELECT * FROM horaire WHERE idHoraire = ?';
 $query = $pdo->prepare($sql);
@@ -20,23 +21,34 @@ if(!$horaire){
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $jour = $_POST['jour'];
-    $heureOuverture = $_POST['heureOuverture'];
-    $heureFermeture = $_POST['heureFermeture'];
+    $jour = trim($_POST['jour']);
+    $heureOuverture = trim($_POST['heureOuverture']);
+    $heureFermeture = trim($_POST['heureFermeture']);
 
-    $sql = 'UPDATE horaire 
+    if(
+        empty($jour) ||
+        empty($heureOuverture) ||
+        empty($heureFermeture) 
+        ){
+            $erreur = 'Tous les champs doivent être remplis';
+        }else{
+
+            $sql = 'UPDATE horaire 
             SET jour = ?, heureOuverture = ?, heureFermeture = ?
             WHERE idHoraire = ?';
-    $query = $pdo->prepare($sql);
-    $query->execute([
-        $jour,
-        $heureOuverture,
-        $heureFermeture,
-        $idHoraire
-    ]);
+            $query = $pdo->prepare($sql);
+            $query->execute([
+                $jour,
+                $heureOuverture,
+                $heureFermeture,
+                $idHoraire
+            ]);
 
-    header('location:horaire.php');
-    exit;
+            header('location:horaire.php');
+            exit;
+
+                }
+ 
 }
 
 
@@ -69,6 +81,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     <h1 class="page-title">Modifier un horaire</h1>
 
+     <?php if($erreur): ?>
+
+        <p class="error">
+            <?= htmlspecialchars($erreur) ?>
+        </p>
+
+    <?php endif; ?>
+
     <div class="card">
 
         <form method="POST" class="form-grid">
@@ -76,37 +96,37 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <select name="jour" required>
 
                 <option value="Lundi"
-                    <?= $horaire['jour'] === 'Lundi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Lundi' ? 'selected' : ''; ?>>
                     Lundi
                 </option>
 
                 <option value="Mardi"
-                    <?= $horaire['jour'] === 'Mardi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Mardi' ? 'selected' : ''; ?>>
                     Mardi
                 </option>
 
                 <option value="Mercredi"
-                    <?= $horaire['jour'] === 'Mercredi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Mercredi' ? 'selected' : ''; ?>>
                     Mercredi
                 </option>
 
                 <option value="Jeudi"
-                    <?= $horaire['jour'] === 'Jeudi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Jeudi' ? 'selected' : ''; ?>>
                     Jeudi
                 </option>
 
                 <option value="Vendredi"
-                    <?= $horaire['jour'] === 'Vendredi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Vendredi' ? 'selected' : ''; ?>>
                     Vendredi
                 </option>
 
                 <option value="Samedi"
-                    <?= $horaire['jour'] === 'Samedi' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Samedi' ? 'selected' : ''; ?>>
                     Samedi
                 </option>
 
                 <option value="Dimanche"
-                    <?= $horaire['jour'] === 'Dimanche' ? 'selected' : ''; ?>>
+                    <?= htmlspecialchars($horaire['jour']) === 'Dimanche' ? 'selected' : ''; ?>>
                     Dimanche
                 </option>
 
@@ -117,7 +137,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input
                 type="time"
                 name="heureOuverture"
-                value="<?= $horaire['heureOuverture']; ?>"
+                value="<?= htmlspecialchars($horaire['heureOuverture']); ?>"
                 required
             >
 
@@ -126,7 +146,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             <input
                 type="time"
                 name="heureFermeture"
-                value="<?= $horaire['heureFermeture']; ?>"
+                value="<?= htmlspecialchars($horaire['heureFermeture']); ?>"
                 required
             >
 
