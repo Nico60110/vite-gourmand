@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && empty($token)){
             $email
         ]);
 
-        $lien = htmlspecialchars("http://localhost/vite_gourmand/pages/auth/forgot-password.php?token=" . $resetToken);
+        $lien = htmlspecialchars("http://localhost/pages/auth/forgot-password.php?token=" . $resetToken);
 
         $sujet = "Réinitialisation de votre mot de passe";
         $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
@@ -143,6 +143,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($token) && $utilisateurToken)
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot de passe oublié</title>
     <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">

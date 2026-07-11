@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$client = new MongoDB\Client("mongodb://localhost:27017");
+$client = new MongoDB\Client("mongodb+srv://vitegourmand:rooney60110@vitegourmand.ttb6qru.mongodb.net/?appName=vitegourmand");
 
 $dbMongo = $client->vite_gourmand;
 

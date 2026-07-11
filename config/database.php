@@ -1,9 +1,9 @@
 <?php
 
-$host = "localhost";
-$dbname = "vite_gourmand";
-$user = "root";
-$password = "";
+$host = "mysql-vite-gourmand.alwaysdata.net";
+$dbname = "vite-gourmand_vite_gourmand";
+$user = "vite-gourmand_vite-gourmand_app";
+$password = "rooney60110";
 
 try {
 

@@ -18,7 +18,7 @@ $plats = $query->fetchAll();
     <title>plats admin</title>
     <link rel="stylesheet" href="../../css/plat.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 </head>
 <body>
     <?php require '../../includes/navbar.php';?>

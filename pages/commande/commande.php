@@ -242,9 +242,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     
     <link rel="stylesheet" href="../../css/commande.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
-    <script src="/vite_gourmand/js/prix-commande.js" defer></script>
-    <script src="/vite_gourmand/js/commande.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/prix-commande.js" defer></script>
+    <script src="/js/commande.js" defer></script>
 
 </head>
 

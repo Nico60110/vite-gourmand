@@ -33,8 +33,8 @@ $avis = $query->fetchAll();
 
   <link rel="stylesheet" href="css/accueil.css">
   <link rel="stylesheet" href="css/vite&gourmand.css">
-  <script src="/vite_gourmand/js/navbar.js" defer></script>
-  <script src="/vite_gourmand/js/avis-slider.js" defer></script>
+  <script src="/js/navbar.js" defer></script>
+  <script src="/js/avis-slider.js" defer></script>
 </head>
 <body>
 
@@ -56,7 +56,7 @@ $avis = $query->fetchAll();
         pour tous vos événements
       </p>
 
-      <a href="pages/menu/Menus.php" class="btn">
+      <a href="pages/menu/menus.php" class="btn">
         Découvrir nos menus →
       </a>
 

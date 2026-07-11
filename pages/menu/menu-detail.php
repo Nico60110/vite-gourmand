@@ -97,8 +97,8 @@ foreach($resultatsAllergenes as $allergene){
   <title><?= htmlspecialchars($menu['titre']); ?></title>
     <link rel="stylesheet" href="../../css/menu-detail.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
-    <script src="/vite_gourmand/js/plat-slider.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/plat-slider.js" defer></script>
   
 </head>
 
@@ -134,7 +134,7 @@ foreach($resultatsAllergenes as $allergene){
             <?php if(!empty($plat['photo'])): ?>
 
                 <img
-                    src="/vite_gourmand/images/plats/<?= htmlspecialchars($plat['photo']); ?>"
+                    src="/images/plats/<?= htmlspecialchars($plat['photo']); ?>"
                     alt="<?= htmlspecialchars($plat['nom']); ?>"
                     class="plat-slide <?= $index === 0 ? 'active' : ''; ?>">
 

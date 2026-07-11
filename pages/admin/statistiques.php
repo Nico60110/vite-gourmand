@@ -121,14 +121,13 @@ foreach ($resultats as $ligne) {
 <head>
 
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistiques</title>
-
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
     <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/table.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -193,6 +192,7 @@ foreach ($resultats as $ligne) {
     <!-- =====================
          TABLEAU
     ====================== -->
+
 
     <table border="1" cellpadding="10">
 

@@ -75,10 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Vite & Gourmand</title>
     <link rel="stylesheet" href="../css/contact.css">
     <link rel="stylesheet" href="../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 </head>
 
 <body>
@@ -129,13 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <?php if ($success): ?>
-        <p class="success"><?= htmlspecialchars($success); ?></p>
-    <?php endif; ?>
-
-    <?php if ($erreur): ?>
-        <p class="error"><?= htmlspecialchars($erreur); ?></p>
-    <?php endif; ?>
 
     <form method="POST" class="contact-form">
 
@@ -154,10 +148,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn">
             Envoyer le message →
         </button>
+        <?php if ($success): ?>
+            <p class="success"><?= htmlspecialchars($success); ?></p>
+        <?php endif; ?>
+
+        <?php if ($erreur): ?>
+            <p class="error"><?= htmlspecialchars($erreur); ?></p>
+        <?php endif; ?>
 
     </form>
 
 </section>
+
+
 
 <section class="features">
 

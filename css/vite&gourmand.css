@@ -515,15 +515,16 @@ h3 {
 
 .success {
 
-    color: green;
+    color: #155724;
 
-    background: #fdecea;
+    background: #d4edda;
 
-    border: 1px solid #f5c2c0;
+    border: 1px solid #c3e6cb;
 
     padding: 12px;
 
     border-radius: 8px;
 
     margin-bottom: 20px;
+
 }

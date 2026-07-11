@@ -84,7 +84,7 @@ $historique = $query->fetchAll();
     <title>Commande détail</title>
     <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 </head>
 <body>
     <?php require '../../includes/navbar.php';?>
@@ -162,7 +162,7 @@ $historique = $query->fetchAll();
 
             <p>
                 <strong>Téléphone :</strong>
-                <?= htmlspecialchars($commande['telephone']); ?>
+                <?= htmlspecialchars($commande['telephone'] ?? ''); ?>
             </p>
 
         </section>
@@ -199,7 +199,7 @@ $historique = $query->fetchAll();
                 </p>
 
                 <p>
-                    <?= htmlspecialchars($item['commentaire']); ?>
+                    <?= htmlspecialchars($item['commentaire'] ?? ''); ?>
                 </p>
 
             <?php endforeach; ?>

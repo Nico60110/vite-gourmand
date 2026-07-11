@@ -72,7 +72,7 @@ $commandes = $query->fetchAll();
     <link rel="stylesheet" href="../../css/admin_client/admin_client1.css">
     <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 </head>
 <body>
     <?php require '../../includes/navbar.php';?>

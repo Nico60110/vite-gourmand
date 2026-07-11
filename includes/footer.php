@@ -3,7 +3,7 @@
 
         <!-- Colonne gauche -->
         <div class="footer-brand">
-            <img src="/vite_gourmand/images/chapeau-de-chef.png" alt="Logo Vite & Gourmand" class="footer-logo">
+            <img src="/images/chapeau-de-chef.png" alt="Logo Vite & Gourmand" class="footer-logo">
 
             <h1>Vite &<br>Gourmand</h1>
 
@@ -42,10 +42,10 @@
             
 
             <ul>
-                <li><a href="/vite_gourmand/index.php">Accueil</a></li>
-                <li><a href="/vite_gourmand/pages/menu/menus.php">Nos menus</a></li>
-                <li><a href="/vite_gourmand/pages/auth/inscription.php">Inscription</a></li>
-                <li><a href="/vite_gourmand/contact.php">Contact</a></li>
+                <li><a href="/index.php">Accueil</a></li>
+                <li><a href="/pages/menu/menus.php">Nos menus</a></li>
+                <li><a href="/pages/auth/inscription.php">Inscription</a></li>
+                <li><a href="/pages/contact.php">Contact</a></li>
             </ul>
         </div>
 
@@ -59,7 +59,7 @@
         <div class="footer-center-logo">
             <div class="line"></div>
 
-            <img src="/vite_gourmand/images/chapeau-de-chef.png">
+            <img src="/images/chapeau-de-chef.png">
 
             <div class="line"></div>
         </div>

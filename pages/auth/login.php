@@ -46,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     <title>Connexion - Vite & Gourmand</title>
     <link rel="stylesheet" href="../../css/login.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
 
 </head>
 

@@ -53,8 +53,8 @@ $menus = $query->fetchAll();
     <link rel="stylesheet" href="../../css/menus.css">
     <link rel="stylesheet" href="../../css/filters.css">
     <link rel="stylesheet" href="../../css/vite&gourmand.css">
-    <script src="/vite_gourmand/js/navbar.js" defer></script>
-    <script src="/vite_gourmand/js/filtres.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/filtres.js" defer></script>
 </head>
 
 <body>

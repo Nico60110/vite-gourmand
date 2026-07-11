@@ -20,19 +20,19 @@ if(session_status() === PHP_SESSION_NONE){
         
         <div class="link">
 
-            <a href="/vite_gourmand/index.php">Accueil</a>
+            <a href="/index.php">Accueil</a>
 
-            <a href="/vite_gourmand/pages/menu/menus.php">Nos Menus</a>
+            <a href="/pages/menu/menus.php">Nos Menus</a>
 
-            <a href="/vite_gourmand/pages/contact.php">Contact</a>
+            <a href="/pages/contact.php">Contact</a>
 
             <?php if(!isset($_SESSION['user'])): ?>
 
-                <a href="/vite_gourmand/pages/auth/inscription.php">
+                <a href="/pages/auth/inscription.php">
                     Inscription
                 </a>
 
-                <a href="/vite_gourmand/pages/auth/login.php">
+                <a href="/pages/auth/login.php">
                     Connexion
                 </a>
 
@@ -48,11 +48,11 @@ if(session_status() === PHP_SESSION_NONE){
 
                     <div class="dropdown-content">
 
-                        <a href="/vite_gourmand/pages/client/profile.php">
+                        <a href="/pages/client/profile.php">
                             Mon profil
                         </a>
 
-                        <a href="/vite_gourmand/pages/client/commande-client.php">
+                        <a href="/pages/client/commande-client.php">
                             Mes commandes
                         </a>
 
@@ -74,39 +74,39 @@ if(session_status() === PHP_SESSION_NONE){
 
                     <div class="dropdown-content">
 
-                        <a href="/vite_gourmand/pages/admin/commandes.php">
+                        <a href="/pages/admin/commandes.php">
                             Admin Commande
                         </a>
 
-                        <a href="/vite_gourmand/pages/admin/admin-menu.php">
+                        <a href="/pages/admin/admin-menu.php">
                             Admin menu
                         </a>
 
-                        <a href="/vite_gourmand/pages/admin/plat.php">
+                        <a href="/pages/admin/plat.php">
                             Admin plat
                         </a>
 
-                        <a href="/vite_gourmand/pages/admin/admin-avis.php">
+                        <a href="/pages/admin/admin-avis.php">
                             Admin avis
                         </a>
 
                         <?php if($_SESSION['user']['idRole'] == 1): ?>
 
-                            <a href="/vite_gourmand/pages/admin/statistiques.php">
+                            <a href="/pages/admin/statistiques.php">
                                 Statistiques
                             </a>
 
-                            <a href="/vite_gourmand/pages/admin/employes.php">
+                            <a href="/pages/admin/employes.php">
                                 Employés
                             </a>
 
-                            <a href="/vite_gourmand/pages/admin/add-employer.php">
+                            <a href="/pages/admin/add-employer.php">
                                 Ajouter employé
                             </a>
 
                         <?php endif; ?>
 
-                        <a href="/vite_gourmand/pages/admin/horaire.php">
+                        <a href="/pages/admin/horaire.php">
                             Admin horaire
                         </a>
 
@@ -116,7 +116,7 @@ if(session_status() === PHP_SESSION_NONE){
 
             <?php endif; ?>
 
-                <a href="/vite_gourmand/pages/auth/logout.php">
+                <a href="/pages/auth/logout.php">
                     Déconnexion
                 </a>
 
