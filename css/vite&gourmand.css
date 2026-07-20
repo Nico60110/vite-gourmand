@@ -310,15 +310,19 @@ nav {
     margin-bottom: 15px;
 }
 
-.footer-links a {
-
-    color: white;
-
-    transition: 0.3s;
+/* Tous les liens du footer */
+.footer a,
+.footer a:link,
+.footer a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.footer-links a:hover {
-
+/* Survol et clic */
+.footer a:hover,
+.footer a:active,
+.footer a:focus {
     color: #E67E22;
 }
 

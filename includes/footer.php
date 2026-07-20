@@ -63,8 +63,14 @@
 
             <div class="line"></div>
         </div>
-
-        <p>Mentions légales | CGV</p>
+        
+        <div>
+            <a href="/pages/mentions-legales.php">Mentions légales</a>
+            <span>|</span>
+            <a href="/pages/cgv.php">Conditions Générales de Vente</a>
+        </div>
+        
+        
 
     </div>
 </footer>
