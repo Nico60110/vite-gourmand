@@ -101,6 +101,10 @@ $menus = $query->fetchAll();
                 Vegetal
             </option>
 
+            <option value="Enfant">
+                Enfant
+            </option>
+
         </select>
 
         <select name="regime">

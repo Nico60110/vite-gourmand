@@ -103,7 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             <select name="theme">
                 <option value="Classique">Classique</option>
                 <option value="Noël">Noël</option>
-                <option value="Vegan">Vegan</option>
+                <option value="Vegetal">Vegetal</option>
+                <option value="Tradition">Tradition</option>
+                <option value="Enfant">Enfant</option>
                 
             </select>
 

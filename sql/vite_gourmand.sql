@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : sam. 04 juil. 2026 à 19:32
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Host: mysql-vite-gourmand.alwaysdata.net
+-- Generation Time: Jul 20, 2026 at 06:35 PM
+-- Server version: 11.4.12-MariaDB
+-- PHP Version: 8.4.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `vite_gourmand`
+-- Database: `vite-gourmand_vite_gourmand`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `allergene`
+-- Table structure for table `allergene`
 --
 
 CREATE TABLE `allergene` (
@@ -33,7 +33,7 @@ CREATE TABLE `allergene` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `allergene`
+-- Dumping data for table `allergene`
 --
 
 INSERT INTO `allergene` (`idAllergene`, `nom`) VALUES
@@ -55,7 +55,7 @@ INSERT INTO `allergene` (`idAllergene`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `avis`
+-- Table structure for table `avis`
 --
 
 CREATE TABLE `avis` (
@@ -69,7 +69,7 @@ CREATE TABLE `avis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `avis`
+-- Dumping data for table `avis`
 --
 
 INSERT INTO `avis` (`idAvis`, `note`, `commentaire`, `valide`, `dateAvis`, `idUtilisateur`, `idCommande`) VALUES
@@ -80,7 +80,7 @@ INSERT INTO `avis` (`idAvis`, `note`, `commentaire`, `valide`, `dateAvis`, `idUt
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande`
+-- Table structure for table `commande`
 --
 
 CREATE TABLE `commande` (
@@ -99,7 +99,7 @@ CREATE TABLE `commande` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `commande`
+-- Dumping data for table `commande`
 --
 
 INSERT INTO `commande` (`idCommande`, `dateCommande`, `dateLivraison`, `heureLivraison`, `adresseLivraison`, `nbPersonnes`, `prixTotal`, `statut`, `idUtilisateur`, `prixMenu`, `pretMateriel`, `restitutionMateriel`) VALUES
@@ -113,7 +113,7 @@ INSERT INTO `commande` (`idCommande`, `dateCommande`, `dateLivraison`, `heureLiv
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande_materiel`
+-- Table structure for table `commande_materiel`
 --
 
 CREATE TABLE `commande_materiel` (
@@ -126,7 +126,7 @@ CREATE TABLE `commande_materiel` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande_menu`
+-- Table structure for table `commande_menu`
 --
 
 CREATE TABLE `commande_menu` (
@@ -138,7 +138,7 @@ CREATE TABLE `commande_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `commande_menu`
+-- Dumping data for table `commande_menu`
 --
 
 INSERT INTO `commande_menu` (`idCommandeMenu`, `quantite`, `prixUnitaire`, `idCommande`, `idMenu`) VALUES
@@ -151,7 +151,7 @@ INSERT INTO `commande_menu` (`idCommandeMenu`, `quantite`, `prixUnitaire`, `idCo
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contact`
+-- Table structure for table `contact`
 --
 
 CREATE TABLE `contact` (
@@ -163,7 +163,7 @@ CREATE TABLE `contact` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `contact`
+-- Dumping data for table `contact`
 --
 
 INSERT INTO `contact` (`idContact`, `titre`, `message`, `email`, `dateContact`) VALUES
@@ -176,7 +176,7 @@ INSERT INTO `contact` (`idContact`, `titre`, `message`, `email`, `dateContact`) 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `historique_statut`
+-- Table structure for table `historique_statut`
 --
 
 CREATE TABLE `historique_statut` (
@@ -188,7 +188,7 @@ CREATE TABLE `historique_statut` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `historique_statut`
+-- Dumping data for table `historique_statut`
 --
 
 INSERT INTO `historique_statut` (`idHistorique`, `statut`, `dateStatut`, `commentaire`, `idCommande`) VALUES
@@ -214,7 +214,7 @@ INSERT INTO `historique_statut` (`idHistorique`, `statut`, `dateStatut`, `commen
 -- --------------------------------------------------------
 
 --
--- Structure de la table `horaire`
+-- Table structure for table `horaire`
 --
 
 CREATE TABLE `horaire` (
@@ -225,7 +225,7 @@ CREATE TABLE `horaire` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `horaire`
+-- Dumping data for table `horaire`
 --
 
 INSERT INTO `horaire` (`idHoraire`, `jour`, `heureOuverture`, `heureFermeture`) VALUES
@@ -239,7 +239,7 @@ INSERT INTO `horaire` (`idHoraire`, `jour`, `heureOuverture`, `heureFermeture`) 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `materiel`
+-- Table structure for table `materiel`
 --
 
 CREATE TABLE `materiel` (
@@ -248,7 +248,7 @@ CREATE TABLE `materiel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `materiel`
+-- Dumping data for table `materiel`
 --
 
 INSERT INTO `materiel` (`idMateriel`, `nom`) VALUES
@@ -264,7 +264,7 @@ INSERT INTO `materiel` (`idMateriel`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `menu`
+-- Table structure for table `menu`
 --
 
 CREATE TABLE `menu` (
@@ -280,19 +280,21 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `menu`
+-- Dumping data for table `menu`
 --
 
 INSERT INTO `menu` (`idMenu`, `titre`, `description`, `theme`, `regime`, `nbPersonnesMin`, `prixParPersonne`, `stock`, `conditions`) VALUES
 (1, 'Menu Pizza Party', 'Buffet convivial composé de pizzas artisanales variées, salades fraîches et desserts maison.', 'Pizza', 'Classique', 5, 17.00, 10, 'Commande minimum 48h avant la prestation. Conservation au frais recommandée.'),
 (2, 'Menu Noël Prestige', 'Menu festif haut de gamme avec foie gras, saumon fumé, chapon farci et dessert de Noël.', 'Noël', 'Classique', 8, 28.00, 5, 'Commande obligatoire 7 jours avant Noël. Produits frais à conserver entre 0 et 4 degrés.'),
 (3, 'Menu Tradition', 'Cuisine française traditionnelle avec entrée, plat chaud et dessert artisanal.', 'Tradition', 'Classique', 5, 18.00, 7, 'Commande minimum 72h avant la livraison.'),
-(4, 'Menu Green Vegan', 'Menu 100% vegan composé de produits frais, légumes de saison et desserts végétaux.', 'Vegetal', 'Vegan', 6, 16.00, 8, 'Conservation au frais recommandée après livraison.');
+(4, 'Menu Green Vegan', 'Menu 100% vegan composé de produits frais, légumes de saison et desserts végétaux.', 'Vegetal', 'Vegan', 6, 16.00, 8, 'Conservation au frais recommandée après livraison.'),
+(8, 'Menu Enfant Classique', 'Entrée : Mini sandwich jambon-fromage\r\nPlat : Mini burger de bœuf avec frites maison\r\nDessert : Brownie au chocolat', 'Enfant', 'Classique', 8, 13.00, 100, 'Menu destiné aux enfants de moins de 12 ans. Commande minimale de 8 personnes.'),
+(9, 'Menu Enfant Vegan', 'Entrée : Wrap de houmous et légumes croquants\r\nPlat : Nuggets de pois chiches avec frites de patate douce\r\nDessert : Muffin chocolat-banane vegan', 'Enfant', 'Vegan', 8, 14.00, 100, 'Menu destiné aux enfants de moins de 12 ans. Commande minimale de 8 personnes.');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `menu_plat`
+-- Table structure for table `menu_plat`
 --
 
 CREATE TABLE `menu_plat` (
@@ -302,7 +304,7 @@ CREATE TABLE `menu_plat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `menu_plat`
+-- Dumping data for table `menu_plat`
 --
 
 INSERT INTO `menu_plat` (`idMenu`, `idPlat`, `typeMenu`) VALUES
@@ -317,12 +319,18 @@ INSERT INTO `menu_plat` (`idMenu`, `idPlat`, `typeMenu`) VALUES
 (3, 9, 'dessert'),
 (4, 10, 'entree'),
 (4, 11, 'plat'),
-(4, 12, 'dessert');
+(4, 12, 'dessert'),
+(8, 14, 'entree'),
+(8, 15, 'plat'),
+(8, 16, 'dessert'),
+(9, 10, 'entree'),
+(9, 17, 'plat'),
+(9, 18, 'dessert');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `plat`
+-- Table structure for table `plat`
 --
 
 CREATE TABLE `plat` (
@@ -333,7 +341,7 @@ CREATE TABLE `plat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `plat`
+-- Dumping data for table `plat`
 --
 
 INSERT INTO `plat` (`idPlat`, `nom`, `type`, `photo`) VALUES
@@ -344,16 +352,21 @@ INSERT INTO `plat` (`idPlat`, `nom`, `type`, `photo`) VALUES
 (5, 'Suprême de chapon aux morilles', 'plat', 'chapon.jpg'),
 (6, 'Bûche de Noël artisanale', 'dessert', 'buche-noel.jpg'),
 (7, 'Œufs mimosa', 'entree', 'oeufs-mimosa.jpg'),
-(8, 'Blanquette de veau à l\'ancienne', 'plat', 'blanquette.jpg'),
+(8, 'Blanquette de veau à l\'ancienne', 'plat', 'blanquette.png'),
 (9, 'Tarte aux pommes', 'dessert', 'tarte-pommes.jpg'),
-(10, 'Houmous et légumes croquants', 'entree', 'houmous.jpg'),
+(10, 'Wrap de houmous et légumes croquants', 'entree', 'wrap-houmous-legumes.jpg'),
 (11, 'Curry de légumes au lait de coco', 'plat', 'curry-vegan.jpg'),
-(12, 'Mousse au chocolat vegan', 'dessert', 'mousse-vegan.jpg');
+(12, 'Mousse au chocolat vegan', 'dessert', 'mousse-vegan.jpg'),
+(14, 'Mini sandwich jambon-fromage', 'entree', 'mini-sandwich-jambon-fromage.jpg'),
+(15, 'Mini burger de bœuf avec frites maison', 'plat', 'mini-burger-boeuf-frites.jpg'),
+(16, 'Brownie au chocolat', 'dessert', 'brownie-chocolat.jpg'),
+(17, 'Nuggets de pois chiches avec frites de patate douce', 'plat', 'nuggets-pois-chiches-patate-douce.jpg'),
+(18, 'Muffin chocolat-banane vegan', 'dessert', 'muffin-chocolat-banane-vegan.jpg');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `plat_allergene`
+-- Table structure for table `plat_allergene`
 --
 
 CREATE TABLE `plat_allergene` (
@@ -362,47 +375,59 @@ CREATE TABLE `plat_allergene` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `plat_allergene`
+-- Dumping data for table `plat_allergene`
 --
 
 INSERT INTO `plat_allergene` (`idPlat`, `idAllergene`) VALUES
 (1, 1),
-(1, 7),
-(1, 8),
 (2, 1),
-(2, 7),
 (3, 1),
+(5, 1),
+(6, 1),
+(8, 1),
+(9, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1),
+(18, 1),
 (3, 3),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(9, 3),
+(15, 3),
+(16, 3),
+(12, 6),
+(18, 6),
+(1, 7),
+(2, 7),
 (3, 7),
 (4, 7),
-(4, 12),
-(5, 1),
-(5, 3),
 (5, 7),
-(5, 9),
-(5, 12),
-(6, 1),
-(6, 3),
 (6, 7),
-(7, 3),
-(7, 10),
-(8, 1),
-(8, 3),
 (8, 7),
-(8, 9),
-(9, 1),
-(9, 3),
 (9, 7),
-(10, 11),
+(14, 7),
+(15, 7),
+(16, 7),
+(1, 8),
+(12, 8),
+(5, 9),
+(8, 9),
 (11, 9),
+(7, 10),
 (11, 10),
-(12, 6),
-(12, 8);
+(15, 10),
+(10, 11),
+(4, 12),
+(5, 12);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
@@ -411,7 +436,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`idRole`, `libelle`) VALUES
@@ -422,7 +447,7 @@ INSERT INTO `role` (`idRole`, `libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateur`
+-- Table structure for table `utilisateur`
 --
 
 CREATE TABLE `utilisateur` (
@@ -443,7 +468,7 @@ CREATE TABLE `utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `utilisateur`
+-- Dumping data for table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`idUtilisateur`, `nom`, `prenom`, `email`, `motDePasse`, `telephone`, `adresse`, `idRole`, `ville`, `codePostal`, `pays`, `actif`, `resetToken`, `resetExpire`) VALUES
@@ -453,17 +478,17 @@ INSERT INTO `utilisateur` (`idUtilisateur`, `nom`, `prenom`, `email`, `motDePass
 (6, 'employe2', 'employe2', 'vitegourmandoff@gmail.com', '$2y$10$gRcL06kglUrh7OIM7.WrU.Co8Q.oOvBuxNgvvXZiOQnPXcjePP4LC', NULL, NULL, 2, NULL, NULL, NULL, 1, NULL, NULL);
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `allergene`
+-- Indexes for table `allergene`
 --
 ALTER TABLE `allergene`
   ADD PRIMARY KEY (`idAllergene`);
 
 --
--- Index pour la table `avis`
+-- Indexes for table `avis`
 --
 ALTER TABLE `avis`
   ADD PRIMARY KEY (`idAvis`),
@@ -471,20 +496,20 @@ ALTER TABLE `avis`
   ADD KEY `idCommande` (`idCommande`);
 
 --
--- Index pour la table `commande`
+-- Indexes for table `commande`
 --
 ALTER TABLE `commande`
   ADD PRIMARY KEY (`idCommande`),
   ADD KEY `idUtilisateur` (`idUtilisateur`);
 
 --
--- Index pour la table `commande_materiel`
+-- Indexes for table `commande_materiel`
 --
 ALTER TABLE `commande_materiel`
   ADD PRIMARY KEY (`idCommandeMateriel`);
 
 --
--- Index pour la table `commande_menu`
+-- Indexes for table `commande_menu`
 --
 ALTER TABLE `commande_menu`
   ADD PRIMARY KEY (`idCommandeMenu`),
@@ -492,64 +517,64 @@ ALTER TABLE `commande_menu`
   ADD KEY `idMenu` (`idMenu`);
 
 --
--- Index pour la table `contact`
+-- Indexes for table `contact`
 --
 ALTER TABLE `contact`
   ADD PRIMARY KEY (`idContact`);
 
 --
--- Index pour la table `historique_statut`
+-- Indexes for table `historique_statut`
 --
 ALTER TABLE `historique_statut`
   ADD PRIMARY KEY (`idHistorique`),
   ADD KEY `idCommande` (`idCommande`);
 
 --
--- Index pour la table `horaire`
+-- Indexes for table `horaire`
 --
 ALTER TABLE `horaire`
   ADD PRIMARY KEY (`idHoraire`);
 
 --
--- Index pour la table `materiel`
+-- Indexes for table `materiel`
 --
 ALTER TABLE `materiel`
   ADD PRIMARY KEY (`idMateriel`);
 
 --
--- Index pour la table `menu`
+-- Indexes for table `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`idMenu`);
 
 --
--- Index pour la table `menu_plat`
+-- Indexes for table `menu_plat`
 --
 ALTER TABLE `menu_plat`
   ADD PRIMARY KEY (`idMenu`,`idPlat`),
   ADD KEY `idPlat` (`idPlat`);
 
 --
--- Index pour la table `plat`
+-- Indexes for table `plat`
 --
 ALTER TABLE `plat`
   ADD PRIMARY KEY (`idPlat`);
 
 --
--- Index pour la table `plat_allergene`
+-- Indexes for table `plat_allergene`
 --
 ALTER TABLE `plat_allergene`
   ADD PRIMARY KEY (`idPlat`,`idAllergene`),
   ADD KEY `idAllergene` (`idAllergene`);
 
 --
--- Index pour la table `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`idRole`);
 
 --
--- Index pour la table `utilisateur`
+-- Indexes for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD PRIMARY KEY (`idUtilisateur`),
@@ -557,133 +582,133 @@ ALTER TABLE `utilisateur`
   ADD KEY `idRole` (`idRole`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `allergene`
+-- AUTO_INCREMENT for table `allergene`
 --
 ALTER TABLE `allergene`
   MODIFY `idAllergene` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT pour la table `avis`
+-- AUTO_INCREMENT for table `avis`
 --
 ALTER TABLE `avis`
   MODIFY `idAvis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `commande`
+-- AUTO_INCREMENT for table `commande`
 --
 ALTER TABLE `commande`
   MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT pour la table `commande_materiel`
+-- AUTO_INCREMENT for table `commande_materiel`
 --
 ALTER TABLE `commande_materiel`
   MODIFY `idCommandeMateriel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `commande_menu`
+-- AUTO_INCREMENT for table `commande_menu`
 --
 ALTER TABLE `commande_menu`
   MODIFY `idCommandeMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `contact`
+-- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
   MODIFY `idContact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `historique_statut`
+-- AUTO_INCREMENT for table `historique_statut`
 --
 ALTER TABLE `historique_statut`
   MODIFY `idHistorique` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT pour la table `horaire`
+-- AUTO_INCREMENT for table `horaire`
 --
 ALTER TABLE `horaire`
   MODIFY `idHoraire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `materiel`
+-- AUTO_INCREMENT for table `materiel`
 --
 ALTER TABLE `materiel`
   MODIFY `idMateriel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `menu`
+-- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT pour la table `plat`
+-- AUTO_INCREMENT for table `plat`
 --
 ALTER TABLE `plat`
-  MODIFY `idPlat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idPlat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `idRole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `utilisateur`
+-- AUTO_INCREMENT for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `avis`
+-- Constraints for table `avis`
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur` (`idUtilisateur`),
   ADD CONSTRAINT `avis_ibfk_2` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`idCommande`);
 
 --
--- Contraintes pour la table `commande`
+-- Constraints for table `commande`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `commande_ibfk_1` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur` (`idUtilisateur`);
 
 --
--- Contraintes pour la table `commande_menu`
+-- Constraints for table `commande_menu`
 --
 ALTER TABLE `commande_menu`
   ADD CONSTRAINT `commande_menu_ibfk_1` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`idCommande`) ON DELETE CASCADE,
   ADD CONSTRAINT `commande_menu_ibfk_2` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`);
 
 --
--- Contraintes pour la table `historique_statut`
+-- Constraints for table `historique_statut`
 --
 ALTER TABLE `historique_statut`
   ADD CONSTRAINT `historique_statut_ibfk_1` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`idCommande`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `menu_plat`
+-- Constraints for table `menu_plat`
 --
 ALTER TABLE `menu_plat`
   ADD CONSTRAINT `menu_plat_ibfk_1` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`) ON DELETE CASCADE,
   ADD CONSTRAINT `menu_plat_ibfk_2` FOREIGN KEY (`idPlat`) REFERENCES `plat` (`idPlat`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `plat_allergene`
+-- Constraints for table `plat_allergene`
 --
 ALTER TABLE `plat_allergene`
   ADD CONSTRAINT `plat_allergene_ibfk_1` FOREIGN KEY (`idPlat`) REFERENCES `plat` (`idPlat`) ON DELETE CASCADE,
   ADD CONSTRAINT `plat_allergene_ibfk_2` FOREIGN KEY (`idAllergene`) REFERENCES `allergene` (`idAllergene`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `utilisateur`
+-- Constraints for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
   ADD CONSTRAINT `utilisateur_ibfk_1` FOREIGN KEY (`idRole`) REFERENCES `role` (`idRole`);

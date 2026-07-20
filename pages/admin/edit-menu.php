@@ -171,6 +171,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         Pizza
                     </option>
 
+                    <option value="Enfant"
+                        <?= htmlspecialchars($menu['theme']) === 'Enfant' ? 'selected' : ''; ?>>
+                        Enfant
+                    </option>
+
                 </select>
 
                 <select name="regime">
