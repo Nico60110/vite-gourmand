@@ -51,6 +51,7 @@ $plats = $query->fetchAll();
 $entrees = [];
 $platsPrincipaux = [];
 $desserts = [];
+$boissons = [];
 
 foreach($plats as $plat){
 
@@ -64,6 +65,10 @@ foreach($plats as $plat){
 
     if($plat['typeMenu'] === 'dessert'){
         $desserts[] = $plat;
+    }
+
+    if($plat['typeMenu'] === 'boisson'){
+        $boissons[] = $plat;
     }
 }
 
@@ -259,6 +264,33 @@ foreach($resultatsAllergenes as $allergene){
         <h3>Desserts</h3>
 
         <?php foreach($desserts as $plat): ?>
+
+          <div class="dish">
+              <h4><?= htmlspecialchars($plat['nom']); ?></h4>
+               <div class="allergenes">
+                <?php
+                $allergenes = $allergenesParPlat[$plat['idPlat']] ?? [];
+                ?>
+
+                  <?php foreach($allergenes as $allergene): ?>
+
+                      <span><?= htmlspecialchars($allergene); ?></span>
+
+                  <?php endforeach; ?>
+                </div>
+          </div>
+
+        <?php endforeach; ?>
+
+      </div>
+
+        <!-- BOISSONS -->
+
+      <div class="category">
+
+        <h3>Boissons</h3>
+
+        <?php foreach($boissons as $plat): ?>
 
           <div class="dish">
               <h4><?= htmlspecialchars($plat['nom']); ?></h4>

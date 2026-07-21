@@ -109,6 +109,7 @@ $allergenes = $query->fetchAll();
                 <option value="entree">Entrée</option>
                 <option value="plat">Plat</option>
                 <option value="dessert">Dessert</option>
+                <option value="dessert">Boisson</option>
             </select>
 
             <input type="text"

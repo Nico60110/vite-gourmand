@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-vite-gourmand.alwaysdata.net
--- Generation Time: Jul 20, 2026 at 06:35 PM
+-- Generation Time: Jul 21, 2026 at 04:50 PM
 -- Server version: 11.4.12-MariaDB
 -- PHP Version: 8.4.23
 
@@ -300,7 +300,7 @@ INSERT INTO `menu` (`idMenu`, `titre`, `description`, `theme`, `regime`, `nbPers
 CREATE TABLE `menu_plat` (
   `idMenu` int(11) NOT NULL,
   `idPlat` int(11) NOT NULL,
-  `typeMenu` enum('entree','plat','dessert') NOT NULL
+  `typeMenu` enum('entree','plat','dessert','boisson') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -311,21 +311,27 @@ INSERT INTO `menu_plat` (`idMenu`, `idPlat`, `typeMenu`) VALUES
 (1, 1, 'entree'),
 (1, 2, 'plat'),
 (1, 3, 'dessert'),
+(1, 21, 'boisson'),
 (2, 4, 'entree'),
 (2, 5, 'plat'),
 (2, 6, 'dessert'),
+(2, 19, 'boisson'),
 (3, 7, 'entree'),
 (3, 8, 'plat'),
 (3, 9, 'dessert'),
+(3, 20, 'boisson'),
 (4, 10, 'entree'),
 (4, 11, 'plat'),
 (4, 12, 'dessert'),
+(4, 23, 'boisson'),
 (8, 14, 'entree'),
 (8, 15, 'plat'),
 (8, 16, 'dessert'),
+(8, 22, 'boisson'),
 (9, 10, 'entree'),
 (9, 17, 'plat'),
-(9, 18, 'dessert');
+(9, 18, 'dessert'),
+(9, 23, 'boisson');
 
 -- --------------------------------------------------------
 
@@ -336,7 +342,7 @@ INSERT INTO `menu_plat` (`idMenu`, `idPlat`, `typeMenu`) VALUES
 CREATE TABLE `plat` (
   `idPlat` int(11) NOT NULL,
   `nom` varchar(150) NOT NULL,
-  `type` enum('entree','plat','dessert') NOT NULL,
+  `type` enum('entree','plat','dessert','boisson') NOT NULL,
   `photo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -361,7 +367,12 @@ INSERT INTO `plat` (`idPlat`, `nom`, `type`, `photo`) VALUES
 (15, 'Mini burger de bœuf avec frites maison', 'plat', 'mini-burger-boeuf-frites.jpg'),
 (16, 'Brownie au chocolat', 'dessert', 'brownie-chocolat.jpg'),
 (17, 'Nuggets de pois chiches avec frites de patate douce', 'plat', 'nuggets-pois-chiches-patate-douce.jpg'),
-(18, 'Muffin chocolat-banane vegan', 'dessert', 'muffin-chocolat-banane-vegan.jpg');
+(18, 'Muffin chocolat-banane vegan', 'dessert', 'muffin-chocolat-banane-vegan.jpg'),
+(19, 'Champagne', 'boisson', 'champagne.jpg'),
+(20, 'Vin rouge Bordeaux', 'boisson', 'vin-rouge.jpg'),
+(21, 'Limonade', 'boisson', 'limonade.jpg'),
+(22, 'Jus d\'orange', 'boisson', 'jus-d\'orange.jpg'),
+(23, 'Jus de pomme', 'boisson', 'jus-de-pomme.jpg');
 
 -- --------------------------------------------------------
 
@@ -422,7 +433,9 @@ INSERT INTO `plat_allergene` (`idPlat`, `idAllergene`) VALUES
 (15, 10),
 (10, 11),
 (4, 12),
-(5, 12);
+(5, 12),
+(19, 12),
+(20, 12);
 
 -- --------------------------------------------------------
 
@@ -649,7 +662,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `plat`
 --
 ALTER TABLE `plat`
-  MODIFY `idPlat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idPlat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `role`

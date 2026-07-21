@@ -173,6 +173,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         Dessert
                     </option>
 
+                    <option value="boisson"
+                        <?= htmlspecialchars($plat['type']) === 'boisson' ? 'selected' : ''; ?>>
+                        Boisson
+                    </option>
+
                 </select>
 
                 <input
