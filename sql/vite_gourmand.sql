@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-vite-gourmand.alwaysdata.net
--- Generation Time: Jul 21, 2026 at 04:50 PM
+-- Generation Time: Jul 22, 2026 at 04:47 PM
 -- Server version: 11.4.12-MariaDB
 -- PHP Version: 8.4.23
 
@@ -108,7 +108,7 @@ INSERT INTO `commande` (`idCommande`, `dateCommande`, `dateLivraison`, `heureLiv
 (6, '2026-07-01 16:52:38', '2026-07-10', '17:50:00', '58 rues des tomates', 10, 153.00, 'TERMINEE', 2, 0.00, 0, 0),
 (7, '2026-07-01 18:41:49', '2026-07-11', '21:41:00', '58 rues des tomates', 8, 224.00, 'EN_ATTENTE', 2, 0.00, 0, 0),
 (8, '2026-07-01 18:42:19', '2026-07-01', '19:42:00', '58 rues des tomates', 10, 162.00, 'EN_ATTENTE', 2, 0.00, 0, 0),
-(9, '2026-07-01 18:42:56', '2026-07-02', '19:42:00', '58 rues des tomates', 8, 128.00, 'EN_ATTENTE', 2, 0.00, 0, 0);
+(9, '2026-07-01 18:42:56', '2026-07-02', '19:42:00', '58 rues des tomates', 6, 96.00, 'EN_ATTENTE', 2, 96.00, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -284,10 +284,10 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`idMenu`, `titre`, `description`, `theme`, `regime`, `nbPersonnesMin`, `prixParPersonne`, `stock`, `conditions`) VALUES
-(1, 'Menu Pizza Party', 'Buffet convivial composé de pizzas artisanales variées, salades fraîches et desserts maison.', 'Pizza', 'Classique', 5, 17.00, 10, 'Commande minimum 48h avant la prestation. Conservation au frais recommandée.'),
-(2, 'Menu Noël Prestige', 'Menu festif haut de gamme avec foie gras, saumon fumé, chapon farci et dessert de Noël.', 'Noël', 'Classique', 8, 28.00, 5, 'Commande obligatoire 7 jours avant Noël. Produits frais à conserver entre 0 et 4 degrés.'),
-(3, 'Menu Tradition', 'Cuisine française traditionnelle avec entrée, plat chaud et dessert artisanal.', 'Tradition', 'Classique', 5, 18.00, 7, 'Commande minimum 72h avant la livraison.'),
-(4, 'Menu Green Vegan', 'Menu 100% vegan composé de produits frais, légumes de saison et desserts végétaux.', 'Vegetal', 'Vegan', 6, 16.00, 8, 'Conservation au frais recommandée après livraison.'),
+(1, 'Menu Pizza Party', 'Buffet convivial composé de pizzas artisanales variées, salades fraîches et desserts maison.', 'Pizza', 'Classique', 5, 17.00, 100, 'Commande minimum 48h avant la prestation. Conservation au frais recommandée.'),
+(2, 'Menu Noël Prestige', 'Menu festif haut de gamme avec foie gras, saumon fumé, chapon farci et dessert de Noël.', 'Noël', 'Classique', 8, 28.00, 100, 'Commande obligatoire 7 jours avant Noël. Produits frais à conserver entre 0 et 4 degrés.'),
+(3, 'Menu Tradition', 'Cuisine française traditionnelle avec entrée, plat chaud et dessert artisanal.', 'Tradition', 'Classique', 5, 18.00, 100, 'Commande minimum 72h avant la livraison.'),
+(4, 'Menu Green Vegan', 'Menu 100% vegan composé de produits frais, légumes de saison et desserts végétaux.', 'Vegetal', 'Vegan', 6, 16.00, 100, 'Conservation au frais recommandée après livraison.'),
 (8, 'Menu Enfant Classique', 'Entrée : Mini sandwich jambon-fromage\r\nPlat : Mini burger de bœuf avec frites maison\r\nDessert : Brownie au chocolat', 'Enfant', 'Classique', 8, 13.00, 100, 'Menu destiné aux enfants de moins de 12 ans. Commande minimale de 8 personnes.'),
 (9, 'Menu Enfant Vegan', 'Entrée : Wrap de houmous et légumes croquants\r\nPlat : Nuggets de pois chiches avec frites de patate douce\r\nDessert : Muffin chocolat-banane vegan', 'Enfant', 'Vegan', 8, 14.00, 100, 'Menu destiné aux enfants de moins de 12 ans. Commande minimale de 8 personnes.');
 
