@@ -138,16 +138,29 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             <form method="POST" class="form-grid">
 
+                 <label for="titre">
+                    Titre du menu
+                </label>
+
                 <input
                     type="text"
                     name="titre"
                     value="<?= htmlspecialchars($menu['titre']); ?>"
                     required
                 >
+                
+                 <label for="description">
+                    Déscription
+                </label>
 
                 <textarea
                     name="description">
-                    <?= htmlspecialchars($menu['description']); ?></textarea>
+                    <?= htmlspecialchars($menu['description']); ?></textarea
+                >
+
+                 <label for="theme">
+                    Thème
+                </label>
 
                 <select name="theme">
 
@@ -178,6 +191,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 </select>
 
+                 <label for="regime">
+                    régime
+                </label>
+
                 <select name="regime">
 
                     <option value="Classique"
@@ -192,12 +209,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 </select>
 
+                 <label for="nbPersonnesMin">
+                    Nombres de personnes
+                </label>
+
                 <input
                     type="number"
                     name="nbPersonnesMin"
                     value="<?= (int) $menu['nbPersonnesMin']; ?>"
                     required
                 >
+
+                 <label for="prixParPersonne">
+                    Prix par personnes
+                </label>
 
                 <input
                     type="number"
@@ -207,11 +232,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                     required
                 >
 
+                 <label for="stock">
+                    Stock
+                </label>
+
                 <input
                     type="number"
                     name="stock"
                     value="<?= (int) $menu['stock']; ?>"
                 >
+
+                 <label for="conditions">
+                    Conditions
+                </label>
 
                 <textarea
                     name="conditions"

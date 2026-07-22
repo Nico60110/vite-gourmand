@@ -174,7 +174,7 @@ foreach($resultatsAllergenes as $allergene){
 
           <div>🥗 Régime : <?= htmlspecialchars($menu['regime']); ?></div>
 
-          <div>📦 Stock disponible : <?= (int) $menu['stock']; ?></div>
+          <div>📦 Capacité restante : <?= (int) $menu['stock']; ?> personne(s)</div>
 
         </div>
 
@@ -190,9 +190,40 @@ foreach($resultatsAllergenes as $allergene){
 
         </div>
 
-        <a href="../commande/commande.php?id=<?= (int) $menu['idMenu']; ?>" class="btn">
-          Commander ce menu
-        </a>
+        <?php if ((int) $menu['stock'] >= (int) $menu['nbPersonnesMin']): ?>
+
+            <a
+                href="../commande/commande.php?id=<?= (int) $menu['idMenu']; ?>"
+                class="btn"
+            >
+                Commander ce menu
+            </a>
+
+            <p>
+              <strong>
+                Pour commander ce menu vous devez bénéficier d'un compte.
+              </strong>
+            </p>
+
+        <?php else: ?>
+
+            <button
+                type="button"
+                class="btn"
+                disabled
+            >
+                Rupture de stock
+            </button>
+
+            <p class="stock-warning">
+                Ce menu nécessite au minimum
+                <?= (int) $menu['nbPersonnesMin']; ?>
+                personnes, mais il ne reste que
+                <?= (int) $menu['stock']; ?>
+                portion(s).
+            </p>
+
+        <?php endif; ?>
 
       </div>
 

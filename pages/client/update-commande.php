@@ -180,74 +180,105 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             }
         }
 
-        $sql = "
-        UPDATE commande
-        SET
-            dateLivraison = ?,
-            heureLivraison = ?,
-            adresseLivraison = ?,
-            nbPersonnes = ?,
-            prixMenu = ?,
-            prixTotal = ?,
-            pretMateriel = ?
-        WHERE idCommande = ?
-        AND idUtilisateur = ?
-        ";
+        $ancienNbPersonnes = (int) $commande['nbPersonnes'];
 
-        $query = $pdo->prepare($sql);
+        $stockDisponible = (int) $menu['stock'] + $ancienNbPersonnes;
 
-        $query->execute([
-            $dateLivraison,
-            $heureLivraison,
-            $adresseLivraison,
-            $nbPersonnes,
-            $prixMenu,
-            $prixTotal,
-            $pretMateriel,
-            $idCommande,
-            $idUtilisateur
-        ]);
+        if($nbPersonnes > $stockDisponible){
 
-        $sql = "
-        DELETE FROM commande_materiel
-        WHERE idCommande = ?
-        ";
+            $erreur = "Stock insuffisant.";
 
-        $query = $pdo->prepare($sql);
-        $query->execute([$idCommande]);
+        }else{
 
-        if(isset($_POST['materiel'])){
+            $nouveauStock =
+                $menu['stock']
+                + $ancienNbPersonnes
+                - $nbPersonnes;
 
-            foreach($_POST['materiel'] as $idMateriel => $quantite){
+            $sql = "
+            UPDATE menu
+            SET stock = ?
+            WHERE idMenu = ?
+            ";
 
-                $idMateriel = (int) $idMateriel;
-                $quantite = (int) $quantite;
+            $query = $pdo->prepare($sql);
 
-                if($idMateriel > 0 && $quantite > 0){
+            $query->execute([
+                $nouveauStock,
+                $menu['idMenu']
+            ]);
 
-                    $sql = "
-                    INSERT INTO commande_materiel
-                    (
-                        idCommande,
-                        idMateriel,
-                        quantite
-                    )
-                    VALUES (?, ?, ?)
-                    ";
+    
 
-                    $query = $pdo->prepare($sql);
+            $sql = "
+            UPDATE commande
+            SET
+                dateLivraison = ?,
+                heureLivraison = ?,
+                adresseLivraison = ?,
+                nbPersonnes = ?,
+                prixMenu = ?,
+                prixTotal = ?,
+                pretMateriel = ?
+            WHERE idCommande = ?
+            AND idUtilisateur = ?
+            ";
 
-                    $query->execute([
-                        $idCommande,
-                        $idMateriel,
-                        $quantite
-                    ]);
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $dateLivraison,
+                $heureLivraison,
+                $adresseLivraison,
+                $nbPersonnes,
+                $prixMenu,
+                $prixTotal,
+                $pretMateriel,
+                $idCommande,
+                $idUtilisateur
+            ]);
+
+            $sql = "
+            DELETE FROM commande_materiel
+            WHERE idCommande = ?
+            ";
+
+            $query = $pdo->prepare($sql);
+            $query->execute([$idCommande]);
+
+            if(isset($_POST['materiel'])){
+
+                foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+                    $idMateriel = (int) $idMateriel;
+                    $quantite = (int) $quantite;
+
+                    if($idMateriel > 0 && $quantite > 0){
+
+                        $sql = "
+                        INSERT INTO commande_materiel
+                        (
+                            idCommande,
+                            idMateriel,
+                            quantite
+                        )
+                        VALUES (?, ?, ?)
+                        ";
+
+                        $query = $pdo->prepare($sql);
+
+                        $query->execute([
+                            $idCommande,
+                            $idMateriel,
+                            $quantite
+                        ]);
+                    }
                 }
             }
-        }
 
-        header('Location: commande-client.php');
-        exit;
+            header('Location: commande-client.php');
+            exit;
+        }
     }
 }
 ?>

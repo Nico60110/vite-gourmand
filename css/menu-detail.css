@@ -246,6 +246,8 @@ a {
 
     margin-top: 40px;
 
+    margin-bottom: 20px;
+
     background: #E67E22;
 
     color: white;
@@ -317,6 +319,17 @@ a {
 .dish h4 {
 
     margin-bottom: 10px;
+}
+
+.stock-warning {
+    margin-top: 12px;
+    color: #b00020;
+    font-weight: bold;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* =========================

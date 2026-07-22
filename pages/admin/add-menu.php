@@ -96,9 +96,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         <form method="POST" class="form-grid">
 
+             <label for="titre">
+                    Titre du menu
+            </label>
+
             <input type="text" name="titre" placeholder="Titre" required>
 
+             <label for="description">
+                Déscription
+            </label>
+
             <textarea name="description" placeholder="Description" required></textarea>
+
+             <label for="theme">
+                Thème
+            </label>
 
             <select name="theme">
                 <option value="Classique">Classique</option>
@@ -109,28 +121,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                 
             </select>
 
+             <label for="regime">
+                Régime
+            </label>
+
             <select name="regime">
                 <option value="Classique">Classique</option>
                 <option value="Vegan">Vegan</option>
                 
             </select>
 
+             <label for="nbPersonnesMin">
+                Nombre de personnes minimum
+            </label>
+
             <input type="number"
                    name="nbPersonnesMin"
                    placeholder="Nombre minimum de personnes"
-                   required>
+                   required
+            >
+
+             <label for="prixParPersonne">
+                Prix par personne
+            </label>
 
             <input type="number"
                    step="0.01"
                    name="prixParPersonne"
                    placeholder="Prix par personne"
-                   required>
+                   required
+            >
+
+             <label for="stock">
+                Stock
+            </label>
 
             <input type="number"
                    name="stock"
                    placeholder="Stock"
                    value="0"
-                   required>
+                   required
+            >
+
+             <label for="conditions">
+                Conditions
+            </label>
 
             <textarea name="conditions"
                       placeholder="Conditions"

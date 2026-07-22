@@ -43,11 +43,16 @@ if(!$commande){
 // =========================
 
 $sql = "
-SELECT m.titre
-FROM commande_menu cm
-INNER JOIN menu m
-ON cm.idMenu = m.idMenu
-WHERE cm.idCommande = ?
+    SELECT
+        m.idMenu,
+        m.titre,
+        m.stock,
+        m.nbPersonnesMin,
+        m.prixParPersonne
+    FROM commande_menu cm
+    INNER JOIN menu m
+        ON cm.idMenu = m.idMenu
+    WHERE cm.idCommande = ?
 ";
 
 $query = $pdo->prepare($sql);
@@ -176,6 +181,22 @@ $historique = $query->fetchAll();
             <?php foreach($menus as $menu): ?>
 
                 <p><?= htmlspecialchars($menu['titre']); ?></p>
+
+                <p>
+                    <strong>Capacité restante :</strong>
+                    <?= (int)$menu['stock']; ?> personne(s)
+                </p>
+
+                 <p>
+                 <strong>Prix par personne :</strong>
+
+                 <?= number_format((float) ($menu['prixParPersonne'] ?? 0),2,',',' '); ?>€
+                </p>
+
+                <p>
+                    <strong>Minimum :</strong>
+                    <?= (int)$menu['nbPersonnesMin']; ?> personne(s)
+                </p>
 
             <?php endforeach; ?>
 

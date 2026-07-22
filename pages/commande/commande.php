@@ -94,139 +94,167 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             }
         }
 
-        $sql = "INSERT INTO commande
-        (
-            dateLivraison,
-            heureLivraison,
-            adresseLivraison,
-            nbPersonnes,
-            prixTotal,
-            pretMateriel,
-            idUtilisateur
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "SELECT stock
+        FROM menu
+        WHERE idMenu = ?";
 
         $query = $pdo->prepare($sql);
+        $query->execute([$idMenu]);
 
-        $query->execute([
-            $dateLivraison,
-            $heureLivraison,
-            $adresseLivraison,
-            $nbPersonnes,
-            $prixTotal,
-            $pretMateriel,
-            $idUtilisateur
-        ]);
+        $stock = (int) $query->fetchColumn();
 
-        $idCommande = (int) $pdo->lastInsertId();
+        if ($stock < $nbPersonnes){
 
-        if(isset($_POST['materiel'])){
+            $erreur = "Stock insuffisant pour cette commande.";
 
-            foreach($_POST['materiel'] as $idMateriel => $quantite){
+        }else {
 
-                $idMateriel = (int) $idMateriel;
-                $quantite = (int) $quantite;
+            $sql = "INSERT INTO commande
+            (
+                dateLivraison,
+                heureLivraison,
+                adresseLivraison,
+                nbPersonnes,
+                prixTotal,
+                pretMateriel,
+                idUtilisateur
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-                if($idMateriel > 0 && $quantite > 0){
+            $query = $pdo->prepare($sql);
 
-                    $sql = "INSERT INTO commande_materiel
-                    (idCommande, idMateriel, quantite)
-                    VALUES (?, ?, ?)";
+            $query->execute([
+                $dateLivraison,
+                $heureLivraison,
+                $adresseLivraison,
+                $nbPersonnes,
+                $prixTotal,
+                $pretMateriel,
+                $idUtilisateur
+            ]);
 
-                    $query = $pdo->prepare($sql);
+            $idCommande = (int) $pdo->lastInsertId();
 
-                    $query->execute([
-                        $idCommande,
-                        $idMateriel,
-                        $quantite
-                    ]);
+            if(isset($_POST['materiel'])){
+
+                foreach($_POST['materiel'] as $idMateriel => $quantite){
+
+                    $idMateriel = (int) $idMateriel;
+                    $quantite = (int) $quantite;
+
+                    if($idMateriel > 0 && $quantite > 0){
+
+                        $sql = "INSERT INTO commande_materiel
+                        (idCommande, idMateriel, quantite)
+                        VALUES (?, ?, ?)";
+
+                        $query = $pdo->prepare($sql);
+
+                        $query->execute([
+                            $idCommande,
+                            $idMateriel,
+                            $quantite
+                        ]);
+                    }
                 }
             }
+
+            $sql = "INSERT INTO commande_menu
+            (
+                idCommande,
+                idMenu
+            )
+            VALUES (?, ?)";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $idCommande,
+                $idMenu
+            ]);
+
+            $sql = "UPDATE menu
+            SET stock = stock - ?
+            WHERE idMenu = ?";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                $nbPersonnes,
+                $idMenu
+            ]);
+
+            $sql = "INSERT INTO historique_statut
+            (
+                statut,
+                commentaire,
+                idCommande
+            )
+            VALUES (?, ?, ?)";
+
+            $query = $pdo->prepare($sql);
+
+            $query->execute([
+                'EN_ATTENTE',
+                'Commande créée',
+                $idCommande
+            ]);
+
+            $collectionStatistiques->insertOne([
+
+                "idCommande" => $idCommande,
+
+                "idMenu" => $idMenu,
+
+                "nomMenu" => $menu['titre'],
+
+                "prix" => (float) $prixTotal,
+
+                "dateCommande" => new MongoDB\BSON\UTCDateTime(),
+
+                "nbPersonnes" => $nbPersonnes
+
+            ]);
+
+            $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
+
+            $sujet = "Confirmation de votre commande";
+
+            $message = "
+            <h2>Bonjour {$prenomSafe},</h2>
+
+            <p>Nous avons bien reçu votre commande.</p>
+
+            <p>
+                <strong>Numéro de commande :</strong> {$idCommande}<br>
+                <strong>Date de livraison :</strong> " . htmlspecialchars($dateLivraison, ENT_QUOTES, 'UTF-8') . "<br>
+                <strong>Heure de livraison :</strong> " . htmlspecialchars($heureLivraison, ENT_QUOTES, 'UTF-8') . "<br>
+                <strong>Nombre de personnes :</strong> {$nbPersonnes}<br>
+                <strong>Montant total :</strong> " . number_format((float) $prixTotal, 2, ',', ' ') . " €
+            </p>
+
+            <p>
+                Votre commande est actuellement <strong>EN ATTENTE</strong>.
+            </p>
+
+            <p>
+                Merci pour votre confiance.<br>
+                L'équipe <strong>Vite & Gourmand</strong>
+            </p>
+            ";
+
+            envoyerMail(
+                $utilisateur['email'],
+                $utilisateur['prenom'],
+                $sujet,
+                $message
+            );
+
+            header("Location: ../menu/menus.php");
+            exit;
+            }
+        
         }
-
-        $sql = "INSERT INTO commande_menu
-        (
-            idCommande,
-            idMenu
-        )
-        VALUES (?, ?)";
-
-        $query = $pdo->prepare($sql);
-
-        $query->execute([
-            $idCommande,
-            $idMenu
-        ]);
-
-        $sql = "INSERT INTO historique_statut
-        (
-            statut,
-            commentaire,
-            idCommande
-        )
-        VALUES (?, ?, ?)";
-
-        $query = $pdo->prepare($sql);
-
-        $query->execute([
-            'EN_ATTENTE',
-            'Commande créée',
-            $idCommande
-        ]);
-
-        $collectionStatistiques->insertOne([
-
-            "idCommande" => $idCommande,
-
-            "idMenu" => $idMenu,
-
-            "nomMenu" => $menu['titre'],
-
-            "prix" => (float) $prixTotal,
-
-            "dateCommande" => new MongoDB\BSON\UTCDateTime(),
-
-            "nbPersonnes" => $nbPersonnes
-
-        ]);
-
-        $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
-
-        $sujet = "Confirmation de votre commande";
-
-        $message = "
-        <h2>Bonjour {$prenomSafe},</h2>
-
-        <p>Nous avons bien reçu votre commande.</p>
-
-        <p>
-            <strong>Numéro de commande :</strong> {$idCommande}<br>
-            <strong>Date de livraison :</strong> " . htmlspecialchars($dateLivraison, ENT_QUOTES, 'UTF-8') . "<br>
-            <strong>Heure de livraison :</strong> " . htmlspecialchars($heureLivraison, ENT_QUOTES, 'UTF-8') . "<br>
-            <strong>Nombre de personnes :</strong> {$nbPersonnes}<br>
-            <strong>Montant total :</strong> " . number_format((float) $prixTotal, 2, ',', ' ') . " €
-        </p>
-
-        <p>
-            Votre commande est actuellement <strong>EN ATTENTE</strong>.
-        </p>
-
-        <p>
-            Merci pour votre confiance.<br>
-            L'équipe <strong>Vite & Gourmand</strong>
-        </p>
-        ";
-
-        envoyerMail(
-            $utilisateur['email'],
-            $utilisateur['prenom'],
-            $sujet,
-            $message
-        );
-
-        header("Location: ../menu/menus.php");
-        exit;
-    }
 }
 ?>
 

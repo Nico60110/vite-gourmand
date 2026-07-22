@@ -36,71 +36,105 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     $restitutionMateriel =
     isset($_POST['restitutionMateriel']) ? 1 : 0;
 
-    if($commande['pretMateriel'] == 1 && $restitutionMateriel == 1){
+    if (
+    $statut !== 'ANNULEE' &&
+    $commande['pretMateriel'] == 1 &&
+    $restitutionMateriel == 1
+    ) {
         $statut = 'TERMINEE';
     }
 
     // Cas annulation
-    if($statut === 'ANNULEE'){
+    if ($statut === 'ANNULEE') {
 
-       $modeContact = trim($_POST['modeContact'] ?? '');
-       $motif = trim($_POST['motif'] ?? '');
+    $modeContact = trim($_POST['modeContact'] ?? '');
+    $motif = trim($_POST['motif'] ?? '');
 
-        if(empty($modeContact) || empty($motif)){
+    if (empty($modeContact) || empty($motif)) {
 
-            $erreur = "Le mode de contact et le motif sont obligatoires.";
+        $erreur = "Le mode de contact et le motif sont obligatoires.";
 
-        }else{
+    } else {
 
-            // Mise à jour commande
+        // Remise en stock uniquement lors de la première annulation
+        if ($commande['statut'] !== 'ANNULEE') {
+
+            $nbPersonnes = (int) $commande['nbPersonnes'];
+
             $sql = "
-            UPDATE commande
-            SET 
-                statut = ?,
-                restitutionMateriel = ?
-            WHERE idCommande = ?
+                SELECT idMenu
+                FROM commande_menu
+                WHERE idCommande = ?
             ";
 
             $query = $pdo->prepare($sql);
-            $query->execute([
-                $statut, 
-                $restitutionMateriel,
-                $idCommande
-            ]);
+            $query->execute([$idCommande]);
 
-            // Historique
-            $commentaire =
-                "Mode de contact : " .
-                $modeContact .
-                " | Motif : " .
-                $motif;
+            $menusCommande = $query->fetchAll();
 
-            $sql = "
+            foreach ($menusCommande as $menuCommande) {
+
+                $sql = "
+                    UPDATE menu
+                    SET stock = stock + ?
+                    WHERE idMenu = ?
+                ";
+
+                $query = $pdo->prepare($sql);
+
+                $query->execute([
+                    $nbPersonnes,
+                    (int) $menuCommande['idMenu']
+                ]);
+            }
+        }
+
+        // Mise à jour de la commande
+        $sql = "
+            UPDATE commande
+            SET
+                statut = ?,
+                restitutionMateriel = ?
+            WHERE idCommande = ?
+        ";
+
+        $query = $pdo->prepare($sql);
+
+        $query->execute([
+            'ANNULEE',
+            $restitutionMateriel,
+            $idCommande
+        ]);
+
+        // Historique
+        $commentaire =
+            "Mode de contact : " .
+            $modeContact .
+            " | Motif : " .
+            $motif;
+
+        $sql = "
             INSERT INTO historique_statut
             (
                 statut,
                 commentaire,
                 idCommande
             )
-            VALUES
-            (
-                ?, ?, ?
-            )
-            ";
+            VALUES (?, ?, ?)
+        ";
 
-            $query = $pdo->prepare($sql);
+        $query = $pdo->prepare($sql);
 
-            $query->execute([
-                'ANNULEE',
-                $commentaire,
-                $idCommande
-            ]);
+        $query->execute([
+            'ANNULEE',
+            $commentaire,
+            $idCommande
+        ]);
 
-            header("Location: commandes-detail.php?id=" . $idCommande);
-            exit;
-        }
-
-    }else{
+        header("Location: commandes-detail.php?id=" . $idCommande);
+        exit;
+    }
+}else{
 
         // Changement de statut normal
 
@@ -113,8 +147,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         $query = $pdo->prepare($sql);
         $query->execute([$statut, $idCommande]);
 
-        if($statut === 'TERMINEE'){
-
+        if(
+            $statut === 'TERMINEE' &&
+            $commande['statut'] !== 'TERMINEE'
+        ){
+            
         $sql = "
         SELECT email, prenom
         FROM utilisateur
