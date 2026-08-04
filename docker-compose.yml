@@ -1,0 +1,74 @@
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vite-gourmand-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+      - mongodb
+    environment:
+      DB_HOST: db
+      DB_NAME: vite_gourmand
+      DB_USER: vite_user
+      DB_PASSWORD: vite_password
+      MONGO_URI: mongodb://mongodb:27017
+    networks:
+      - vite-gourmand-network
+
+  db:
+    image: mariadb:10.11
+    container_name: vite-gourmand-db
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: root_password
+      MARIADB_DATABASE: vite_gourmand
+      MARIADB_USER: vite_user
+      MARIADB_PASSWORD: vite_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./database/vite_gourmand.sql:/docker-entrypoint-initdb.d/vite_gourmand.sql
+    networks:
+      - vite-gourmand-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: vite-gourmand-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: vite_user
+      PMA_PASSWORD: vite_password
+    depends_on:
+      - db
+    networks:
+      - vite-gourmand-network
+
+  mongodb:
+    image: mongo:7
+    container_name: vite-gourmand-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - vite-gourmand-network
+
+volumes:
+  mariadb_data:
+  mongodb_data:
+
+networks:
+  vite-gourmand-network:
+    driver: bridge

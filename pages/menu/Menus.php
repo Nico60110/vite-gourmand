@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 require '../../config/database.php';
 
 $prixMax = isset($_GET['prixMax']) ? (float) $_GET['prixMax'] : 0;

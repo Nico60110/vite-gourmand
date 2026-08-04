@@ -1,24 +1,27 @@
 <?php
 
-$host = "mysql-vite-gourmand.alwaysdata.net";
-$dbname = "vite-gourmand_vite_gourmand";
-$user = "vite-gourmand_vite-gourmand_app";
-$password = "rooney60110";
+$host = getenv('DB_HOST') ?: 'db';
+$dbname = getenv('DB_NAME') ?: 'vite_gourmand';
+$username = getenv('DB_USER') ?: 'vite_user';
+$password = getenv('DB_PASSWORD') ?: 'vite_password';
 
 try {
 
     $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8",
-        $user,
-        $password
+        "mysql:host={$host};dbname={$dbname};charset=utf8mb4",
+        $username,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]
     );
 
-    $pdo->setAttribute(
-        PDO::ATTR_ERRMODE,
-        PDO::ERRMODE_EXCEPTION
-    );
+} catch (PDOException $e) {
 
-} catch(PDOException $e){
+    error_log($e->getMessage());
 
-    die("Erreur : " . $e->getMessage());
+    die("Connexion à la base de données impossible.");
 }
+

@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require '../../config/database.php';
 require '../../config/mail.php';
 
