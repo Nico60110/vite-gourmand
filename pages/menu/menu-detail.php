@@ -1,96 +1,38 @@
-<?php 
-
+<?php
 session_start();
 require '../../config/database.php';
+require '../../classes/Menu.php';
 
-// =========================
-// VERIFICATION ID
-// =========================
-if(!isset($_GET['id'])){
-
-    header("Location: menus.php");
-
+if (!isset($_GET['id']) || !ctype_digit((string) $_GET['id']) || (int) $_GET['id'] <= 0) {
+    header('Location: menus.php');
     exit;
 }
 
-// =========================
-// RECUPERATION ID
-// =========================
 $idMenu = (int) $_GET['id'];
+$menuRepository = new Menu($pdo);
+$menu = $menuRepository->getById($idMenu);
 
-// =========================
-// REQUETE SQL
-// =========================
-$sql = 'SELECT * FROM menu WHERE idMenu = ?';
-$query = $pdo->prepare($sql);
-$query->execute([$idMenu]);
-$menu = $query->fetch();
-
-// =========================
-// SI MENU INTROUVABLE
-// =========================
-if(!$menu){
-
-    header("Location: menus.php");
-
+if (!$menu) {
+    header('Location: menus.php');
     exit;
 }
 
 $prixMin = $menu['prixParPersonne'] * $menu['nbPersonnesMin'];
-
-
-$sql = 'SELECT p.*, mp.typeMenu
-        FROM menu_plat mp
-        INNER JOIN plat p
-        ON mp.idPlat = p.idPlat
-        WHERE mp.idMenu = ?';
-
-$query = $pdo->prepare($sql);
-$query->execute([$idMenu]);
-$plats = $query->fetchAll();
-
-
+$plats = $menuRepository->getPlats($idMenu);
 $entrees = [];
 $platsPrincipaux = [];
 $desserts = [];
 $boissons = [];
 
-foreach($plats as $plat){
-
-    if($plat['typeMenu'] === 'entree'){
-        $entrees[] = $plat;
-    }
-
-    if($plat['typeMenu'] === 'plat'){
-        $platsPrincipaux[] = $plat;
-    }
-
-    if($plat['typeMenu'] === 'dessert'){
-        $desserts[] = $plat;
-    }
-
-    if($plat['typeMenu'] === 'boisson'){
-        $boissons[] = $plat;
+foreach ($plats as $plat) {
+    switch ($plat['typeMenu']) {
+        case 'entree': $entrees[] = $plat; break;
+        case 'plat': $platsPrincipaux[] = $plat; break;
+        case 'dessert': $desserts[] = $plat; break;
+        case 'boisson': $boissons[] = $plat; break;
     }
 }
-
-$sql = "SELECT pa.idPlat, a.nom
-        FROM plat_allergene pa
-        INNER JOIN allergene a
-        ON pa.idAllergene = a.idAllergene";
-
-$query = $pdo->prepare($sql);
-$query->execute();
-
-$resultatsAllergenes = $query->fetchAll();
-
-$allergenesParPlat = [];
-
-foreach($resultatsAllergenes as $allergene){
-
-    $allergenesParPlat[$allergene['idPlat']][] = $allergene['nom'];
-}
-
+$allergenesParPlat = $menuRepository->getAllergenesParPlat($plats);
 ?>
 
 

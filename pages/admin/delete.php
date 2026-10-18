@@ -2,6 +2,8 @@
 
 require '../../config/database.php';
 require '../../config/auth-admin.php';
+require_once '../../classes/Menu.php';
+$menuRepository = new Menu($pdo);
 
 // =========================
 // VERIFICATION ID
@@ -20,13 +22,7 @@ $idMenu = (int) $_GET['id'];
 // RECUPERATION MENU
 // =========================
 
-$sql = "SELECT * FROM menu WHERE idMenu = ?";
-
-$query = $pdo->prepare($sql);
-
-$query->execute([$idMenu]);
-
-$menu = $query->fetch();
+$menu = $menuRepository->getById($idMenu);
 
 if(!$menu){
 
@@ -38,9 +34,7 @@ if(!$menu){
 $prixMin = $menu['nbPersonnesMin'] * $menu['prixParPersonne'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $sql = "DELETE FROM menu WHERE idMenu = ?";
-    $query = $pdo->prepare($sql);
-    $query->execute([$idMenu]);
+    $menuRepository->supprimer($idMenu);
     header("Location: admin-menu.php");
 
     exit;

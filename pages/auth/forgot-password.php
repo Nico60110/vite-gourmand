@@ -4,65 +4,83 @@ session_start();
 
 require '../../config/database.php';
 require '../../config/mail.php';
+require '../../classes/utilisateur.php';
 
 $success = "";
 $erreur = "";
 
 $token = $_GET['token'] ?? "";
 
+$utilisateurClass = new Utilisateur($pdo);
+
 /* =========================
    ETAPE 1 : DEMANDE EMAIL
 ========================= */
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && empty($token)){
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && empty($token)
+) {
 
     $email = trim($_POST['email']);
 
-    $sql = "SELECT * FROM utilisateur WHERE email = ?";
-    $query = $pdo->prepare($sql);
-    $query->execute([$email]);
+    $utilisateur =
+        $utilisateurClass->getByEmail($email);
 
-    $utilisateur = $query->fetch();
+    if ($utilisateur) {
 
-    if($utilisateur){
+        $resetToken =
+            bin2hex(random_bytes(32));
 
-        $resetToken = bin2hex(random_bytes(32));
+        $expire = date(
+            'Y-m-d H:i:s',
+            strtotime('+1 hour')
+        );
 
-        $expire = date('Y-m-d H:i:s', strtotime('+1 hour'));
-
-        $sql = "
-        UPDATE utilisateur
-        SET resetToken = ?, resetExpire = ?
-        WHERE email = ?
-        ";
-
-        $query = $pdo->prepare($sql);
-
-        $query->execute([
+        $utilisateurClass->creerResetToken(
+            $email,
             $resetToken,
-            $expire,
-            $email
-        ]);
+            $expire
+        );
 
-        $lien = htmlspecialchars("http://localhost/pages/auth/forgot-password.php?token=" . $resetToken);
+        $lien =
+            "http://localhost/pages/auth/forgot-password.php?token="
+            . $resetToken;
 
-        $sujet = "Réinitialisation de votre mot de passe";
-        $prenomSafe = htmlspecialchars($utilisateur['prenom'], ENT_QUOTES, 'UTF-8');
+        $sujet =
+            "Réinitialisation de votre mot de passe";
+
+        $prenomSafe = htmlspecialchars(
+            $utilisateur['prenom'],
+            ENT_QUOTES,
+            'UTF-8'
+        );
+
+        $lienSafe = htmlspecialchars(
+            $lien,
+            ENT_QUOTES,
+            'UTF-8'
+        );
 
         $message = "
-        <h2>Réinitialisation du mot de passe</h2>
+            <h2>Réinitialisation du mot de passe</h2>
 
-        <p>Bonjour {$prenomSafe},</p>
+            <p>Bonjour {$prenomSafe},</p>
 
-        <p>
-        Cliquez sur le lien ci-dessous pour créer un nouveau mot de passe :
-        </p>
+            <p>
+                Cliquez sur le lien ci-dessous
+                pour créer un nouveau mot de passe :
+            </p>
 
-        <p>
-            <a href='{$lien}'>Réinitialiser mon mot de passe</a>
-        </p>
+            <p>
+                <a href='{$lienSafe}'>
+                    Réinitialiser mon mot de passe
+                </a>
+            </p>
 
-        <p>Ce lien est valable pendant 1 heure.</p>
+            <p>
+                Ce lien est valable pendant 1 heure.
+            </p>
         ";
 
         envoyerMail(
@@ -73,7 +91,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && empty($token)){
         );
     }
 
-    $success = "Si cette adresse existe, un email de réinitialisation a été envoyé.";
+    $success =
+        "Si cette adresse existe, un email de réinitialisation a été envoyé.";
 }
 
 /* =========================
@@ -82,59 +101,57 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && empty($token)){
 
 $utilisateurToken = null;
 
-if(!empty($token)){
+if (!empty($token)) {
 
-    $sql = "
-    SELECT *
-    FROM utilisateur
-    WHERE resetToken = ?
-    AND resetExpire > NOW()
-    ";
+    $utilisateurToken =
+        $utilisateurClass->getByResetToken(
+            $token
+        );
 
-    $query = $pdo->prepare($sql);
-    $query->execute([$token]);
-
-    $utilisateurToken = $query->fetch();
-
-    if(!$utilisateurToken){
-        $erreur = "Lien invalide ou expiré.";
+    if (!$utilisateurToken) {
+        $erreur =
+            "Lien invalide ou expiré.";
     }
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($token) && $utilisateurToken){
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+    && !empty($token)
+    && $utilisateurToken
+) {
 
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+    $password =
+        $_POST['password'];
 
-    if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/', $password)){
+    $confirmPassword =
+        $_POST['confirmPassword'];
 
-        $erreur = "Mot de passe non sécurisé.";
+    if (
+        !preg_match(
+            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',
+            $password
+        )
+    ) {
 
-    }elseif($password !== $confirmPassword){
+        $erreur =
+            "Mot de passe non sécurisé.";
 
-        $erreur = "Les mots de passe ne correspondent pas.";
+    } elseif (
+        $password !== $confirmPassword
+    ) {
 
-    }else{
+        $erreur =
+            "Les mots de passe ne correspondent pas.";
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    } else {
 
-        $sql = "
-        UPDATE utilisateur
-        SET
-            motDePasse = ?,
-            resetToken = NULL,
-            resetExpire = NULL
-        WHERE idUtilisateur = ?
-        ";
+        $utilisateurClass->modifierMotDePasse(
+            (int) $utilisateurToken['idUtilisateur'],
+            $password
+        );
 
-        $query = $pdo->prepare($sql);
-
-        $query->execute([
-            $hashedPassword,
-            $utilisateurToken['idUtilisateur']
-        ]);
-
-        $success = "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.";
+        $success =
+            "Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.";
     }
 }
 

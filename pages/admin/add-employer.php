@@ -2,6 +2,7 @@
 
 require '../../config/database.php';
 require '../../config/mail.php';
+require '../../classes/utilisateur.php';
 
 session_start();
 
@@ -16,6 +17,8 @@ if (
 $erreur = "";
 $success = "";
 
+$utilisateur = new Utilisateur($pdo);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $firstname = trim($_POST['firstname']);
@@ -25,20 +28,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = $_POST['confirmPassword'];
 
     if (
-    empty($firstname) ||
-    empty($lastname) ||
-    empty($email) ||
-    empty($password) ||
-    empty($confirmPassword)
+        empty($firstname) ||
+        empty($lastname) ||
+        empty($email) ||
+        empty($password) ||
+        empty($confirmPassword)
     ) {
-    $erreur = "Tous les champs sont obligatoires.";
 
-    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $erreur = "Tous les champs sont obligatoires.";
 
-    $erreur = "Adresse email invalide.";
+    } elseif (
+        !filter_var($email, FILTER_VALIDATE_EMAIL)
+    ) {
 
-    }elseif (
-        !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/', $password)
+        $erreur = "Adresse email invalide.";
+
+    } elseif (
+        !preg_match(
+            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',
+            $password
+        )
     ) {
 
         $erreur = "Mot de passe non sécurisé.";
@@ -47,82 +56,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $erreur = "Les mots de passe ne correspondent pas.";
 
+    } elseif ($utilisateur->emailExiste($email)) {
+
+        $erreur = "Cet email est déjà utilisé.";
+
     } else {
 
-        $hashedPassword = password_hash(
-            $password,
-            PASSWORD_DEFAULT
+        $creation = $utilisateur->creerEmploye(
+            $firstname,
+            $lastname,
+            $email,
+            $password
         );
 
-        // Employé
-        $idRole = 2;
-
-        $sql = "
-        SELECT idUtilisateur
-        FROM utilisateur
-        WHERE email = ?
-        ";
-
-        $query = $pdo->prepare($sql);
-        $query->execute([$email]);
-
-        if ($query->fetch()) {
-
-            $erreur = "Cet email est déjà utilisé.";
-
-        } else {
-
-            $sql = "
-            INSERT INTO utilisateur
-            (
-                prenom,
-                nom,
-                email,
-                motDePasse,
-                idRole
-            )
-            VALUES (?, ?, ?, ?, ?)
-            ";
-
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
-                $firstname,
-                $lastname,
-                $email,
-                $hashedPassword,
-                $idRole
-            ]);
+        if ($creation) {
 
             $sujet = "Création de votre compte";
-            $prenomSafe = htmlspecialchars($firstname, ENT_QUOTES, 'UTF-8');
-            $emailSafe = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+
+            $prenomSafe = htmlspecialchars(
+                $firstname,
+                ENT_QUOTES,
+                'UTF-8'
+            );
+
+            $emailSafe = htmlspecialchars(
+                $email,
+                ENT_QUOTES,
+                'UTF-8'
+            );
 
             $message = "
-            <h2>Bonjour {$prenomSafe},</h2>
+                <h2>Bonjour {$prenomSafe},</h2>
 
-            <p>
-            Un compte employé vient d'être créé pour vous sur
-            <strong>Vite & Gourmand</strong>.
-            </p>
+                <p>
+                    Un compte employé vient d'être créé pour vous sur
+                    <strong>Vite & Gourmand</strong>.
+                </p>
 
-            <p>
-            <strong>Identifiant :</strong> {$emailSafe}
-            </p>
+                <p>
+                    <strong>Identifiant :</strong> {$emailSafe}
+                </p>
 
-            <p>
-            Pour des raisons de sécurité, votre mot de passe ne vous est pas communiqué par email.
-            </p>
+                <p>
+                    Pour des raisons de sécurité, votre mot de passe
+                    ne vous est pas communiqué par email.
+                </p>
 
-            <p>
-            Merci de vous rapprocher de votre administrateur afin de le récupérer.
-            </p>
+                <p>
+                    Merci de vous rapprocher de votre administrateur
+                    afin de le récupérer.
+                </p>
 
-            <br>
+                <br>
 
-            <p>
-            L'équipe <strong>Vite & Gourmand</strong>
-            </p>
+                <p>
+                    L'équipe <strong>Vite & Gourmand</strong>
+                </p>
             ";
 
             envoyerMail(
@@ -132,7 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message
             );
 
-            $success = "Le compte employé a été créé avec succès.";
+            $success =
+                "Le compte employé a été créé avec succès.";
         }
     }
 }

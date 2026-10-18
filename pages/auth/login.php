@@ -3,23 +3,29 @@
 session_start();
 
 require '../../config/database.php';
+require '../../classes/utilisateur.php';
+
 $erreur = "";
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+$utilisateur = new Utilisateur($pdo);
 
-    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $email = filter_var(
+        trim($_POST['email']),
+        FILTER_VALIDATE_EMAIL
+    );
+
     $password = $_POST['password'];
 
-    if($email !== false){
+    if ($email !== false) {
 
-        $sql = "SELECT * FROM utilisateur WHERE email = ? AND actif = 1";
+        $user = $utilisateur->connexion(
+            $email,
+            $password
+        );
 
-        $query = $pdo->prepare($sql);
-        $query->execute([$email]);
-
-        $user = $query->fetch();
-
-        if($user && password_verify($password, $user['motDePasse'])){
+        if ($user) {
 
             session_regenerate_id(true);
 

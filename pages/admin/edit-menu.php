@@ -2,6 +2,8 @@
 
 require '../../config/database.php';
 require '../../config/auth-admin.php';
+require_once '../../classes/Menu.php';
+$menuRepository = new Menu($pdo);
 
 // =========================
 // VERIFICATION ID
@@ -21,13 +23,7 @@ $erreur = '';
 // RECUPERATION MENU
 // =========================
 
-$sql = "SELECT * FROM menu WHERE idMenu = ?";
-
-$query = $pdo->prepare($sql);
-
-$query->execute([$idMenu]);
-
-$menu = $query->fetch();
+$menu = $menuRepository->getById($idMenu);
 
 if(!$menu){
 
@@ -72,31 +68,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $erreur = 'Tous les champs sont obligatoires';
     
     }else{
-         $sql = "UPDATE menu
-            SET
-                titre = ?,
-                description = ?,
-                theme = ?,
-                regime = ?,
-                nbPersonnesMin = ?,
-                prixParPersonne = ?,
-                stock = ?,
-                conditions = ?
-            WHERE idMenu = ?";
-
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
-                $titre,
-                $description,
-                $theme,
-                $regime,
-                $nbPersonnesMin,
-                $prixParPersonne,
-                $stock,
-                $conditions,
-                $idMenu
-            ]);
+         $menuRepository->modifier($idMenu, $titre, $description, $theme, $regime, $nbPersonnesMin, $prixParPersonne, $stock, $conditions);
 
             header("Location: admin-menu.php");
 

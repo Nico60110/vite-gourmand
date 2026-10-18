@@ -1,11 +1,10 @@
 <?php 
 require '../../config/database.php';
 require '../../config/auth-admin.php';
+require_once '../../classes/Menu.php';
+$menuRepository = new Menu($pdo);
 
-$sql = "SELECT * FROM menu";
-$query = $pdo->prepare($sql);
-$query->execute();
-$menus = $query->fetchAll();
+$menus = $menuRepository->getAll();
 
 
 

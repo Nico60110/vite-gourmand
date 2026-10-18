@@ -3,35 +3,34 @@
 session_start();
 
 require '../../config/database.php';
+require '../../classes/Utilisateur.php';
 
-if(!isset($_SESSION['user'])){
+if (!isset($_SESSION['user'])) {
 
     header('Location: ../auth/login.php');
     exit;
 }
 
-$idUtilisateur = (int) $_SESSION['user']['idUtilisateur'];
+$idUtilisateur =
+    (int) $_SESSION['user']['idUtilisateur'];
 
-$sql = "
-SELECT *
-FROM utilisateur
-WHERE idUtilisateur = ?
-";
+$utilisateurClass =
+    new Utilisateur($pdo);
 
-$query = $pdo->prepare($sql);
-$query->execute([$idUtilisateur]);
+$utilisateur =
+    $utilisateurClass->getById(
+        $idUtilisateur
+    );
 
-$utilisateur = $query->fetch();
-
-if(!$utilisateur){
+if (!$utilisateur) {
 
     session_destroy();
 
-    header('Location: connexion.php');
+    header('Location: ../auth/login.php');
     exit;
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $nom = trim($_POST['nom']);
     $prenom = trim($_POST['prenom']);
@@ -42,49 +41,32 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $ville = trim($_POST['ville']);
     $pays = trim($_POST['pays']);
 
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-
-        $erreur = "Adresse email invalide.";
-
-    }else{
-
-        $sql = "
-        SELECT idUtilisateur
-        FROM utilisateur
-        WHERE email = ?
-        AND idUtilisateur != ?
-        ";
-
-        $query = $pdo->prepare($sql);
-
-        $query->execute([
+    if (
+        !filter_var(
             $email,
-            $idUtilisateur
-        ]);
+            FILTER_VALIDATE_EMAIL
+        )
+    ) {
 
-        if($query->fetch()){
+        $erreur =
+            "Adresse email invalide.";
 
-            $erreur = "Cet email est déjà utilisé.";
+    } elseif (
+        $utilisateurClass
+            ->emailUtiliseParAutre(
+                $email,
+                $idUtilisateur
+            )
+    ) {
 
-        }else{
+        $erreur =
+            "Cet email est déjà utilisé.";
 
-            $sql = "
-            UPDATE utilisateur
-            SET
-                nom = ?,
-                prenom = ?,
-                email = ?,
-                telephone = ?,
-                adresse = ?,
-                codePostal = ?,
-                ville = ?,
-                pays = ?
-            WHERE idUtilisateur = ?
-            ";
+    } else {
 
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
+        $modification =
+            $utilisateurClass->modifierProfil(
+                $idUtilisateur,
                 $nom,
                 $prenom,
                 $email,
@@ -92,20 +74,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $adresse,
                 $codePostal,
                 $ville,
-                $pays,
-                $idUtilisateur
-            ]);
+                $pays
+            );
 
-            $utilisateur['nom'] = $nom;
-            $utilisateur['prenom'] = $prenom;
-            $utilisateur['email'] = $email;
-            $utilisateur['telephone'] = $telephone;
-            $utilisateur['adresse'] = $adresse;
-            $utilisateur['codePostal'] = $codePostal;
-            $utilisateur['ville'] = $ville;
-            $utilisateur['pays'] = $pays;
+        if ($modification) {
 
-            $success = "Informations mises à jour.";
+            $utilisateur =
+                $utilisateurClass->getById(
+                    $idUtilisateur
+                );
+
+            // Met à jour également la session
+            $_SESSION['user'] =
+                $utilisateur;
+
+            $success =
+                "Informations mises à jour.";
         }
     }
 }

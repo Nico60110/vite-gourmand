@@ -1,107 +1,111 @@
 <?php
+
 session_start();
 
 require '../../config/database.php';
 require '../../config/mail.php';
+require '../../classes/utilisateur.php';
 
 $erreur = "";
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+$utilisateur = new Utilisateur($pdo);
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $firstname = trim($_POST['firstname']);
     $lastname = trim($_POST['lastname']);
-    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+
+    $email = filter_var(
+        trim($_POST['email']),
+        FILTER_VALIDATE_EMAIL
+    );
+
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
+
     $adresse = trim($_POST['adresse']);
     $codePostal = trim($_POST['code_postale']);
     $telephone = trim($_POST['phone']);
     $ville = trim($_POST['ville']);
     $pays = trim($_POST['pays']);
 
-    if($email === false){
+    if ($email === false) {
 
         $erreur = "Email invalide.";
 
-    }elseif(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/', $password)){
+    } elseif (
+        !preg_match(
+            '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{10,}$/',
+            $password
+        )
+    ) {
 
         $erreur = "Mot de passe non sécurisé.";
 
-    }elseif($password !== $confirmPassword){
+    } elseif ($password !== $confirmPassword) {
 
         $erreur = "Les mots de passe ne correspondent pas.";
 
-    }else{
+    } elseif ($utilisateur->emailExiste($email)) {
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $erreur = "Email déjà utilisé.";
 
-        $idRole = 3;
+    } else {
 
-        $checkEmail = $pdo->prepare(
-            "SELECT idUtilisateur FROM utilisateur WHERE email = ?"
+        $inscription = $utilisateur->inscrire(
+            $firstname,
+            $lastname,
+            $email,
+            $password,
+            $telephone,
+            $adresse,
+            $codePostal,
+            $ville,
+            $pays
         );
 
-        $checkEmail->execute([$email]);
-
-        if($checkEmail->fetch()){
-
-            $erreur = "Email déjà utilisé.";
-
-        }else{
-
-            $sql = "INSERT INTO utilisateur
-            (
-                prenom,
-                nom,
-                email,
-                motDePasse,
-                telephone,
-                adresse,
-                codePostal,
-                ville,
-                pays,
-                idRole
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            $query = $pdo->prepare($sql);
-
-            $query->execute([
-                $firstname,
-                $lastname,
-                $email,
-                $hashedPassword,
-                $telephone,
-                $adresse,
-                $codePostal,
-                $ville,
-                $pays,
-                $idRole
-            ]);
+        if ($inscription) {
 
             $sujet = "Bienvenue chez Vite & Gourmand";
 
-            $prenomSafe = htmlspecialchars($firstname);
+            $prenomSafe = htmlspecialchars(
+                $firstname,
+                ENT_QUOTES,
+                'UTF-8'
+            );
 
             $message = "
-            <h2>Bienvenue {$prenomSafe} !</h2>
+                <h2>Bienvenue {$prenomSafe} !</h2>
 
-            <p>Nous sommes ravis de vous accueillir sur <strong>Vite & Gourmand</strong>.</p>
+                <p>
+                    Nous sommes ravis de vous accueillir sur
+                    <strong>Vite & Gourmand</strong>.
+                </p>
 
-            <p>Votre compte a été créé avec succès. Vous pouvez dès maintenant :</p>
+                <p>
+                    Votre compte a été créé avec succès.
+                    Vous pouvez dès maintenant :
+                </p>
 
-            <ul>
-                <li>Découvrir nos menus.</li>
-                <li>Commander en ligne.</li>
-                <li>Suivre vos commandes.</li>
-                <li>Laisser un avis après vos prestations.</li>
-            </ul>
+                <ul>
+                    <li>Découvrir nos menus.</li>
+                    <li>Commander en ligne.</li>
+                    <li>Suivre vos commandes.</li>
+                    <li>Laisser un avis après vos prestations.</li>
+                </ul>
 
-            <p>À bientôt,<br>
-            L'équipe <strong>Vite & Gourmand</strong></p>
+                <p>
+                    À bientôt,<br>
+                    L'équipe <strong>Vite & Gourmand</strong>
+                </p>
             ";
 
-            envoyerMail($email, $firstname, $sujet, $message);
+            envoyerMail(
+                $email,
+                $firstname,
+                $sujet,
+                $message
+            );
 
             header("Location: login.php");
             exit;

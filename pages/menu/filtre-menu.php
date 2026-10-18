@@ -8,42 +8,10 @@ $regime = isset($_GET['regime']) ? $_GET['regime'] : '';
 $personnesMin = isset($_GET['personnesMin']) ? (int) $_GET['personnesMin'] : 0;
 
 
-$sql = "SELECT * FROM menu WHERE 1=1";
+require_once '../../classes/Menu.php';
 
-$params = [];
-
-if($prixMax > 0){
-
-    $sql .= " AND (prixParPersonne * nbPersonnesMin) <= ?";
-
-    $params[] = $prixMax;
-}
-
-if($theme !== ''){
-
-    $sql .= " AND theme = ?";
-
-    $params[] = $theme;
-}
-
-if($regime !== ''){
-
-    $sql .= " AND regime = ?";
-
-    $params[] = $regime;
-}
-
-if($personnesMin > 0){
-
-    $sql .= " AND nbPersonnesMin <= ?";
-
-    $params[] = $personnesMin;
-}
-
-$query = $pdo->prepare($sql);
-$query->execute($params);
-
-$menus = $query->fetchAll();
+$menuRepository = new Menu($pdo);
+$menus = $menuRepository->filtrer($prixMax, $theme, $regime, $personnesMin);
 
 foreach($menus as $menu):
 

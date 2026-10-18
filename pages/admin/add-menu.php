@@ -1,6 +1,8 @@
 <?php 
 require '../../config/database.php';
 require '../../config/auth-admin.php';
+require_once '../../classes/Menu.php';
+$menuRepository = new Menu($pdo);
 
 $erreur = '';
 
@@ -28,30 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }else
         {
 
-            $sql = "INSERT INTO menu
-        (
-            titre,
-            description,
-            theme,
-            regime,
-            nbPersonnesMin,
-            prixParPersonne,
-            stock,
-            conditions
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $query = $pdo->prepare($sql);
-        $query->execute([
-            $titre,
-            $description,
-            $theme,
-            $regime,
-            $nbPersonnesMin,
-            $prixParPersonne,
-            $stock,
-            $conditions
-        ]);
+            $menuRepository->creer($titre, $description, $theme, $regime, $nbPersonnesMin, $prixParPersonne, $stock, $conditions);
 
         header("Location: admin-menu.php");
 

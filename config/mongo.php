@@ -9,4 +9,3 @@ $client = new MongoDB\Client($mongoUri);
 $dbMongo = $client->vite_gourmand;
 
 $collectionStatistiques = $dbMongo->statistiques;
-
